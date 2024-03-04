@@ -28,7 +28,7 @@ export default function ActionCard({ startColor, color, text, name, number }) {
          </Shadow>
       </View>
       <View style={styles.textContainer}>
-         <Text style={styles.title}>{text}</Text>
+         <Text style={styles.title}></Text>
          <Text style={styles.number}>{number}</Text>
       </View>
    </View>
