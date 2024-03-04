@@ -10,13 +10,22 @@ import HomeScreen from './screens/HomeScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import MapScreen from './screens/MapScreen';
 import ActivityScreen from './screens/ActivityScreen';
+import ActionScreen from './screens/ActionScreen';
 import ProfilScreen from './screens/ProfilScreen'; 
 import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer'
-import { faBicycle, faHouse, faLocationDot, faMapPin, faPersonBiking, faUserLarge } from '@fortawesome/free-solid-svg-icons';
+import { faBicycle, faHouse, faLocationDot, faMapPin, faPersonBiking, faUserLarge, faBurger  } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
+
+// Tentative d'import des icones globaliement
+  import { library } from '@fortawesome/fontawesome-svg-core'
+  import { fab } from '@fortawesome/free-brands-svg-icons'
+  import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+  library.add(fab, faCheckSquare, faCoffee)
+//-------------------------------------------
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -63,6 +72,9 @@ export default function App() {
     <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {/* navigation de dev */}
+        <Stack.Screen name="Activity" component={ActivityScreen} />
+        <Stack.Screen name="Action" component={ActionScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Signin" component={SigninScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />

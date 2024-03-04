@@ -3,27 +3,29 @@ import React from 'react'
 import ActivityCard from '../components/ActivityCard';
 
 // startColor, color, text, name
-export default function ActivityScreen() {
+// <FontAwesomeIcon icon="mug-saucer" />
+export default function ActivityScreen({navigation}) {
   return (
     <View style={styles.container}>
       <Text>ActivityScreen</Text>
       <ActivityCard
-         startColor={"#00B8FF"} 
-         text={'Mobilité'} 
-         color={"#00B8FF"} 
-         name={"bicycle"}
+        onPress={() => navigation.navigate('Action')}
+        startColor={"#00B8FF"} 
+        text={'Mobilité'} 
+        color={"#00B8FF"} 
+        icon={"faPersonBiking"}
       />
       <ActivityCard
          startColor={"#B78CFD"} 
-         text={'Mobilité'} 
+         text={'Energie'} 
          color={"#B78CFD"} 
-         name={"bicycle"}
+         icon={"faBolt"}
       />
       <ActivityCard
          startColor={"#FCE340"} 
-         text={'Mobilité'} 
+         text={'Alimentation'} 
          color={"#FCE340"} 
-         name={"bicycle"}
+         icon={"faBurger"}
       />
     </View>
   )

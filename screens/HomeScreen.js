@@ -11,7 +11,8 @@ export default function HomeScreen({ navigation }) {
          <EcotrackLogo />
       </View>
       <View style={styles.vueDuBouton}>
-         <LongButton color={"#FFF"} onPress={() => navigation.navigate('ActivityCard')} text="S'inscrire avec Apple" borderColor={"#41F67F"} />
+         {/* navigation pour dev */}
+         <LongButton color={"#FFF"} onPress={() => navigation.navigate('Activity')} text="S'inscrire avec Apple" borderColor={"#41F67F"} />
       </View>
       <View style={styles.vueDuBouton}>
       <LongButton color={"#FFF"} onPress={() => navigation.navigate('Home')} text="S'inscrire avec Google" />

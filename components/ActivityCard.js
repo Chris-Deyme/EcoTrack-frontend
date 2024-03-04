@@ -1,8 +1,9 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { iconName } from '@fortawesome/free-solid-svg-icons/faMugSaucer';
 
-export default function activityCard({ startColor, color, text, name }) {
+export default function activityCard({ onPress, startColor, color, text, icon }) {
   return (
    <>
       <Shadow distance={0.5} startColor={startColor} offset={[4, 5]}>
@@ -29,11 +30,14 @@ export default function activityCard({ startColor, color, text, name }) {
             >
                {text}
             </Text>
-            <FontAwesome 
+            {/* <FontAwesomeIcon icon={iconName} size={size} color={color}/> */}
+            <FontAwesomeIcon 
                style={{ textAlign: 'center'}} 
-               name={name} size={120} color={color} />
+               icon={icon} size={120} color={color} />
+               {/* icon={`fa${icon}`} size={120} color={color} /> */}
          </TouchableOpacity>
       </Shadow>
    </>
   )
 }
+// <FontAwesomeIcon icon="mug-saucer" />
