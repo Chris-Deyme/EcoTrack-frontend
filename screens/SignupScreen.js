@@ -9,13 +9,14 @@ import {
 import React from "react";
 import LongButton from "../components/LongButton";
 import { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
 export default function SignupScreen({ navigation }) {
   const dispatch = useDispatch();
   const [signUpUsername, setSignUpUsername] = useState("");
   const [signUpEmail, setSignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleRegister = () => {
     fetch("http://172.20.10.2:3000/users/signup", {
@@ -42,6 +43,9 @@ export default function SignupScreen({ navigation }) {
           setSignUpUsername("");
           setSignUpEmail("");
           setSignUpPassword("");
+        } else {
+          console.log(data);
+          setError("Votre compte n'a pas pu être créé.");
         }
       });
   };
@@ -54,42 +58,47 @@ export default function SignupScreen({ navigation }) {
       />
       <Text style={styles.title}>ECOTRACK</Text>
       <Text>S'inscrire</Text>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Nom d'utilisateur</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="JohnDoe"
-          onChangeText={(value) => setSignUpUsername(value)}
-          value={signUpUsername}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>E-mail</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email@gmail.com"
-          keyboardType="email-address"
-          onChangeText={(value) => setSignUpEmail(value)}
-          value={signUpEmail}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Mot de passe</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="********"
-          secureTextEntry={true}
-          onChangeText={(value) => setSignUpPassword(value)}
-          value={signUpPassword}
-        />
-      </View>
-      <View></View>
-      <View>
-        <LongButton
-          color={"#41F67F"}
-          onPress={() => handleRegister()}
-          text="Créer un compte"
-        />
+      <View style={styles.registerContainer}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Nom d'utilisateur</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="JohnDoe"
+            onChangeText={(value) => setSignUpUsername(value)}
+            value={signUpUsername}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>E-mail</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email@gmail.com"
+            keyboardType="email-address"
+            onChangeText={(value) => setSignUpEmail(value)}
+            value={signUpEmail}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Mot de passe</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="********"
+            secureTextEntry={true}
+            onChangeText={(value) => setSignUpPassword(value)}
+            value={signUpPassword}
+          />
+        </View>
+
+        <View>
+          <LongButton
+            color={"#41F67F"}
+            onPress={() => handleRegister()}
+            text="Créer un compte"
+          />
+        </View>
+        <View>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
       </View>
     </View>
   );
@@ -112,9 +121,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "700",
   },
-  inputContainer: {
-    marginTop: 10,
-  },
+  inputContainer: {},
   label: {
     fontSize: 10,
     paddingLeft: 10,
@@ -126,38 +133,6 @@ const styles = StyleSheet.create({
     borderColor: "#41F67F",
     borderRadius: 10,
     paddingLeft: 10,
-   },
-   button: {
-      display: "flex",
-      justifyContent: "center",
-      width: 288,
-      height: 51,
-      backgroundColor: "#fff",
-      borderWidth: 2,
-      borderColor: "#41F67F",
-      borderRadius: 10,
-      marginTop: 20,
-   },
-   shadow: {
-      shadowColor: "#000",
-      shadowOffset: { width: -4, height: -4, },
-      shadowOpacity: 0.9,
-      shadowRadius: 44,
-      elevation: 5, 
-    },
-    btnText: {
-      fontSize: 20,
-      textAlign: "center",
-   },
-   text: {
-      marginTop: 20,
-      fontSize: 20,
-   },
-   color: {
-      backgroundColor: "#41F67F",
-   },
-    buttonview: {
-      marginTop: 20,
   },
   button: {
     display: "flex",
@@ -187,5 +162,18 @@ const styles = StyleSheet.create({
   },
   color: {
     backgroundColor: "#41F67F",
+  },
+  buttonview: {
+    marginTop: 20,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+  },
+  registerContainer: {
+    marginTop: 10,
+    justifyContent: "center",
+    gap: 20,
+    alignItems: "center",
   },
 });
