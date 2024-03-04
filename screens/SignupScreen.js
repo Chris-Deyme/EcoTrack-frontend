@@ -1,10 +1,26 @@
-import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import React from 'react'
+import { useState } from 'react';
 import LongButton from '../components/LongButton';
+import { FontAwesome } from '@expo/vector-icons';
 
-export default function SignupScreen() {
+export default function SignupScreen({navigation}) {
+
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState(false);
+  
+    const handleSubmit = () => {
+  
+        navigation.navigate('TabNavigator');
+    };
+
   return (
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <View style={styles.container}>
+      {/* Bouton de retour en haut à gauche */}
+      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButton}>
+        <FontAwesome name="chevron-left" size={24} color="black" />
+      </TouchableOpacity>
       <Image style={styles.image} source={require("../assets/Ecotrack-logo.png")} />
       <Text style={styles.title}>ECOTRACK</Text>
       <Text>S'inscrire</Text>
@@ -18,16 +34,24 @@ export default function SignupScreen() {
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Mot de passe</Text>
-        <TextInput style={styles.input} placeholder='********' secureTextEntry={true}/>
+        <TextInput style={styles.input} placeholder='********' secureTextEntry={true}
+            autoCapitalize="none" 
+            keyboardType="email-address" 
+            textContentType="emailAddress" 
+            autoComplete="email" 
+            onChangeText={(value) => setEmail(value)}
+            value={email}/>
       </View>
       <View>
 
       </View>
       <View>
-        <LongButton color={"#41F67F"} onPress={() => navigation.navigate('Signup')} text="Créer un compte" />
+        <LongButton color={"#41F67F"} onPress={() => handleSubmit()} text="Créer un compte" />
       </View>
       
     </View>
+    </KeyboardAvoidingView>
+
   )
 }
 
@@ -39,6 +63,11 @@ const styles = StyleSheet.create({
 	  alignItems: 'center',
 	  justifyContent: 'center',
 	},
+  backButton: {
+    position: 'absolute',
+    top: 60, 
+    left: 0,
+  },
    image: {
       width: 250,
       height: 250,

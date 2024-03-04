@@ -1,10 +1,28 @@
-import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import LongButton from '../components/LongButton';
+import { FontAwesome } from '@expo/vector-icons'; 
 
-export default function SigninScreen() {
+
+export default function SigninScreen({ navigation }) {
+
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
+
+  const handleSubmit = () => {
+
+      navigation.navigate('TabNavigator');
+  };
+
+
   return (
+   <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButton}>
+        <FontAwesome name="chevron-left" size={24} color="black" />
+      </TouchableOpacity>
+
       <Image style={styles.image} source={require("../assets/Ecotrack-logo.png")} />
       <Text style={styles.title}>ECOTRACK</Text>
       <Text>Connexion</Text>
@@ -14,32 +32,37 @@ export default function SigninScreen() {
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Mot de passe</Text>
-        <TextInput style={styles.input} placeholder='********' secureTextEntry={true}/>
+        <TextInput style={styles.input} placeholder='********' secureTextEntry={true}
+            autoCapitalize="none" 
+            keyboardType="email-address" 
+            textContentType="emailAddress" 
+            autoComplete="email" 
+            onChangeText={(value) => setEmail(value)}
+            value={email}
+          />
+
+          {emailError && <Text style={styles.error}>Invalid email address</Text>}
       </View>
       <View>
-         <View>
-            <LongButton color={"#41F67F"} onPress={() => navigation.navigate('Signup')} text="Se connecter" />
-            <TouchableOpacity style={[styles.button, styles.color, styles.shadow]}>
-               <Text style={styles.btnText}>Se connecter</Text>
-            </TouchableOpacity>
-         </View>
-         <View>
-            <LongButton color={"#fff"} onPress={() => navigation.navigate('Signup')} text="Mot de passe oublié ?" />
-         </View>
-
+         <LongButton color={"#41F67F"} onPress={() => handleSubmit()} text="Se connecter" />
+         <LongButton color={"#fff"}  text="Mot de passe oublié ?" />
       </View>
     </View>
-  )
+    </KeyboardAvoidingView>
+  );
 }
 
-// style={styles.inputContainer}
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// backgroundColor: 'green',
-	  alignItems: 'center',
-	  justifyContent: 'center',
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
+   backButton: {
+      position: 'absolute',
+      top: 60, 
+      left: 0,
+    },
    image: {
       width: 250,
       height: 250,
@@ -65,7 +88,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
    },
    button: {
-      display: "flex",
       justifyContent: "center",
       width: 288,
       height: 51,
@@ -77,7 +99,7 @@ const styles = StyleSheet.create({
    },
    shadow: {
       shadowColor: "#000",
-      shadowOffset: { width: -4, height: -4, },
+      shadowOffset: { width: -4, height: -4 },
       shadowOpacity: 0.9,
       shadowRadius: 44,
       elevation: 5, 
@@ -85,10 +107,6 @@ const styles = StyleSheet.create({
     btnText: {
       fontSize: 20,
       textAlign: "center",
-   },
-   text: {
-      marginTop: 20,
-      fontSize: 20,
    },
    color: {
       backgroundColor: "#41F67F",
