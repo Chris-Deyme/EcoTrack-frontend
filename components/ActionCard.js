@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function ActionCard({ startColor, color, text, name, number }) {
+export default function ActionCard({ startColor, color, name }) {
   return (
    <>
    <View style={styles.card}>
@@ -28,8 +28,8 @@ export default function ActionCard({ startColor, color, text, name, number }) {
          </Shadow>
       </View>
       <View style={styles.textContainer}>
-         <Text style={styles.title}>{text}</Text>
-         <Text style={styles.number}>{number}</Text>
+         <Text style={styles.title}>Déplacement à vélo</Text>
+         <Text style={styles.number}>250</Text>
       </View>
    </View>
    </>

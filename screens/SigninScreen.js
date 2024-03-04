@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
 import React from 'react'
 import LongButton from '../components/LongButton';
+// import InputComponent from '../components/InputComponent';
 
 export default function SigninScreen() {
   return (
@@ -8,6 +9,8 @@ export default function SigninScreen() {
       <Image style={styles.image} source={require("../assets/Ecotrack-logo.png")} />
       <Text style={styles.title}>ECOTRACK</Text>
       <Text>Connexion</Text>
+
+      {/* <InputComponent label={E-mail} placeholder={"myemail@gmail.com"} keyboardType={email-adress} /> */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>E-mail</Text>
         <TextInput style={styles.input} placeholder='Email@gmail.com' keyboardType="email-address"/>
@@ -17,22 +20,18 @@ export default function SigninScreen() {
         <TextInput style={styles.input} placeholder='********' secureTextEntry={true}/>
       </View>
       <View>
-         <View>
+         <View style={styles.buttonview}>
             <LongButton color={"#41F67F"} onPress={() => navigation.navigate('Signup')} text="Se connecter" />
-            <TouchableOpacity style={[styles.button, styles.color, styles.shadow]}>
-               <Text style={styles.btnText}>Se connecter</Text>
-            </TouchableOpacity>
          </View>
-         <View>
+         <View style={styles.buttonview}>
             <LongButton color={"#fff"} onPress={() => navigation.navigate('Signup')} text="Mot de passe oublié ?" />
          </View>
-
       </View>
     </View>
   )
 }
 
-// style={styles.inputContainer}
+// style={styles.buttonview}
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -92,5 +91,8 @@ const styles = StyleSheet.create({
    },
    color: {
       backgroundColor: "#41F67F",
+   },
+   buttonview: {
+      marginTop: 20,
    }
 });

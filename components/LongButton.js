@@ -15,6 +15,8 @@ export default function LongButton({ onPress, text, color }) {
                   borderRadius: 12,
                   alignItems: 'center',
                   justifyContent: 'center',
+                  borderWidth: 2,
+                  borderColor: "#41F67F",
                }
                } 
                onPress={onPress}

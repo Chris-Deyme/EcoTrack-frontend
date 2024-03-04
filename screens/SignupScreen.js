@@ -23,7 +23,7 @@ export default function SignupScreen() {
       <View>
 
       </View>
-      <View>
+      <View style={styles.buttonview}>
         <LongButton color={"#41F67F"} onPress={() => navigation.navigate('Signup')} text="Créer un compte" />
       </View>
       
@@ -91,5 +91,8 @@ const styles = StyleSheet.create({
    },
    color: {
       backgroundColor: "#41F67F",
+   },
+      buttonview: {
+      marginTop: 20,
    }
 });
