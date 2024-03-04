@@ -156,9 +156,8 @@ const styles = StyleSheet.create({
    color: {
       backgroundColor: "#41F67F",
    },
-      buttonview: {
+    buttonview: {
       marginTop: 20,
-   }
   },
   button: {
     display: "flex",
