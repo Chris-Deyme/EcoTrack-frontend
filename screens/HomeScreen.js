@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import LongButton from '../components/LongButton';
 import EcotrackLogo from '../components/EcotrackLogo'
 
-export default function HomeScreen({ navigation}) {
+export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation}) {
          <EcotrackLogo />
       </View>
       <View style={styles.vueDuBouton}>
-         <LongButton color={"#FFF"} onPress={() => navigation.navigate('Home')} text="S'inscrire avec Apple" borderColor={"#41F67F"} />
+         <LongButton color={"#FFF"} onPress={() => navigation.navigate('ActivityCard')} text="S'inscrire avec Apple" borderColor={"#41F67F"} />
       </View>
       <View style={styles.vueDuBouton}>
       <LongButton color={"#FFF"} onPress={() => navigation.navigate('Home')} text="S'inscrire avec Google" />
