@@ -10,7 +10,6 @@ export default function SigninScreen() {
       <Text style={styles.title}>ECOTRACK</Text>
       <Text>Connexion</Text>
 
-      {/* <InputComponent label={E-mail} placeholder={"myemail@gmail.com"} keyboardType={email-adress} /> */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>E-mail</Text>
         <TextInput style={styles.input} placeholder='Email@gmail.com' keyboardType="email-address"/>

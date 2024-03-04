@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function CardActivity({ startColor, color, text, name }) {
+export default function activityCard({ startColor, color, text, name }) {
   return (
    <>
       <Shadow distance={0.5} startColor={startColor} offset={[4, 5]}>
@@ -32,8 +32,6 @@ export default function CardActivity({ startColor, color, text, name }) {
             <FontAwesome 
                style={{ textAlign: 'center'}} 
                name={name} size={120} color={color} />
-            {/* <Text style={{fontSize: 120, textAlign: 'center'}}>🚴‍♀️</Text> */}
-
          </TouchableOpacity>
       </Shadow>
    </>

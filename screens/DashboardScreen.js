@@ -1,10 +1,11 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import {StyleSheet, View, Text } from 'react-native';
+import React from 'react';
 
 export default function DashboardScreen() {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>DashboardScreen</Text>
+
     </View>
   )
 }
