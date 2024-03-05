@@ -6,13 +6,14 @@ import {
   Image,
   TextInput,
   KeyboardAvoidingView,
-  Platform
+  Platform,
 } from "react-native";
 import React from "react";
 import LongButton from "../components/LongButton";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from "@expo/vector-icons";
+import { login } from "../reducers/user";
 
 export default function SignupScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ export default function SignupScreen({ navigation }) {
               token: data.token,
             })
           );
-          navigation.navigate("Signup");
+          navigation.navigate("TabNavigator");
           setSignUpUsername("");
           setSignUpEmail("");
           setSignUpPassword("");
@@ -54,35 +55,56 @@ export default function SignupScreen({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       {/* Bouton de retour en haut à gauche */}
-      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButton}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Home")}
+        style={styles.backButton}
+      >
         <FontAwesome name="chevron-left" size={24} color="black" />
       </TouchableOpacity>
-      <Image style={styles.image} source={require("../assets/Ecotrack-logo.png")} />
+      <Image
+        style={styles.image}
+        source={require("../assets/Ecotrack-logo.png")}
+      />
       <Text style={styles.title}>ECOTRACK</Text>
       <Text>S'inscrire</Text>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Nom d'utilisateur</Text>
-        <TextInput style={styles.input} placeholder='JohnDoe' />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>E-mail</Text>
-        <TextInput style={styles.input} placeholder='Email@gmail.com' keyboardType="email-address"/>
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Mot de passe</Text>
-        <TextInput style={styles.input} placeholder='********' secureTextEntry={true}
-            autoCapitalize="none" 
-            keyboardType="email-address" 
-            textContentType="emailAddress" 
-            autoComplete="email" 
+      <View style={styles.registerContainer}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Nom d'utilisateur</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="JohnDoe"
+            onChangeText={(value) => setSignUpUsername(value)}
+            value={signUpUsername}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>E-mail</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email@gmail.com"
+            keyboardType="email-address"
             onChangeText={(value) => setSignUpEmail(value)}
-            value={signUpEmail}/>
-      </View>
-      <View>
-
+            value={signUpEmail}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Mot de passe</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="********"
+            secureTextEntry={true}
+            autoCapitalize="none"
+            textContentType="password"
+            autoComplete="password"
+            onChangeText={(value) => setSignUpPassword(value)}
+            value={signUpPassword}
+          />
+        </View>
         <View>
           <LongButton
             color={"#41F67F"}
@@ -94,42 +116,36 @@ export default function SignupScreen({ navigation }) {
           <Text style={styles.errorText}>{error}</Text>
         </View>
       </View>
-      <View>
-        <LongButton color={"#41F67F"} onPress={() => handleRegister()} text="Créer un compte" />
-      </View>
-      
-    </View>
     </KeyboardAvoidingView>
-
-  )
+  );
 }
 
 // style={styles.inputContainer}
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		// backgroundColor: 'green',
-	  alignItems: 'center',
-	  justifyContent: 'center',
-	},
-  backButton: {
-    position: 'absolute',
-    top: 60, 
-    left: 0,
+  container: {
+    flex: 1,
+    // backgroundColor: 'green',
+    alignItems: "center",
+    justifyContent: "center",
   },
-   image: {
-      width: 250,
-      height: 250,
-   },
-   title: {
-      fontSize: 36,
-      textAlign: "center",
-      fontWeight: "700",
-   },
-   inputContainer: {
-    marginTop: 10
-   },
-   label: {
+  backButton: {
+    position: "absolute",
+    top: 60,
+    left: 30,
+  },
+  image: {
+    width: 250,
+    height: 250,
+  },
+  title: {
+    fontSize: 36,
+    textAlign: "center",
+    fontWeight: "700",
+  },
+  inputContainer: {
+    marginTop: 0,
+  },
+  label: {
     fontSize: 10,
     paddingLeft: 10,
   },
@@ -141,37 +157,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
   },
-  button: {
-    display: "flex",
-    justifyContent: "center",
-    width: 288,
-    height: 51,
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#41F67F",
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: { width: -4, height: -4 },
-    shadowOpacity: 0.9,
-    shadowRadius: 44,
-    elevation: 5,
-  },
-  btnText: {
-    fontSize: 20,
-    textAlign: "center",
-  },
+
   text: {
     marginTop: 20,
     fontSize: 20,
   },
   color: {
     backgroundColor: "#41F67F",
-  },
-  buttonview: {
-    marginTop: 20,
   },
   errorText: {
     color: "red",
@@ -180,7 +172,7 @@ const styles = StyleSheet.create({
   registerContainer: {
     marginTop: 10,
     justifyContent: "center",
-    gap: 20,
+    gap: 15,
     alignItems: "center",
   },
 });

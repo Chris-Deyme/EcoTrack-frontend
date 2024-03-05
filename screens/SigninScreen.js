@@ -1,118 +1,176 @@
-import React from 'react';
-import { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import LongButton from '../components/LongButton';
-import { FontAwesome } from '@expo/vector-icons'; 
-
+import React from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import LongButton from "../components/LongButton";
+import { FontAwesome } from "@expo/vector-icons";
+import { login } from "../reducers/user";
 
 export default function SigninScreen({ navigation }) {
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
+  const [error, setError] = useState(false);
+  const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState(false);
-
-  const handleSubmit = () => {
-
-      navigation.navigate('TabNavigator');
+  const handleConnection = () => {
+    fetch("http://172.20.10.2:3000/users/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: signInEmail, password: signInPassword }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(login({ email: signInEmail, token: data.token }));
+          setSignInEmail("");
+          setSignInPassword("");
+          navigation.navigate("TabNavigator");
+          console.log(data)
+        } else {
+          console.log(data);
+          setError("La connection a échoué.");
+        }
+      });
   };
 
-
   return (
-   <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButton}>
-        <FontAwesome name="chevron-left" size={24} color="black" />
-      </TouchableOpacity>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Home")}
+          style={styles.backButton}
+        >
+          <FontAwesome name="chevron-left" size={24} color="black" />
+        </TouchableOpacity>
 
-      <Image style={styles.image} source={require("../assets/Ecotrack-logo.png")} />
-      <Text style={styles.title}>ECOTRACK</Text>
-      <Text>Connexion</Text>
+        <Image
+          style={styles.image}
+          source={require("../assets/Ecotrack-logo.png")}
+        />
+        <Text style={styles.title}>ECOTRACK</Text>
+        <Text>Connexion</Text>
+        <View style={styles.registerContainer}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>E-mail</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Email@gmail.com"
+              keyboardType="email-address"
+              onChangeText={(value) => setSignInEmail(value)}
+              value={signInEmail}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Mot de passe</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="********"
+              secureTextEntry={true}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              autoComplete="email"
+              onChangeText={(value) => setSignInPassword(value)}
+              value={signInPassword}
+            />
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>E-mail</Text>
-        <TextInput style={styles.input} placeholder='Email@gmail.com' keyboardType="email-address"/>
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Mot de passe</Text>
-        <TextInput style={styles.input} placeholder='********' secureTextEntry={true}
-            autoCapitalize="none" 
-            keyboardType="email-address" 
-            textContentType="emailAddress" 
-            autoComplete="email" 
-            onChangeText={(value) => setEmail(value)}
-            value={email}
-          />
+            </View> 
+         <Text style={styles. errorText}>{error}</Text>
+         
+      
+            <LongButton
+              color={"#41F67F"}
+              onPress={() => handleConnection()}
+              text="Se connecter"
+            />
+            <LongButton color={"#fff"} text="Mot de passe oublié ?" />
 
-          {emailError && <Text style={styles.error}>Invalid email address</Text>}
-      </View>
-      <View>
-         <LongButton color={"#41F67F"} onPress={() => handleSubmit()} text="Se connecter" />
-         <LongButton color={"#fff"}  text="Mot de passe oublié ?" />
-      </View>
-    </View>
+        </View>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-   backButton: {
-      position: 'absolute',
-      top: 60, 
-      left: 0,
-    },
-   image: {
-      width: 250,
-      height: 250,
-   },
-   title: {
-      fontSize: 36,
-      textAlign: "center",
-      fontWeight: "700",
-   },
-   inputContainer: {
-    marginTop: 10
-   },
-   label: {
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButton: {
+    position: "absolute",
+    top: 60,
+    left: 30,
+  },
+  image: {
+    width: 250,
+    height: 250,
+  },
+  title: {
+    fontSize: 36,
+    textAlign: "center",
+    fontWeight: "700",
+  },
+  inputContainer: {
+    marginTop: 0,
+  },
+  label: {
     fontSize: 10,
     paddingLeft: 10,
-   },
-   input: {
+  },
+  input: {
     width: 288,
     height: 51,
     borderWidth: 1,
     borderColor: "#41F67F",
     borderRadius: 10,
     paddingLeft: 10,
-   },
-   button: {
-      justifyContent: "center",
-      width: 288,
-      height: 51,
-      backgroundColor: "#fff",
-      borderWidth: 2,
-      borderColor: "#41F67F",
-      borderRadius: 10,
-      marginTop: 20,
-   },
-   shadow: {
-      shadowColor: "#000",
-      shadowOffset: { width: -4, height: -4 },
-      shadowOpacity: 0.9,
-      shadowRadius: 44,
-      elevation: 5, 
-    },
-    btnText: {
-      fontSize: 20,
-      textAlign: "center",
-   },
-   color: {
-      backgroundColor: "#41F67F",
-   },
-   buttonview: {
-      marginTop: 20,
-   }
+  },
+  button: {
+    justifyContent: "center",
+    width: 288,
+    height: 51,
+    backgroundColor: "#fff",
+    borderWidth: 2,
+    borderColor: "#41F67F",
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: -4, height: -4 },
+    shadowOpacity: 0.9,
+    shadowRadius: 44,
+    elevation: 5,
+  },
+  btnText: {
+    fontSize: 20,
+    textAlign: "center",
+  },
+  color: {
+    backgroundColor: "#41F67F",
+  },
+  buttonview: {
+    marginTop: 20,
+  },
+  registerContainer: {
+   marginTop: 10,
+    justifyContent: "center",
+    gap: 15,
+    alignItems: "center",
+  },
+  errorText: {
+   color: "red",
+   fontSize: 16,
+ },
 });
