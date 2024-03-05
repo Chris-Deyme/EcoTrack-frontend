@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { iconName } from '@fortawesome/free-solid-svg-icons/faMugSaucer';
@@ -11,13 +11,14 @@ export default function activityCard({ onPress, startColor, color, text, icon })
             style={
                { 
                   backgroundColor: "white",
-                  width: 264,
+                  width: 360,
                   height: 200,
                   padding: 10,
                   borderRadius: 12,
                   justifyContent: 'center',
                }
                }
+               onPress={onPress}
          >
             <Text style={{ 
                fontSize: 24,
@@ -30,14 +31,18 @@ export default function activityCard({ onPress, startColor, color, text, icon })
             >
                {text}
             </Text>
-            {/* <FontAwesomeIcon icon={iconName} size={size} color={color}/> */}
             <FontAwesomeIcon 
-               style={{ textAlign: 'center'}} 
+               style={styles.icon} 
                icon={icon} size={120} color={color} />
-               {/* icon={`fa${icon}`} size={120} color={color} /> */}
          </TouchableOpacity>
       </Shadow>
    </>
   )
 }
-// <FontAwesomeIcon icon="mug-saucer" />
+
+// style={styles.card}
+const styles = StyleSheet.create({
+   icon: {
+      marginLeft: "33%",
+   },
+});
