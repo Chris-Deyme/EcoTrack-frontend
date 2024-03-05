@@ -1,9 +1,8 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { iconName } from '@fortawesome/free-solid-svg-icons/faMugSaucer';
 
-export default function activityCard({ onPress, startColor, color, text, icon }) {
+export default function activityCard({ onPress, startColor, color, text, icon, borderColor }) {
   return (
    <>
       <Shadow distance={0.5} startColor={startColor} offset={[4, 5]}>
@@ -16,6 +15,8 @@ export default function activityCard({ onPress, startColor, color, text, icon })
                   padding: 10,
                   borderRadius: 12,
                   justifyContent: 'center',
+                  borderWidth: 2,
+                  borderColor: color
                }
                }
                onPress={onPress}
@@ -44,5 +45,6 @@ export default function activityCard({ onPress, startColor, color, text, icon })
 const styles = StyleSheet.create({
    icon: {
       marginLeft: "33%",
+      marginBottom: 30,
    },
 });

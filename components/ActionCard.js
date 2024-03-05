@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-export default function ActionCard({ startColor, color, icon, borderColor }) {
+export default function ActionCard({ startColor, color, icon, text, number }) {
   return (
    <>
    <View style={styles.card}>
@@ -33,8 +33,8 @@ export default function ActionCard({ startColor, color, icon, borderColor }) {
          </Shadow>
       </View>
       <View style={styles.textContainer}>
-         <Text style={styles.title}>Déplacement à vélo</Text>
-         <Text style={styles.number}>250</Text>
+         <Text style={styles.title}>{text}</Text>
+         <Text style={styles.number}>{number}</Text>
       </View>
    </View>
    </>
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
 	   alignItems: 'center',
 	   justifyContent: 'space-around',
       flexDirection: "row",
+      marginBottom: 20,
 	},
 	title: {
       marginLeft: 15,

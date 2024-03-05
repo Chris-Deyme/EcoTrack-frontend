@@ -6,28 +6,29 @@ import { faPersonBiking, faBolt, faBurger  } from '@fortawesome/free-solid-svg-i
 // startColor, color, text, name
 // <FontAwesomeIcon icon="mug-saucer" />
 export default function ActivityScreen({navigation}) {
+  const colorStyle = ["#00B8FF", "#B78CFD", "#FCE340"]
   return (
     <View style={styles.container}>
       <Text>ActivityScreen</Text>
       <ActivityCard
         onPress={() => navigation.navigate('Action')}
-        startColor={"#00B8FF"} 
+        startColor={colorStyle[0]} 
         text={'Mobilité'} 
-        color={"#00B8FF"} 
+        color={colorStyle[0]}
         icon={faPersonBiking}
       />
       <ActivityCard
          onPress={() => navigation.navigate('Action')}
-         startColor={"#B78CFD"} 
+         startColor={colorStyle[1]} 
          text={'Energie'} 
-         color={"#B78CFD"} 
+         color={colorStyle[1]} 
          icon={faBolt}
       />
       <ActivityCard
          onPress={() => navigation.navigate('Action')}
-         startColor={"#FCE340"} 
+         startColor={colorStyle[2]} 
          text={'Alimentation'} 
-         color={"#FCE340"} 
+         color={colorStyle[2]} 
          icon={faBurger}
       />
     </View>
