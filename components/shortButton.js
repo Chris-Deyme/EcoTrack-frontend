@@ -1,8 +1,9 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function ClickBtn({ onPress, name, color }) {
+export default function ShortButton({ onPress, icon, color }) {
    return (
       <>
          <Shadow distance={0.5} startColor={'#085229ff'} offset={[4, 5]}>
@@ -22,7 +23,7 @@ export default function ClickBtn({ onPress, name, color }) {
                } 
                onPress={onPress}
             >
-               <FontAwesome name={name} size={27} color={"black"} />
+               <FontAwesomeIcon icon={icon} size={27} color={"black"} />
             </TouchableOpacity>
          </Shadow>
       </>

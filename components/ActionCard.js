@@ -1,12 +1,13 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-export default function ActionCard({ startColor, color, name }) {
+export default function ActionCard({ startColor, color, icon, borderColor }) {
   return (
    <>
    <View style={styles.card}>
-      <View style={styles.shadow}>
+      {/* <View style={styles.shadow}> */}
+      <View>
          <Shadow distance={0.5} startColor={startColor} offset={[4, 5]}>
             <TouchableOpacity
                style={
@@ -17,13 +18,17 @@ export default function ActionCard({ startColor, color, name }) {
                      padding: 10,
                      borderRadius: 12,
                      justifyContent: 'center',
+                     borderWidth: 2,
+                     borderColor: color
                   }
                }
             >
-               <FontAwesome 
-                  style={{ textAlign: 'center'}} 
-                  name={name} size={48} color={color} />
-               {/* <Text style={{fontSize: 120, textAlign: 'center'}}>🚴‍♀️</Text> */}
+            <View style={styles.iconContainer}>
+               <FontAwesomeIcon 
+                  icon={icon} size={48} color={color} 
+               />
+            </View>
+
             </TouchableOpacity>
          </Shadow>
       </View>
@@ -36,28 +41,36 @@ export default function ActionCard({ startColor, color, name }) {
   )
 }
 
-// style={styles.textContainer}
+// style={styles.iconContainer}
 const styles = StyleSheet.create({
 	card: {
       width: 300,
       height:110,
 	   alignItems: 'center',
 	   justifyContent: 'space-around',
-      borderWidth: 1,
-      borderColor: "#41F67F",
       flexDirection: "row",
 	},
 	title: {
-      marginLeft: 35,
+      marginLeft: 15,
       marginBottom: 30,
 		fontSize: 16,
       fontWeight: "bold",
 	},
 	number: {
-		fontSize: 16
+		fontSize: 16,
+      marginLeft: 15,
 	},
    textContainer:{
       width: 180,
-
    },
+   iconContainer: {
+      display: "flex",
+   	alignItems: 'center',
+	   justifyContent: 'center',
+      
+   },
+   border: {
+      borderWidth: 2,
+
+   }
 })

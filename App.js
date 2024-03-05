@@ -73,11 +73,11 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* navigation de dev */}
-        <Stack.Screen name="Activity" component={ActivityScreen} />
-        <Stack.Screen name="Action" component={ActionScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Signin" component={SigninScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="Activity" component={ActivityScreen} />
+        <Stack.Screen name="Action" component={ActionScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
