@@ -16,13 +16,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { login } from "../reducers/user";
 
 export default function SigninScreen({ navigation }) {
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
+  const [signInEmail, setSignInEmail] = useState("test@gmail.com");
+  const [signInPassword, setSignInPassword] = useState("testCapsule");
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
   const handleConnection = () => {
-    fetch("http://172.20.10.2:3000/users/signin", {
+    fetch("http://172.20.10.13:3000/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),
