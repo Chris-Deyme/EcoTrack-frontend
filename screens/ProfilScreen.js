@@ -154,10 +154,35 @@ const ProfilScreen = ({navigation}) => {
 
 const DrawerNav = ({navigation, closeDrawer}) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
+
   const handleLogout = () => {
     dispatch(logout());
     navigation.navigate('Home')
   }
+
+  // const handleDelete = () => {
+  //   console.log(user)
+  //   fetch(`http://172.20.10.2:3000/users/deleteUser/${user.username}`, {
+  //     method: "DELETE",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       username: user.username,
+  //     }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data.result) {
+  //         dispatch(logout());
+  //         navigation.navigate('Home')
+  //       }
+  //     });
+  // };
+
+
+  //   dispatch(logout());
+  //   navigation.navigate('Home')
+  // }
 
 
 return (
@@ -188,6 +213,7 @@ return (
       </TouchableOpacity>
 
 <Text style={{}} onPress={() => handleLogout()}>Se déconnecter</Text>
+<Text style={{}} onPress={() => handleDelete()}>Supprimer le compte</Text>
     </View>
     <TouchableOpacity style={{
       backgroundColor:"#0000",
