@@ -8,6 +8,7 @@ import {
   Dimensions,
   Modal
 } from 'react-native';
+import RandomTips from '../components/RandomTips';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import { LineChart, BarChart } from 'react-native-chart-kit';
@@ -156,6 +157,7 @@ const handleScoreChange = (amount, mode) => {
               borderRadius: 16,
           }}
       />
+      <RandomTips />
     </ScrollView>
   );
 }
