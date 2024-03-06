@@ -11,12 +11,14 @@ import {
 import React from "react";
 import LongButton from "../components/LongButton";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
 import { login } from "../reducers/user";
 
 export default function SignupScreen({ navigation }) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
+
   const [signUpUsername, setSignUpUsername] = useState("");
   const [signUpEmail, setSignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
@@ -34,23 +36,26 @@ export default function SignupScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.userData._id)
         if (data.result) {
           dispatch(
             login({
               username: signUpUsername,
               email: signUpEmail,
               token: data.token,
+              id: data.userData._id,
             })
           );
+
           navigation.navigate("TabNavigator");
           setSignUpUsername("");
           setSignUpEmail("");
           setSignUpPassword("");
         } else {
-          console.log(data);
+          console.log("Errror", data);
           setError("Votre compte n'a pas pu être créé.");
         }
+
       });
   };
 
@@ -88,6 +93,7 @@ export default function SignupScreen({ navigation }) {
             style={styles.input}
             placeholder="Email@gmail.com"
             keyboardType="email-address"
+            autoCapitalize="none"
             onChangeText={(value) => setSignUpEmail(value)}
             value={signUpEmail}
           />

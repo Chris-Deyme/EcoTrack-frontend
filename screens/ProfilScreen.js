@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Alert, Text, Animated, LayoutAnimation, UIManager, Platform, Button } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, Alert, Text, Animated, LayoutAnimation, UIManager, Platform, Button, Dimensions } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCog, faCamera, faTimes, faImage } from '@fortawesome/free-solid-svg-icons';
+import { LineChart} from "react-native-chart-kit";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../reducers/user";
 
 if (
   Platform.OS === "android" &&
@@ -16,6 +19,10 @@ const ProfilScreen = ({navigation}) => {
   const [image, setImage] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const drawerAnimation = useRef(new Animated.Value(-220)).current;
+  const [history, setHistory] = useState([10, 20, 30, 40, 50, 60, 70]);
+
+
+
 
 
   const openDrawerAnimated = () => {
@@ -96,6 +103,34 @@ const ProfilScreen = ({navigation}) => {
         </TouchableOpacity>
     </View>
 
+    <Text style={styles.historyTitle}>
+        Historique des scores de la semaine
+      </Text>
+      <LineChart
+        data={{
+          labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+          datasets: [{ data: history }],
+        }}
+        width={Dimensions.get("window").width - 16}
+        height={220}
+        chartConfig={{
+          backgroundColor: "#e26a00",
+          backgroundGradientFrom: "#fb8c00",
+          backgroundGradientTo: "#ffa726",
+          decimalPlaces: 2,
+          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          style: {
+            borderRadius: 16,
+          },
+        }}
+        bezier
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+        }}
+      />
+
+
       <Animated.View
         style={[
           styles.drawerContainer,
@@ -118,6 +153,13 @@ const ProfilScreen = ({navigation}) => {
 };
 
 const DrawerNav = ({navigation, closeDrawer}) => {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigation.navigate('Home')
+  }
+
+
 return (
   <View style={{
     flex:1,
@@ -145,7 +187,7 @@ return (
       <FontAwesomeIcon icon={faTimes}  size={24} />
       </TouchableOpacity>
 
-<Text style={{}} onPress={() => navigation.navigate('Home')}>Se déconnecter</Text>
+<Text style={{}} onPress={() => handleLogout()}>Se déconnecter</Text>
     </View>
     <TouchableOpacity style={{
       backgroundColor:"#0000",
