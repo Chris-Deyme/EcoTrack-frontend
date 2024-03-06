@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   StyleSheet,
   View,
@@ -22,7 +22,7 @@ export default function SigninScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const handleConnection = () => {
-    fetch("http://172.20.10.13:3000/users/signin", {
+    fetch("http://172.20.10.2:3000/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),
@@ -30,13 +30,18 @@ export default function SigninScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          dispatch(login({ email: signInEmail, token: data.token }));
+          dispatch(
+            login({
+              email: signInEmail,
+              token: data.token,
+              id: data.userData._id,
+              username: data.userData.username,
+            })
+          );
           setSignInEmail("");
           setSignInPassword("");
           navigation.navigate("TabNavigator");
-          console.log(data)
         } else {
-          console.log(data);
           setError("La connection a échoué.");
         }
       });
@@ -47,56 +52,54 @@ export default function SigninScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Home")}
-          style={styles.backButton}
-        >
-          <FontAwesome name="chevron-left" size={24} color="black" />
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Home")}
+        style={styles.backButton}
+      >
+        <FontAwesome name="chevron-left" size={24} color="black" />
+      </TouchableOpacity>
 
-        <Image
-          style={styles.image}
-          source={require("../assets/Ecotrack-logo.png")}
-        />
-        <Text style={styles.title}>ECOTRACK</Text>
-        <Text>Connexion</Text>
-        <View style={styles.registerContainer}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>E-mail</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Email@gmail.com"
-              keyboardType="email-address"
-              onChangeText={(value) => setSignInEmail(value)}
-              value={signInEmail}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Mot de passe</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="********"
-              secureTextEntry={true}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              autoComplete="email"
-              onChangeText={(value) => setSignInPassword(value)}
-              value={signInPassword}
-            />
-
-            </View> 
-         <Text style={styles. errorText}>{error}</Text>
-         
-      
-            <LongButton
-              color={"#41F67F"}
-              onPress={() => handleConnection()}
-              text="Se connecter"
-            />
-            <LongButton color={"#fff"} text="Mot de passe oublié ?" />
-
+      <Image
+        style={styles.image}
+        source={require("../assets/Ecotrack-logo.png")}
+      />
+      <Text style={styles.title}>ECOTRACK</Text>
+      <Text>Connexion</Text>
+      <View style={styles.registerContainer}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>E-mail</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email@gmail.com"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            onChangeText={(value) => setSignInEmail(value)}
+            value={signInEmail}
+          />
         </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Mot de passe</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="********"
+            secureTextEntry={true}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            autoComplete="email"
+            onChangeText={(value) => setSignInPassword(value)}
+            value={signInPassword}
+          />
+        </View>
+        <Text style={styles.errorText}>{error}</Text>
+
+        <LongButton
+          color={"#41F67F"}
+          onPress={() => handleConnection()}
+          text="Se connecter"
+        />
+        <LongButton color={"#fff"} text="Mot de passe oublié ?" />
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -164,13 +167,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   registerContainer: {
-   marginTop: 10,
+    marginTop: 10,
     justifyContent: "center",
     gap: 15,
     alignItems: "center",
   },
   errorText: {
-   color: "red",
-   fontSize: 16,
- },
+    color: "red",
+    fontSize: 16,
+  },
 });
