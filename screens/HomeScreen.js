@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation }) {
          <LongButton color={"#FFF"} onPress={() => navigation.navigate('Activity')} text="S'inscrire avec Apple" borderColor={"#41F67F"} />
       </View>
       <View style={styles.vueDuBouton}>
-      <LongButton color={"#FFF"} onPress={() => navigation.navigate('Home')} text="S'inscrire avec Google" />
+      <LongButton color={"#FFF"} onPress={() => navigation.navigate('Dashboard')} text="S'inscrire avec Google" />
       </View>
       <Text style={[styles.text, styles.ou]}>OU</Text>
       <View style={styles.vueDuBouton}>

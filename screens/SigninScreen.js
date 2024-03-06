@@ -22,7 +22,7 @@ export default function SigninScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const handleConnection = () => {
-    fetch("http://172.20.10.13:3000/users/signin", {
+    fetch("http://172.20.10.3:3000/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),

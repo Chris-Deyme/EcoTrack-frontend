@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-
 import HomeScreen from './screens/HomeScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import MapScreen from './screens/MapScreen';
@@ -14,18 +13,13 @@ import ActionScreen from './screens/ActionScreen';
 import ProfilScreen from './screens/ProfilScreen'; 
 import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
+import EnergyScreen from './screens/EnergyScreen';
+import FoodScreen from './screens/FoodScreen';
+
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer'
 import { faBicycle, faHouse, faLocationDot, faMapPin, faPersonBiking, faUserLarge, faBurger  } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-
-// Tentative d'import des icones globaliement
-  import { library } from '@fortawesome/fontawesome-svg-core'
-  import { fab } from '@fortawesome/free-brands-svg-icons'
-  import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
-
-  library.add(fab, faCheckSquare, faCoffee)
-//-------------------------------------------
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -51,7 +45,7 @@ function TabNavigator() {
         }else if (route.name === 'Profile') {
           iconName = faUserLarge
         }
-        return     <FontAwesomeIcon icon={iconName} size={size} color={color}/>
+        return <FontAwesomeIcon icon={iconName} size={size} color={color}/>
       },
       tabBarActiveTintColor: '#41F67F',
       tabBarInactiveTintColor: '#00000033',
@@ -77,7 +71,10 @@ export default function App() {
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="Activity" component={ActivityScreen} />
         <Stack.Screen name="Action" component={ActionScreen} />
+        <Stack.Screen name="Food" component={FoodScreen} />
+        <Stack.Screen name="Energy" component={EnergyScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>

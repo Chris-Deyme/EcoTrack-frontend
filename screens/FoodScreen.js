@@ -2,12 +2,11 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import ActionCard from '../components/ActionCard';
 import ShortButton from '../components/ShortButton';
-import { faPersonBiking, faCar, faTrain, faPersonWalking, faPlus, faBusSimple  } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faBusSimple, faCarrot, faUtensils, faAppleAlt, faGlassWhiskey, faBan, faAppleWhole, faBowlRice, faGlassWater  } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesome } from "@expo/vector-icons";
 
 export default function ActionScreen({navigation}) {
 
-	const colorStyle = ["#00B8FF", "#B78CFD", "#FCE340"]
 	const [counters, setCounters] = useState([0, 0, 0, 0, 0]);
 
 	const handleBoutonClick = (index) => {
@@ -30,75 +29,74 @@ export default function ActionScreen({navigation}) {
 		>ActionScreen</Text>
 	 	<View style={styles.card}>
 			<ActionCard 
-				startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faPersonWalking}
-				text={"Se déplacer à pied"}
+				startColor={"#FCE340"}
+				color={"#FCE340"}
+				icon={faCarrot}
+				text={"Privilégier les aliments frais et complets"}
 				// number={0}
 				number={counters[0]}
 			/>
 			<ShortButton 
-				color={"#00B8FF"}
+				color={"#FCE340"}
 				icon={faPlus}
 				onPress={() => handleBoutonClick(0)}
 			/>
 		</View>
 	 	<View style={styles.card}>
 			<ActionCard 
-			startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faPersonBiking}
-				text={"Se déplacer à vélo"}
+			startColor={"#FCE340"}
+				color={"#FCE340"}
+				icon={faUtensils}
+				text={"Manger des repas équilibrés et variés"}
 				// number={0}
 				number={counters[1]}
 			/>
 			<ShortButton 
-				color={"#00B8FF"}
+				color={"#FCE340"}
 				icon={faPlus}
 				onPress={() => handleBoutonClick(1)}
 			/>
 		</View>
 	 	<View style={styles.card}>
 			<ActionCard 
-			startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faTrain}
-				text={"Se déplacer en train"}
+			startColor={"#FCE340"}
+				color={"#FCE340"}
+				icon={faAppleWhole}
+				text={"Consommer des collations nutritives"}
 				// number={0}
 				number={counters[2]}
 			/>
 			<ShortButton 
-				color={"#00B8FF"}
+				color={"#FCE340"}
 				icon={faPlus}
 				onPress={() => handleBoutonClick(2)}
 			/>
 		</View>
 	 	<View style={styles.card}>
 			<ActionCard 
-			startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faCar}
-				text={"Se déplacer en voiture"}
+			startColor={"#FCE340"}
+				color={"#FCE340"}
+				icon={faGlassWater}
+				text={"Boire suffisamment d'eau tout au long de la journée"}
 				// number={0}
 				number={counters[3]}
 			/>
 			<ShortButton 
-				color={"#00B8FF"}
+				color={"#FCE340"}
 				icon={faPlus}
 				onPress={() => handleBoutonClick(3)}
 			/>
 		</View>
 	 	<View style={styles.card}>
 			<ActionCard 
-			startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faBusSimple}
-				text={"Se déplacer en Bus"}
-				// number={0}
+			startColor={"#FCE340"}
+				color={"#FCE340"}
+				icon={faBowlRice}
+				text={"Éviter les aliments transformés et les fast-foods"}
 				number={counters[4]}
 			/>
 			<ShortButton 
-				color={"#00B8FF"}
+				color={"#FCE340"}
 				icon={faPlus}
 				onPress={() => handleBoutonClick(4)}
 			/>
