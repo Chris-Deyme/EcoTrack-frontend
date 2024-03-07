@@ -9,6 +9,7 @@ import {
   Modal,
 } from "react-native";
 import RandomTips from '../components/RandomTips';
+import QuestComponent from "../components/QuestComponent";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useDispatch, useSelector } from "react-redux";
 import { LineChart, BarChart } from "react-native-chart-kit";
@@ -107,7 +108,10 @@ export default function DashboardScreen() {
           </>
         )}
       </AnimatedCircularProgress>
-      <RandomTips />
+      <View style={styles.questContainer}>
+        <QuestComponent />
+        <RandomTips />
+      </View>
     </ScrollView>
   );
 }
@@ -257,4 +261,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   // Ajoutez ici les styles supplémentaires pour le graphique d'historique et autres éléments
+
+  // Style supplémentaire pour quest et tips
+  questContainer: {
+    height: "40%",
+    gap: 29,
+  }
 });

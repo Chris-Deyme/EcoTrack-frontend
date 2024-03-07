@@ -36,6 +36,8 @@ export default function TipsScreen() {
   };
   
   return (
+    <View>
+    <Text style={styles.label}>TIPS</Text>
     <Shadow distance={0.5} startColor={'#085229'} offset={[4, 5]}>
       <View style={styles.tipsContainer}>
         <ScrollView >
@@ -48,6 +50,7 @@ export default function TipsScreen() {
         </TouchableOpacity>
       </View>
     </Shadow>
+    </View>
   )
 }
 
@@ -75,5 +78,10 @@ const styles = StyleSheet.create({
    },
    reload: {
     padding: 5,
-   }
+   },
+      label: {
+      // marginLeft: 10,
+      textAlign: "center",
+      fontSize: 12,
+   },
 });
