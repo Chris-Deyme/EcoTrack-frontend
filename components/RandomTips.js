@@ -10,7 +10,6 @@ export default function TipsScreen() {
   const [randomTip, setRandomTip] = useState('');
 
   useEffect(() => {
-
     // Charger les tips depuis le fichier JOSN
     const loadTips = async () => {
       try {
@@ -37,7 +36,8 @@ export default function TipsScreen() {
   };
   
   return (
-    <View style={styles.container}>
+    <Shadow distance={0.5} startColor={'#085229ff'} offset={[4, 5]}>
+      <View style={styles.container}>
         <ScrollView >
           <View style={styles.tipsContainer}>
               <Text style={styles.tips}>{randomTip}</Text>
@@ -46,7 +46,8 @@ export default function TipsScreen() {
         <TouchableOpacity style={styles.reload} onPress={changeTip}>
           <FontAwesome name="repeat" size={32} color="black" />
         </TouchableOpacity>
-    </View>
+      </View>
+    </Shadow>
   )
 }
 
@@ -54,7 +55,6 @@ export default function TipsScreen() {
 // tipsContainer: {width: "90%",height: 80}
 const styles = StyleSheet.create({
    container: {
-		// flex: 1,
 		backgroundColor: '#08522922',
     alignItems: 'center',
     justifyContent: 'center',
