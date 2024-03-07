@@ -23,7 +23,7 @@ export default function SignupScreen({ navigation }) {
   const [error, setError] = useState("");
 
   const handleRegister = () => {
-    fetch("http://172.20.10.2:3000/users/signup", {
+    fetch("http://172.20.10.13:3000/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

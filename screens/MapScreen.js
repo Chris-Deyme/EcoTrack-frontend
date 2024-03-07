@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { StyleSheet, View, Dimensions, Text, Alert, Modal, TouchableOpacity, ScrollView, Button, TextInput } from 'react-native';
+import React, { useEffect, useState, useLayoutEffect, useCallback } from 'react';
+import { StyleSheet, View, Dimensions, Text, Alert, Modal, TouchableOpacity, ScrollView, Button, TextInput, Platform } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import LongButton from "../components/LongButton";
-import ShortButton from "../components/ShortButton";
+// import ShortButton from "../components/ShortButton";
+import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown';
 
 const initialLocations = [
   {
     "id": 1,
     "name": "Notre Dame de Paris",
-    "type": "church",
+    "type": "tri",
     "coordinates": {
       "latitude": 48.867,
       "longitude": 2.328
@@ -18,7 +20,7 @@ const initialLocations = [
   {
     "id": 2,
     "name": "Mont Saint-Michel",
-    "type": "church",
+    "type": "tri",
     "coordinates": {
       "latitude": 48.634,
       "longitude": -1.511
@@ -27,7 +29,7 @@ const initialLocations = [
   {
     "id": 3,
     "name": "Mont Blanc",
-    "type": "mountain",
+    "type": "tri",
     "coordinates": {
       "latitude": 45.831,
       "longitude": 6.865
@@ -36,7 +38,7 @@ const initialLocations = [
   {
     "id": 4,
     "name": "Parc Astérix",
-    "type": "attraction",
+    "type": "shopping",
     "coordinates": {
       "latitude": 49.134,
       "longitude": 2.571
@@ -54,7 +56,7 @@ const initialLocations = [
   {
     "id": 6,
     "name": "Big Ben",
-    "type": "monument",
+    "type": "ecolieu",
     "coordinates": {
       "latitude": 51.5,
       "longitude": -1.124
@@ -63,7 +65,7 @@ const initialLocations = [
   {
     "id": 7,
     "name": "Googleplex",
-    "type": "business",
+    "type": "association",
     "coordinates": {
       "latitude": 37.422,
       "longitude": -122.084
@@ -72,7 +74,7 @@ const initialLocations = [
   {
     "id": 8,
     "name": "Big Ben",
-    "type": "monument",
+    "type": "ecolieu",
     "coordinates": {
       "latitude": 51.5,
       "longitude": -1.124
@@ -81,7 +83,7 @@ const initialLocations = [
   {
     "id": 9,
     "name": "Fourvière",
-    "type": "church",
+    "type": "tri",
     "coordinates": {
       "latitude": 45.762,
       "longitude": 4.822
@@ -90,7 +92,7 @@ const initialLocations = [
   {
     "id": 10,
     "name": "Cdiscount",
-    "type": "business",
+    "type": "association",
     "coordinates": {
       "latitude": 44.861,
       "longitude": -0.552
@@ -99,7 +101,7 @@ const initialLocations = [
   {
     "id": 11,
     "name": "Fourvière",
-    "type": "church",
+    "type": "tri",
     "coordinates": {
       "latitude": 45.762,
       "longitude": 4.822
@@ -108,7 +110,7 @@ const initialLocations = [
   {
     "id": 12,
     "name": "Ricard",
-    "type": "business",
+    "type": "association",
     "coordinates": {
       "latitude": 43.306,
       "longitude": 5.366
@@ -117,7 +119,7 @@ const initialLocations = [
   {
     "id": 13,
     "name": "Kilimanjaro",
-    "type": "mountain",
+    "type": "tri",
     "coordinates": {
       "latitude": -3.068,
       "longitude": 37.355
@@ -126,19 +128,25 @@ const initialLocations = [
 ];
 
 const icons = {
-  church: require('../assets/church.png'),
-  mountain: require('../assets/mountain.png'),
+  tri: require('../assets/tri.png'),
+  association: require('../assets/association.png'),
   shopping: require('../assets/shop.png'),
-  attraction: require('../assets/attraction.png'),
-  monument: require('../assets/monument.png'),
-  business: require('../assets/business.png'),
+  ecolieu: require('../assets/ecolieu.png'),
 };
 
-export default function MapScreen() {
+export default function MapScreen({ navigation }) {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [suggestionsList, setSuggestionsList] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 48.853, // Valeur par défaut centrée sur Paris
+    longitude: 2.349,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
 
   useEffect(() => {
     (async () => {
@@ -154,31 +162,89 @@ export default function MapScreen() {
   }, []);
 
 
+
+  const getSuggestions = useCallback(async q => {
+    const filterToken = q.toLowerCase()
+    console.log('getSuggestions', q)
+    if (typeof q !== 'string' || q.length < 3) {
+      setSuggestionsList(null)
+      return
+    }
+    // setLoading(true)
+    // const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+    // const items = await response.json()
+
+
+    const suggestions = initialLocations
+      .filter(item => item.name.toLowerCase().includes(filterToken))
+      .map(item => ({
+        id: item.id,
+        title: item.name,
+      }))
+    setSuggestionsList(suggestions)
+    // setLoading(false)
+  }, [])
+
+  
+  console.log(suggestionsList)
+
+
+  const onSelectItem = useCallback((item) => {
+    if (item) {
+      const selectedLocation = initialLocations.find(location => location.id === parseInt(item.id, 10));
+      if (selectedLocation) {
+        const { latitude, longitude } = selectedLocation.coordinates;
+        setMapRegion({
+          latitude: latitude,
+          longitude: longitude,
+          latitudeDelta: 0.0075,
+          longitudeDelta: 0.0075,
+        });
+      }
+    }
+  }, []);
+  
+
+
   const filteredLocations = selectedCategory === 'all' ? initialLocations : initialLocations.filter(location => location.type === selectedCategory);
 
   return (
+    <AutocompleteDropdownContextProvider>
     <View style={styles.container}>
       <View style={styles.inputContainer}>
       <Text style={styles.label}>Rechercher</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Rechercher..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-       <View style={styles.buttonContainer}>
-        <ShortButton 
+      <AutocompleteDropdown
+  direction={Platform.select({ ios: 'down' })}
+  dataSet={suggestionsList}
+  onChangeText={getSuggestions}
+  onSelectItem={onSelectItem}
+  debounce={600}
+  renderItem={(item, text) => (
+    <Text style={styles.suggestionItem}>{item.title}</Text>
+  )}
+  textInputProps={{
+    placeholder: "Rechercher une structure",
+  }}
+  inputContainerStyle={styles.input}
+  suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
+/>
+
+
+
+{/* <ShortButton 
           color={"#41F67F"} 
-          onPress={() => { /* Logique pour ajouter un point */ }} 
+          onPress={() => {navigation.navigate('Auto') }} 
           text="Ajouter un point" 
-        />
-      </View>
+        /> */}
+        
+      
       </View>
       
       {/* Le Modal reste inchangé */}
       
       <MapView
         style={styles.map}
+        region={mapRegion}
         initialRegion={{
           latitude: 48.853, // Default to Paris if no location
           longitude: 2.349,
@@ -213,9 +279,11 @@ export default function MapScreen() {
           );
         })}
       </MapView>
-
-    <LongButton color={"#41F67F"} onPress={() => { /* Logique pour ajouter un point */ }} text="Ajouter un point" />  
+    <View style={styles.buttonContainer}>
+    <LongButton color={"#41F67F"} onPress={() => navigation.navigate('Form')} text="Ajouter une structure" />  
+    </View>
      </View>
+     </AutocompleteDropdownContextProvider>
   );
 }
 
@@ -314,5 +382,15 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Centre horizontalement dans le conteneur
     marginTop: 20, // Espace au-dessus du bouton, ajustez selon vos besoins
   },
+  suggestionItem: {
+    padding: 15,
+    backgroundColor: '#FFF', // Fond blanc ou autre couleur selon votre design
+    borderColor: '#41F67F', // Couleur de bordure pour correspondre à votre design
+    borderWidth: 1,
+    borderRadius: 10,
+    color: '#000', // Texte noir ou autre couleur selon votre design
+    fontSize: 16, // Taille de police adaptée
+    marginVertical: 2, // Espacement vertical pour séparer les éléments
+  },
+  
 });
-

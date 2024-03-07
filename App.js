@@ -14,6 +14,7 @@ import ActionScreen from './screens/ActionScreen';
 import ProfilScreen from './screens/ProfilScreen'; 
 import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
+import FormScreen from './screens/FormScreen'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer'
 import { faBicycle, faHouse, faLocationDot, faMapPin, faPersonBiking, faUserLarge, faBurger  } from '@fortawesome/free-solid-svg-icons';
@@ -77,6 +78,7 @@ export default function App() {
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="Activity" component={ActivityScreen} />
         <Stack.Screen name="Action" component={ActionScreen} />
+        <Stack.Screen name="Form" component={FormScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
