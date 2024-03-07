@@ -36,10 +36,10 @@ export default function TipsScreen() {
   };
   
   return (
-    <Shadow distance={0.5} startColor={'#085229ff'} offset={[4, 5]}>
-      <View style={styles.container}>
+    <Shadow distance={0.5} startColor={'#085229'} offset={[4, 5]}>
+      <View style={styles.tipsContainer}>
         <ScrollView >
-          <View style={styles.tipsContainer}>
+          <View >
               <Text style={styles.tips}>{randomTip}</Text>
           </View>
         </ScrollView>
@@ -52,18 +52,22 @@ export default function TipsScreen() {
 }
 
 //  style={styles.tipsText}
-// tipsContainer: {width: "90%",height: 80}
 const styles = StyleSheet.create({
-   container: {
-		backgroundColor: '#08522922',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: "80%",
+  tipsContainer: {
+    backgroundColor: 'white',
+    width: 340,
     height: 120,
     borderRadius: 12,
     borderWidth: 2,
     borderColor: "#085229",
-    padding: 10,
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    // width: "80%",
+    // height: 120,
+
 	},
    tipsText: {
       fontSize: 18,
