@@ -27,6 +27,7 @@ export default function ActionScreen({ navigation }) {
   const colorStyle = ["#00B8FF", "#B78CFD", "#FCE340"];
   const [counters, setCounters] = useState([0, 0, 0, 0, 0]);
   const [activities, setActivities] = useState([]);
+  
 
   const handleBoutonClick = (index) => {
     const newCounters = [...counters];
@@ -63,7 +64,9 @@ export default function ActionScreen({ navigation }) {
         .then((data) => {
           console.log("Hello", data);
           setActivities(data);
+          console.log('Comptage', activities.activities.length)
         });
+        
     } else if (category.nameCategory === "Food") {
       console.log("Category", category.nameCategory);
       fetch(
@@ -87,8 +90,16 @@ export default function ActionScreen({ navigation }) {
     }
   }, []);
 
+  let backColor = "";
+  if (category.nameCategory === "Mobilité") {
+    backColor = "#00B8FF"
+  } else if (category.nameCategory === "Food") {
+    backColor = "#FCE340";
+  } else if (category.nameCategory === "Energie") {
+    backColor = "#B78CFD";
+  }
+
   const allActivities = activities.activities?.map((data, i) => {
-    console.log("undeux", data.category);
     let cardColor = {};
     if (data.category === "Mobilité") {
       cardColor = "#00B8FF";
@@ -128,12 +139,12 @@ export default function ActionScreen({ navigation }) {
           <FontAwesome name="chevron-left" size={24} color="black" />
         </TouchableOpacity>
         <Text
-          onPress={() => navigation.navigate("Activity")}
-          style={{ paddingBottom: 60, fontSize: 24, height: 300 }}
+          style={{ paddingBottom: 60, fontSize: 24, height: 300 }} 
         >
-          ActionScreen
+          ActionScreen 
         </Text>
       </SafeAreaView>
+      <Text style={styles.results} backgroundColor={backColor}>{activities.activities?.length} résultats</Text>
       <ScrollView contentContainerStyle={styles.cardContainer}>
         {allActivities}
       </ScrollView>
@@ -251,4 +262,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
 	height: "15%"
   },
+  results: {
+    fontWeight: "bold",
+    fontSize: 18,
+    paddingLeft: 10,
+    paddingBottom: 10,
+    paddingTop: 10,
+    color: "white"
+  }
 });
