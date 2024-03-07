@@ -13,6 +13,7 @@ import ActionScreen from './screens/ActionScreen';
 import ProfilScreen from './screens/ProfilScreen'; 
 import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
+import FormScreen from './screens/FormScreen'
 import EnergyScreen from './screens/EnergyScreen';
 import FoodScreen from './screens/FoodScreen';
 
@@ -71,6 +72,7 @@ export default function App() {
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="Activity" component={ActivityScreen} />
         <Stack.Screen name="Action" component={ActionScreen} />
+        <Stack.Screen name="Form" component={FormScreen} />
         <Stack.Screen name="Food" component={FoodScreen} />
         <Stack.Screen name="Energy" component={EnergyScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
