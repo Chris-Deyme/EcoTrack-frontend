@@ -16,7 +16,7 @@ export default function ActivityScreen({navigation}) {
       >
         <FontAwesome name="chevron-left" size={24} color="black" />
       </TouchableOpacity>
-    <Text>ActivityScreen</Text>
+    <View style={styles.firstCard}></View>
     <ActivityCard
       onPress={() => navigation.navigate('Action')}
       startColor={colorStyle[0]} 
@@ -42,7 +42,7 @@ export default function ActivityScreen({navigation}) {
   )
 }
 
-// style={styles.container}
+// style={styles.firstCard}
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -54,5 +54,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 60,
     left: 30,
+    paddingBottom: 50,
   },
+  firstCard: {
+    paddingTop: 50,
+  }
 });
