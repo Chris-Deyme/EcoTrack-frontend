@@ -39,7 +39,7 @@ export default function QuestComponent() {
                <Text style={styles.tips}>Ne marchez pas sur la queue du chat</Text>
             </View>
             <View style={styles.rightSide}>
-            <TouchableOpacity style={styles.reload} onPress={handleQuest} disabled={questCompleted}>
+               <TouchableOpacity style={styles.reload} onPress={handleQuest} disabled={questCompleted}>
                   <FontAwesome name={questCompleted ? "check" : "car"} size={32} color="black" />
                </TouchableOpacity>
                <Text>{counter}</Text>

@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import ActivityCard from '../components/ActivityCard';
 import { faPersonBiking, faBolt, faBurger } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +8,8 @@ import { FontAwesome } from "@expo/vector-icons";
 // <FontAwesomeIcon icon="mug-saucer" />
 export default function ActivityScreen({navigation}) {
   const colorStyle = ["#00B8FF", "#B78CFD", "#FCE340"]
+  const iconName = [faPersonBiking, faBolt, faBurger];
+  const gifSource = ["", "", "source(../assets/Burger.png)"];
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -22,21 +24,23 @@ export default function ActivityScreen({navigation}) {
       startColor={colorStyle[0]} 
       text={'Mobilité'} 
       color={colorStyle[0]}
-      icon={faPersonBiking}
+      icon={iconName[0]}
     />
     <ActivityCard
       onPress={() => navigation.navigate('Energy')}
       startColor={colorStyle[1]} 
       text={'Energie'} 
       color={colorStyle[1]} 
-      icon={faBolt}
+      icon={iconName[1]}
+      source={gifSource[2]}
     />
     <ActivityCard
         onPress={() => navigation.navigate('Food')}
         startColor={colorStyle[2]} 
         text={'Alimentation'} 
         color={colorStyle[2]} 
-        icon={faBurger}
+        icon={iconName[2]}
+        gifname={"Burger"}
     />
   </View>
   )
