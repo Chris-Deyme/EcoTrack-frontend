@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Modal,
 } from "react-native";
 import React, { useState } from "react";
 import ActionCard from "../components/ActionCard";
@@ -15,6 +16,7 @@ import {
   faPersonWalking,
   faPlus,
   faBusSimple,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { useEffect } from "react";
@@ -23,36 +25,31 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function ActionScreen({ navigation }) {
   const category = useSelector((state) => state.category.value);
-  const user = useSelector((state)=> state.user.value)
+  const user = useSelector((state) => state.user.value);
   const colorStyle = ["#00B8FF", "#B78CFD", "#FCE340"];
-  const [counters, setCounters] = useState([0, 0, 0, 0, 0]);
   const [activities, setActivities] = useState([]);
-  
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const handleBoutonClick = (index) => {
-    const newCounters = [...counters];
-    newCounters[index] += 1;
-    setCounters(newCounters);
-    console.log(category);
+  const handleModal = () => {
+    setModalVisible(!modalVisible);
   };
 
   const handleAddPoints = (dataActivity) => {
-    console.log(dataActivity)
+    console.log(dataActivity);
     fetch(`http://172.20.10.2:3000/scores/updateScore/${user.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         scoreIncrement: dataActivity.dataPoints,
         carboneIncrement: dataActivity.dataCarbone,
-        user: user.id
+        user: user.id,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
-
+        setModalVisible(!modalVisible);
       });
-  }
+  };
 
   useEffect(() => {
     if (category.nameCategory === "Mobilité") {
@@ -64,9 +61,8 @@ export default function ActionScreen({ navigation }) {
         .then((data) => {
           console.log("Hello", data);
           setActivities(data);
-          console.log('Comptage', activities.activities.length)
+          console.log("Comptage", activities.activities.length);
         });
-        
     } else if (category.nameCategory === "Food") {
       console.log("Category", category.nameCategory);
       fetch(
@@ -92,14 +88,16 @@ export default function ActionScreen({ navigation }) {
 
   let backColor = "";
   if (category.nameCategory === "Mobilité") {
-    backColor = "#00B8FF"
+    backColor = "#00B8FF";
   } else if (category.nameCategory === "Food") {
     backColor = "#FCE340";
   } else if (category.nameCategory === "Energie") {
     backColor = "#B78CFD";
   }
 
+  console.log("Hello", backColor);
   const allActivities = activities.activities?.map((data, i) => {
+    console.log('test', data.Icon)
     let cardColor = {};
     if (data.category === "Mobilité") {
       cardColor = "#00B8FF";
@@ -113,7 +111,8 @@ export default function ActionScreen({ navigation }) {
         <ActionCard
           startColor={cardColor}
           color={cardColor}
-          icon={faPersonWalking}
+          // icon = {data?.Icon}
+          style={[styles.actionCard, { icon: `${data?.Icon}` }]}
           text={data.name}
           // number={0}
           number={data.carbone}
@@ -123,7 +122,12 @@ export default function ActionScreen({ navigation }) {
           color={cardColor}
           startColor={cardColor}
           icon={faPlus}
-          onPress={() => handleAddPoints({ dataCarbone: data.carbone, dataPoints: data.points })}
+          onPress={() =>
+            handleAddPoints({
+              dataCarbone: data.carbone,
+              dataPoints: data.points,
+            })
+          }
         />
       </View>
     );
@@ -138,92 +142,30 @@ export default function ActionScreen({ navigation }) {
         >
           <FontAwesome name="chevron-left" size={24} color="black" />
         </TouchableOpacity>
-        <Text
-          style={{ paddingBottom: 60, fontSize: 24, height: 300 }} 
-        >
-          ActionScreen 
+        <Text style={{ paddingBottom: 60, fontSize: 24, height: 300 }}>
+          ActionScreen
         </Text>
       </SafeAreaView>
-      <Text style={styles.results} backgroundColor={backColor}>{activities.activities?.length} résultats</Text>
+      <Text style={styles.results} backgroundColor={backColor}>
+        {activities.activities?.length} résultats
+      </Text>
       <ScrollView contentContainerStyle={styles.cardContainer}>
         {allActivities}
       </ScrollView>
-      {/* <View style={styles.card}>
-			
-			<ActionCard 
-				startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faPersonWalking}
-				text={"Se déplacer à pied"}
-				// number={0}
-				number={counters[0]}
-			/>
-			<ShortButton 
-				color={"#00B8FF"}
-				icon={faPlus}
-				onPress={() => handleBoutonClick(0)}
-			/>
-		</View>
-	 	<View style={styles.card}>
-			<ActionCard 
-			startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faPersonBiking}
-				text={"Se déplacer à vélo"}
-				// number={0}
-				number={counters[1]}
-			/>
-			<ShortButton 
-				color={"#00B8FF"}
-				icon={faPlus}
-				onPress={() => handleBoutonClick(1)}
-			/>
-		</View>
-	 	<View style={styles.card}>
-			<ActionCard 
-			startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faTrain}
-				text={"Se déplacer en train"}
-				// number={0}
-				number={counters[2]}
-			/>
-			<ShortButton 
-				color={"#00B8FF"}
-				icon={faPlus}
-				onPress={() => handleBoutonClick(2)}
-			/>
-		</View>
-	 	<View style={styles.card}>
-			<ActionCard 
-			startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faCar}
-				text={"Se déplacer en voiture"}
-				// number={0}
-				number={counters[3]}
-			/>
-			<ShortButton 
-				color={"#00B8FF"}
-				icon={faPlus}
-				onPress={() => handleBoutonClick(3)}
-			/>
-		</View>
-	 	<View style={styles.card}>
-			<ActionCard 
-			startColor={"#00B8FF"}
-				color={"#00B8FF"}
-				icon={faBusSimple}
-				text={"Se déplacer en Bus"}
-				// number={0}
-				number={counters[4]}
-			/>
-			<ShortButton 
-				color={"#00B8FF"}
-				icon={faPlus}
-				onPress={() => handleBoutonClick(4)}
-			/>
-		</View> */}
+      <Modal visible={modalVisible} animationType="fade" transparent>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView} borderColor={backColor}>
+            <Text style={styles.text}>Votre score a été modifié !</Text>
+            <TouchableOpacity
+              onPress={() => handleModal()}
+              style={[styles.button, { backgroundColor: `${backColor}` }]}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.textReturn}>Retour</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -235,14 +177,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     // alignItems: "center",
     // justifyContent: "center",
-	
   },
   card: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     // height: 130,
-	width: "100%",
+    width: "100%",
   },
   backButton: {
     position: "absolute",
@@ -250,17 +191,17 @@ const styles = StyleSheet.create({
     left: 30,
   },
   cardContainer: {
-	backgroundColor: "white",
-	gap: 30,
-	paddingTop: 40,
-  paddingBottom: 40,
+    backgroundColor: "white",
+    gap: 30,
+    paddingTop: 40,
+    paddingBottom: 40,
   },
   header: {
     backgroundColor: "white",
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
-	height: "15%"
+    height: "15%",
   },
   results: {
     fontWeight: "bold",
@@ -268,6 +209,52 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 10,
     paddingTop: 10,
-    color: "white"
-  }
+    color: "white",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 15,
+    height: "16%",
+    width: "65%",
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 8,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderWidth: 3,
+    gap: 30,
+  },
+  button: {
+    width: 80,
+    borderRadius: 20,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalHead: {
+    height: "15",
+  },
+  modalText: {
+    alignItems: "center",
+    paddingTop: 10,
+    // height: 300
+  },
+  textReturn: {
+    fontSize: 12,
+    color: "black",
+  },
+  text: {
+    fontSize: 15,
+  },
 });
