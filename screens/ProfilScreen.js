@@ -3,10 +3,11 @@ import { View, Image, TouchableOpacity, StyleSheet, Alert, Text, Animated, Layou
 import * as ImagePicker from 'expo-image-picker';
 import LongButton from "../components/LongButton";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCog, faCamera, faTimes, faImage } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faCamera, faTimes, faImages, faImage } from '@fortawesome/free-solid-svg-icons';
 import { LineChart} from "react-native-chart-kit";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/user";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 if (
   Platform.OS === "android" &&
@@ -23,6 +24,7 @@ const ProfilScreen = ({navigation}) => {
   const [history, setHistory] = useState([45, 40, 70, 80, 50, 30, 10]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const user = useSelector((state) => state.user.value);
 
   const openDrawerAnimated = () => {
     Animated.spring(drawerAnimation, {
@@ -87,55 +89,32 @@ const ProfilScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* <TouchableOpacity onPress={openCamera} style={styles.profilePicContainer}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.profilePicContainer}>
         {image ? (
           <Image source={{ uri: image }} style={styles.profilePic} />
         ) : (
-          <FontAwesomeIcon icon={faCamera} size={24} style={styles.profilePic} />
+          <FontAwesomeIcon icon={faImage} size={24} style={styles.profilePic} />
         )}
-      </TouchableOpacity>
+      </View>
 
-      
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={openCamera} style={[styles.button, styles.buttonCamera]}>
+          <FontAwesomeIcon icon={faCamera} size={24} color={"white"} />
+          <Text style={styles.buttonText}>Prendre une photo</Text>
+        </TouchableOpacity>
 
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <LongButton onPress={() => pickImage()} text="Charger une image de la galerie"/>
-        
-    </View> */}
-    <TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.profilePicContainer}>
-        {image ? (
-          <Image source={{ uri: image }} style={styles.profilePic} />
-        ) : (
-          <FontAwesomeIcon icon={faCamera} size={24} />
-        )}
-      </TouchableOpacity>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => {
-          setIsModalVisible(!isModalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Button title="Prendre une photo" onPress={() => {
-              openCamera();
-              setIsModalVisible(false);
-            }} />
-            <Button title="Charger une image de la galerie" onPress={() => {
-              pickImage();
-              setIsModalVisible(false);
-            }} />
-            <Button title="Annuler" onPress={() => setIsModalVisible(false)} />
-          </View>
-        </View>
-      </Modal>
+        <TouchableOpacity onPress={pickImage} style={[styles.button, styles.buttonGallery]}>
+          <FontAwesomeIcon icon={faImage} size={24} color={"white"} />
+          <Text style={styles.buttonText}>Charger de la galerie</Text>
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity onPress={() => {}} style={styles.settingsIcon}>
         <FontAwesomeIcon icon={faCog} size={24} />
       </TouchableOpacity>
+
+      <Text style={styles.title}>Salut {user.username}</Text>
 
     <Text style={styles.historyTitle}>
         Historique des scores de la semaine
@@ -185,7 +164,7 @@ const ProfilScreen = ({navigation}) => {
 <TouchableOpacity onPress={toggleDrawer} style={styles.settingsIcon}>
         <FontAwesomeIcon icon={faCog} size={24} />
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -272,10 +251,11 @@ return (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 50,
     paddingHorizontal: 20,
+    backgroundColor: '#FFF',
   },
   drawerContainer: {
     flex: 1,
@@ -299,36 +279,63 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#41F67F",
   },
+  imageContainer: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    borderWidth: 4,
+    borderColor: "#41F67F",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   profilePic: {
     width: '100%',
     height: '100%',
+    borderRadius: 75,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '90%', // Utiliser un pourcentage de la largeur pour une meilleure réactivité
+    marginBottom: 20,
+    marginTop: 20, // Ajouter un espace au-dessus des boutons
+  },
+  button: {
+    paddingVertical: 12, // Un peu plus de padding vertical pour un toucher plus confortable
+    paddingHorizontal: 20,
+    borderRadius: 20, // Bordures arrondies pour un look plus moderne
+    flexDirection: 'row',
+    alignItems: 'center',
+    elevation: 3, // Ajouter une ombre sous Android
+    shadowColor: "#000", // Ombre pour iOS
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  buttonCamera: {
+    backgroundColor: "#41F67F",
+  },
+  buttonGallery: {
+    backgroundColor: "#085229",
+  },
+  buttonText: {
+    color: 'white',
+    marginLeft: 10,
   },
   settingsIcon: {
     position: 'absolute',
+    top: Platform.OS === 'ios' ? 40 : 20,
     right: 20,
-    top: 50,
-    padding: 10, // Espacement interne
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
+  title: {
+    fontSize: 22,
+    color: '#41F67F',
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   
   

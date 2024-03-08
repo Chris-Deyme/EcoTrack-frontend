@@ -45,7 +45,7 @@ export default function DashboardScreen() {
 
   useEffect(() => {
     console.log("Reduce", user.id);
-    fetch(`http://172.20.10.2:3000/scores/showScore/${user.id}`)
+    fetch(`http://172.20.10.13:3000/scores/showScore/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.userData?.score) {
