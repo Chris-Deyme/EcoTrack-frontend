@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
+import { FontAwesome } from "@expo/vector-icons";
 import tipsData from '../collections/ecoTips.json'
 
 export default function TipsScreen() {
@@ -9,10 +10,11 @@ export default function TipsScreen() {
   const [randomTip, setRandomTip] = useState('');
 
   useEffect(() => {
-
+    // Charger les tips depuis le fichier JOSN
     const loadTips = async () => {
       try {
         const tips = await tipsData;
+        // Récupérer un tips aléatoirement
         const randomIndex = Math.floor(Math.random() * tips.length);
         const randomTip = tips[randomIndex].texte;
         setRandomTip(randomTip);
@@ -23,30 +25,63 @@ export default function TipsScreen() {
     loadTips();
   }, []); 
 
+  // Fonction pour changer le tips qui est affiché
+  const changeTip = () => {
+    // Recharger un nouveau tips
+    const tips = tipsData;
+    const randomIndex = Math.floor(Math.random() * tips.length);
+    const newTip = tips[randomIndex].texte;
+    // Mettre à jour l'état avec le nouveau conseil
+    setRandomTip(newTip);
+  };
   
   return (
-    <View style={[styles.container,styles.tipsContainer]}>
-      <Text style={styles.tipsText}>{randomTip}</Text>
+    <View>
+    <Text style={styles.label}>TIPS</Text>
+    <Shadow distance={0.5} startColor={'#085229'} offset={[4, 5]}>
+      <View style={styles.tipsContainer}>
+        <ScrollView >
+          <View >
+              <Text style={styles.tips}>{randomTip}</Text>
+          </View>
+        </ScrollView>
+        <TouchableOpacity style={styles.reload} onPress={changeTip}>
+          <FontAwesome name="repeat" size={32} color="black" />
+        </TouchableOpacity>
+      </View>
+    </Shadow>
     </View>
   )
 }
 
 //  style={styles.tipsText}
-// tipsContainer: {width: "90%",height: 80}
 const styles = StyleSheet.create({
-   container: {
-		flex: 1,
-		backgroundColor: '#08522922',
-	   alignItems: 'center',
-	   justifyContent: 'center',
-      width: "90%",
-      height: 100,
-      borderRadius: 12,
-      borderWidth: 2,
-      borderColor: "#085229",
+  tipsContainer: {
+    backgroundColor: 'white',
+    width: 340,
+    height: 120,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#085229",
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    // width: "80%",
+    // height: 120,
+
 	},
    tipsText: {
       fontSize: 18,
       padding: 10,
-   }
+   },
+   reload: {
+    padding: 5,
+   },
+      label: {
+      // marginLeft: 10,
+      textAlign: "center",
+      fontSize: 12,
+   },
 });

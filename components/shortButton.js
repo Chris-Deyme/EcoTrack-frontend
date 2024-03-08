@@ -6,7 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export default function ShortButton({ onPress, icon, color }) {
    return (
       <>
-         <Shadow distance={0.5} startColor={'#085229ff'} offset={[4, 5]}>
+         <Shadow distance={0.5} startColor={'#000000FF'} offset={[4, 5]}>
             <TouchableOpacity
             style={
                { 
