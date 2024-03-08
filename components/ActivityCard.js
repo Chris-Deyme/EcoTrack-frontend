@@ -1,15 +1,8 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
-export default function activityCard({
-  onPress,
-  startColor,
-  color,
-  text,
-  icon,
-  borderColor,
-}) {
+export default function activityCard({ onPress, startColor, color, text, icon, borderColor, source }) {
   return (
     <>
       <Shadow distance={0.5} startColor={startColor} offset={[4, 5]}>
