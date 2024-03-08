@@ -70,7 +70,7 @@ function TabNavigator() {
       tabBarStyle: { backgroundColor: '#F5F5F5' },
       headerShown: false,
     })}>
-      <Tab.Screen name="Dashboard" component={DashboardScreen} />
+      <Tab.Screen name="Dashboard" component={DashboardScreen} options={{unmountOnBlur: true}} />
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Activities" component={ActivityScreen} />
       <Tab.Screen name="Profile" component={ProfilScreen} />
