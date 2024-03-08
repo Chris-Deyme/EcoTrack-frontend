@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function ActionCard({
   startColor,
@@ -29,7 +30,7 @@ export default function ActionCard({
               }}
             >
               <View style={styles.iconContainer}>
-                <FontAwesomeIcon icon={icon} size={48} color={color} />
+                <FontAwesome icon={icon} size={48} color={color} />
               </View>
             </TouchableOpacity>
           </Shadow>
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
   textContainer: {
     width: 180,
     height: "100%",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   iconContainer: {
     display: "flex",
