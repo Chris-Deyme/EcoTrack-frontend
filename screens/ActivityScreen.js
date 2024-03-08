@@ -11,7 +11,7 @@ export default function ActivityScreen({navigation}) {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("Dashboard")}
         style={styles.backButton}
       >
         <FontAwesome name="chevron-left" size={24} color="black" />

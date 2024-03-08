@@ -16,7 +16,7 @@ import SignupScreen from './screens/SignupScreen';
 import FormScreen from './screens/FormScreen'
 import EnergyScreen from './screens/EnergyScreen';
 import FoodScreen from './screens/FoodScreen';
-
+import PlacesScreen from './screens/PlacesScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer'
 import { faBicycle, faHouse, faLocationDot, faMapPin, faPersonBiking, faUserLarge, faBurger  } from '@fortawesome/free-solid-svg-icons';
@@ -46,12 +46,13 @@ function TabNavigator() {
         }else if (route.name === 'Profile') {
           iconName = faUserLarge
         }
+
         return <FontAwesomeIcon icon={iconName} size={size} color={color}/>
       },
       tabBarActiveTintColor: '#41F67F',
       tabBarInactiveTintColor: '#00000033',
       tabBarStyle: { backgroundColor: '#F5F5F5' },
-      headerShown: true,
+      headerShown: false,
     })}>
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
@@ -75,8 +76,10 @@ export default function App() {
         <Stack.Screen name="Form" component={FormScreen} />
         <Stack.Screen name="Food" component={FoodScreen} />
         <Stack.Screen name="Energy" component={EnergyScreen} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="Places" component={PlacesScreen} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>

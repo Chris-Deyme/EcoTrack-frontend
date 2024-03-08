@@ -17,6 +17,10 @@ export default function FormScreen({ navigation }) {
 
     const userToken = useSelector((state) => state.user.value.token);
 
+const [modalVisible, setModalVisible] = useState(false);
+const [modalMessage, setModalMessage] = useState('');
+
+
     const searchAddress = (query) => {
       if (query === "") {
           return;
@@ -55,38 +59,49 @@ export default function FormScreen({ navigation }) {
 
 
 
-    const handleNewStructureSubmit = () => {
-        fetch("http://172.20.10.2:3000/structures/newStructure", {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${userToken}`
-            },
-            body: JSON.stringify({
-                name: structureName,
-                category: structureCategory,
-                address: address,
+  const handleNewStructureSubmit = () => {
+    fetch("http://172.20.10.13:3000/structures/newStructure", {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: structureName,
+            category: structureCategory,
+            address: {
+                street: address,
                 city: city,
-                postalCode: postalCode,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.result) {
-                console.log("Structure ajoutée avec succès");
-            } else {
-                console.log("Erreur lors de l'ajout de la structure", data.error);
-            }
-        })
-        .catch(error => {
-            console.error("Erreur lors de l'envoi de la requête", error);
-        });
-    };
+                postcode: postalCode,
+            },
+            user: userToken // Assurez-vous que c'est bien l'ID de l'utilisateur
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.result) {
+            // Définition du message de succès
+            setModalMessage("Structure créée avec succès");
+            // Redirection vers la page MapScreen
+            navigation.navigate('MapScreen'); // Assurez-vous que 'MapScreen' est le bon nom de votre écran de carte
+        } else {
+            // Définition du message d'erreur
+            setModalMessage("Erreur lors de l'ajout de la structure : " + data.error);
+            // Affichage de la modale d'erreur
+            setModalVisible(true);
+        }
+    })
+    .catch(error => {
+        // Gestion des erreurs de réseau ou autres erreurs
+        setModalMessage("Erreur lors de l'envoi de la requête : " + error);
+        setModalVisible(true); // Afficher la modale d'erreur
+    });
+};
+
 
     return (
         <AutocompleteDropdownContextProvider>
             <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <TouchableOpacity onPress={() => navigation.navigate("Map")} style={styles.backButton}>
+                <TouchableOpacity onPress={() => navigation.navigate("TabNavigator")} style={styles.backButton}>
                     <FontAwesome name="chevron-left" size={24} color="black" />
                 </TouchableOpacity>
 
@@ -135,23 +150,27 @@ export default function FormScreen({ navigation }) {
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Adresse</Text>
                         <AutocompleteDropdown
-    dataSet={dataSet}
-    onChangeText={searchAddress}
-    onSelectItem={(item) => item && handleSelectAddress(item)}
-    textInputProps={{
-        placeholder: "Tapez pour rechercher une adresse...",
-        autoCorrect: false,
-        style: styles.input
-    }}
-/>
+                        direction={Platform.select({ ios: 'down' })}
+                        dataSet={dataSet}
+                        onChangeText={searchAddress}
+                        onSelectItem={(item) => item && handleSelectAddress(item)}
+                        debounce={600}
+                        textInputProps={{
+                        placeholder: "Tapez pour rechercher une adresse...",
+                        autoCorrect: false,
+                          }}
+                          inputContainerStyle={styles.input}
+
+                    />
 
                     </View>
 
                     <TextInput
                         style={styles.input}
-                        placeholder="Ville"
-                        onChangeText={setCity}
-                        value={city}
+                        placeholder="Adresse"
+                        onChangeText={setAddress}
+                        value={address}
+                        editable={false}
                     />
 
 <TextInput
@@ -160,8 +179,34 @@ export default function FormScreen({ navigation }) {
                         value={postalCode}
                         editable={false} // Empêcher la modification manuelle
                     />
+                     <TextInput
+                        style={styles.input}
+                        placeholder="Ville"
+                        onChangeText={setCity}
+                        value={city}
+                        editable={false}
+                    />
 
                     <LongButton color={"#41F67F"} onPress={handleNewStructureSubmit} text="Ajouter une structure" />
+                    <Modal
+    animationType="slide"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => {
+        setModalVisible(!modalVisible);
+    }}
+>
+    <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+            <Text style={styles.modalText}>{modalMessage}</Text>
+            <Button
+                title="Fermer"
+                onPress={() => setModalVisible(!modalVisible)}
+            />
+        </View>
+    </View>
+</Modal>
+
                 </View>
             </KeyboardAvoidingView>
         </AutocompleteDropdownContextProvider>
@@ -194,6 +239,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingLeft: 10,
         marginTop: 5,
+        justifyContent: 'center', // Ajouter ceci pour centrer le contenu verticalement
+        alignItems: 'center', // Ajouter ceci pour centrer le contenu horizontalement
     },
     inputText: {
         fontSize: 16,

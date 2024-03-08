@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Alert, Text, Animated, LayoutAnimation, UIManager, Platform, Button, Dimensions } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, Alert, Text, Animated, LayoutAnimation, UIManager, Platform, Button, Dimensions, Modal } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import LongButton from "../components/LongButton";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCog, faCamera, faTimes, faImage } from '@fortawesome/free-solid-svg-icons';
 import { LineChart} from "react-native-chart-kit";
@@ -19,10 +20,8 @@ const ProfilScreen = ({navigation}) => {
   const [image, setImage] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const drawerAnimation = useRef(new Animated.Value(-220)).current;
-  const [history, setHistory] = useState([10, 20, 30, 40, 50, 60, 70]);
-
-
-
+  const [history, setHistory] = useState([45, 40, 70, 80, 50, 30, 10]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
 
   const openDrawerAnimated = () => {
@@ -89,7 +88,7 @@ const ProfilScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={openCamera} style={styles.profilePicContainer}>
+      {/* <TouchableOpacity onPress={openCamera} style={styles.profilePicContainer}>
         {image ? (
           <Image source={{ uri: image }} style={styles.profilePic} />
         ) : (
@@ -97,11 +96,46 @@ const ProfilScreen = ({navigation}) => {
         )}
       </TouchableOpacity>
 
+      
+
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <TouchableOpacity onPress={() => pickImage()} style={{backgroundColor:"red", padding:30}}>
-        <Text>Pick an image from camera roll</Text>
-        </TouchableOpacity>
-    </View>
+      <LongButton onPress={() => pickImage()} text="Charger une image de la galerie"/>
+        
+    </View> */}
+    <TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.profilePicContainer}>
+        {image ? (
+          <Image source={{ uri: image }} style={styles.profilePic} />
+        ) : (
+          <FontAwesomeIcon icon={faCamera} size={24} />
+        )}
+      </TouchableOpacity>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => {
+          setIsModalVisible(!isModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Button title="Prendre une photo" onPress={() => {
+              openCamera();
+              setIsModalVisible(false);
+            }} />
+            <Button title="Charger une image de la galerie" onPress={() => {
+              pickImage();
+              setIsModalVisible(false);
+            }} />
+            <Button title="Annuler" onPress={() => setIsModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
+
+      <TouchableOpacity onPress={() => {}} style={styles.settingsIcon}>
+        <FontAwesomeIcon icon={faCog} size={24} />
+      </TouchableOpacity>
 
     <Text style={styles.historyTitle}>
         Historique des scores de la semaine
@@ -114,13 +148,13 @@ const ProfilScreen = ({navigation}) => {
         width={Dimensions.get("window").width - 16}
         height={220}
         chartConfig={{
-          backgroundColor: "#e26a00",
-          backgroundGradientFrom: "#fb8c00",
-          backgroundGradientTo: "#ffa726",
+          backgroundColor: "#41F67F",
+          backgroundGradientFrom: "#085229",
+          backgroundGradientTo: "#41F67F",
           decimalPlaces: 2,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           style: {
-            borderRadius: 16,
+            borderRadius: 12,
           },
         }}
         bezier
@@ -129,6 +163,9 @@ const ProfilScreen = ({navigation}) => {
           borderRadius: 16,
         }}
       />
+
+<LongButton color={"#41F67F"} onPress={() => navigation.navigate("Places")} text="Voir mes structures" />
+
 
 
       <Animated.View
@@ -243,23 +280,58 @@ const styles = StyleSheet.create({
   drawerContainer: {
     flex: 1,
     position: "absolute",
-    height: "110%",
-    backgroundColor: "black",
-    width: 220, // Assurez-vous que cela correspond à la valeur initiale dans useRef
+    top: 0,
+    left: 0,
+    height: "100%",
+    backgroundColor: "#FFF", // Fond blanc pour le tiroir
+    width: 220, // Largeur du tiroir
+    borderWidth: 2,
+    borderColor: "#41F67F", // Bordure verte
+    zIndex: 1, // Assurez-vous que le tiroir est bien au-dessus des autres éléments
   },
   profilePicContainer: {
-    alignSelf: 'flex-start',
-  },
-  profilePic: {
     width: 100,
     height: 100,
     borderRadius: 50,
+    justifyContent: 'center', // Centre le contenu verticalement
+    alignItems: 'center', // Centre le contenu horizontalement
+    overflow: 'hidden', // Empêche l'image de déborder
+    borderWidth: 2,
+    borderColor: "#41F67F",
+  },
+  profilePic: {
+    width: '100%',
+    height: '100%',
   },
   settingsIcon: {
     position: 'absolute',
     right: 20,
     top: 50,
+    padding: 10, // Espacement interne
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  
+  
 });
 
 export default ProfilScreen;

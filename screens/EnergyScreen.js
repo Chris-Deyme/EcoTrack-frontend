@@ -18,13 +18,13 @@ export default function ActionScreen({navigation}) {
   return (
     <View style={styles.container}>
 		<TouchableOpacity
-        onPress={() => navigation.navigate("Activity")}
+        onPress={() => navigation.navigate("TabNavigator")}
         style={styles.backButton}
       >
         <FontAwesome name="chevron-left" size={24} color="black" />
       </TouchableOpacity>
 		<Text 
-			onPress={() => navigation.navigate('Activity')}
+			onPress={() => navigation.navigate('TabNavigator')}
 			style={{paddingBottom: 60, fontSize: 24}}
 		>ActionScreen</Text>
 	 	<View style={styles.card}>

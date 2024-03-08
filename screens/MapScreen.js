@@ -219,9 +219,6 @@ export default function MapScreen({ navigation }) {
   onChangeText={getSuggestions}
   onSelectItem={onSelectItem}
   debounce={600}
-  renderItem={(item, text) => (
-    <Text style={styles.suggestionItem}>{item.title}</Text>
-  )}
   textInputProps={{
     placeholder: "Rechercher une structure",
   }}
