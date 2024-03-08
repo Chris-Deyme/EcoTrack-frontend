@@ -15,7 +15,7 @@ export default function FormScreen({ navigation }) {
     const [isPickerVisible, setPickerVisible] = useState(false);
     const [dataSet, setDataSet] = useState([]);
 
-    const userToken = useSelector((state) => state.user.value.token);
+    const user = useSelector((state) => state.user.value);
 
 const [modalVisible, setModalVisible] = useState(false);
 const [modalMessage, setModalMessage] = useState('');
@@ -60,6 +60,7 @@ const [modalMessage, setModalMessage] = useState('');
 
 
   const handleNewStructureSubmit = () => {
+    console.log()
     fetch("http://172.20.10.13:3000/structures/newStructure", {
         method: "POST",
         headers: { 
@@ -68,21 +69,23 @@ const [modalMessage, setModalMessage] = useState('');
         body: JSON.stringify({
             name: structureName,
             category: structureCategory,
-            address: {
+         
                 street: address,
                 city: city,
                 postcode: postalCode,
-            },
-            user: userToken // Assurez-vous que c'est bien l'ID de l'utilisateur
+
+            token: user.token,
+            user: user.id
+             // Assurez-vous que c'est bien l'ID de l'utilisateur
         }),
     })
     .then(response => response.json())
     .then(data => {
+console.log("Hello", data)
         if (data.result) {
-            // Définition du message de succès
             setModalMessage("Structure créée avec succès");
             // Redirection vers la page MapScreen
-            navigation.navigate('MapScreen'); // Assurez-vous que 'MapScreen' est le bon nom de votre écran de carte
+            navigation.navigate('Map'); // Assurez-vous que 'MapScreen' est le bon nom de votre écran de carte
         } else {
             // Définition du message d'erreur
             setModalMessage("Erreur lors de l'ajout de la structure : " + data.error);
@@ -168,7 +171,7 @@ const [modalMessage, setModalMessage] = useState('');
                     <TextInput
                         style={styles.input}
                         placeholder="Adresse"
-                        onChangeText={setAddress}
+                        onChangeText={(value) => setAddress(value)}
                         value={address}
                         editable={false}
                     />
@@ -177,6 +180,7 @@ const [modalMessage, setModalMessage] = useState('');
                         style={styles.input}
                         placeholder="Code Postal"
                         value={postalCode}
+                        onChangeText={setPostalCode}
                         editable={false} // Empêcher la modification manuelle
                     />
                      <TextInput
@@ -187,7 +191,7 @@ const [modalMessage, setModalMessage] = useState('');
                         editable={false}
                     />
 
-                    <LongButton color={"#41F67F"} onPress={handleNewStructureSubmit} text="Ajouter une structure" />
+                    <LongButton color={"#41F67F"} onPress={() => handleNewStructureSubmit()} text="Ajouter une structure" />
                     <Modal
     animationType="slide"
     transparent={true}

@@ -38,7 +38,7 @@ export default function ActionScreen({ navigation }) {
 
   const handleAddPoints = (dataActivity) => {
     console.log(dataActivity)
-    fetch(`http://172.20.10.2:3000/scores/updateScore/${user.id}`, {
+    fetch(`http://172.20.10.13:3000/scores/updateScore/${user.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -58,7 +58,7 @@ export default function ActionScreen({ navigation }) {
     if (category.nameCategory === "Mobilité") {
       console.log("Category", category.nameCategory);
       fetch(
-        `http://172.20.10.2:3000/activities/showActivity/${category.nameCategory}`
+        `http://172.20.10.13:3000/activities/showActivity/${category.nameCategory}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -70,7 +70,7 @@ export default function ActionScreen({ navigation }) {
     } else if (category.nameCategory === "Food") {
       console.log("Category", category.nameCategory);
       fetch(
-        `http://172.20.10.2:3000/activities/showActivity/${category.nameCategory}`
+        `http://172.20.10.13:3000/activities/showActivity/${category.nameCategory}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -80,7 +80,7 @@ export default function ActionScreen({ navigation }) {
     } else if (category.nameCategory === "Energie") {
       console.log("Category", category.nameCategory);
       fetch(
-        `http://172.20.10.2:3000/activities/showActivity/${category.nameCategory}`
+        `http://172.20.10.13:3000/activities/showActivity/${category.nameCategory}`
       )
         .then((response) => response.json())
         .then((data) => {

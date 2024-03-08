@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
-const StructuresScreen = () => {
+const StructuresScreen = ({navigation}) => {
   // Données de structures simulées
   const structures = [
     { id: 1, name: 'Structure 1' },
@@ -18,13 +18,16 @@ const StructuresScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate("TabNavigator")} style={styles.backButton}>
+                    <FontAwesome name="chevron-left" size={24} color="black" />
+                </TouchableOpacity>
       <Text style={styles.title}>Mes Structures</Text>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {structures.map((structure) => (
           <View key={structure.id} style={styles.card}>
             <Text style={styles.name}>{structure.name}</Text>
             <TouchableOpacity onPress={() => handleDelete(structure.id)}>
-              <FontAwesome name="trash" size={24} color="#ec6e5b" />
+              <FontAwesome name="trash" size={24} color="#41F67F" />
             </TouchableOpacity>
           </View>
         ))}
@@ -69,6 +72,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
   },
+  backButton: {
+    position: "absolute",
+    top: 60,
+    left: 30,
+},
 });
 
 export default StructuresScreen;

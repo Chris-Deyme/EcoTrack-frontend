@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect, useCallback } from 'react';
-import { StyleSheet, View, Dimensions, Text, Alert, Modal, TouchableOpacity, ScrollView, Button, TextInput, Platform } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Alert, SafeAreaView, Modal, TouchableOpacity, ScrollView, Button, TextInput, Platform } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import LongButton from "../components/LongButton";
@@ -146,6 +146,7 @@ export default function MapScreen({ navigation }) {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [places, setPlaces] = useState([]);
 
 
   useEffect(() => {
@@ -161,7 +162,15 @@ export default function MapScreen({ navigation }) {
     })();
   }, []);
 
-
+  useEffect(() => {
+    fetch('http://172.20.10.13:3000/structures/showStructure/')
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+        console.log(SetPlaces);}
+        
+      });
+  }, []);
 
   const getSuggestions = useCallback(async q => {
     const filterToken = q.toLowerCase()
@@ -210,9 +219,12 @@ export default function MapScreen({ navigation }) {
 
   return (
     <AutocompleteDropdownContextProvider>
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    <Text style={styles.title}>Mes Structures</Text>
       <View style={styles.inputContainer}>
+      <View style={styles.labelContainer} >
       <Text style={styles.label}>Rechercher</Text>
+      </View>
       <AutocompleteDropdown
   direction={Platform.select({ ios: 'down' })}
   dataSet={suggestionsList}
@@ -224,17 +236,7 @@ export default function MapScreen({ navigation }) {
   }}
   inputContainerStyle={styles.input}
   suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
-/>
-
-
-
-{/* <ShortButton 
-          color={"#41F67F"} 
-          onPress={() => {navigation.navigate('Auto') }} 
-          text="Ajouter un point" 
-        /> */}
-        
-      
+/>    
       </View>
       
       {/* Le Modal reste inchangé */}
@@ -242,6 +244,7 @@ export default function MapScreen({ navigation }) {
       <MapView
         style={styles.map}
         region={mapRegion}
+        mapType={Platform.OS === 'ios' ? 'hybridFlyover' : 'hybrid'}
         initialRegion={{
           latitude: 48.853, // Default to Paris if no location
           longitude: 2.349,
@@ -279,7 +282,7 @@ export default function MapScreen({ navigation }) {
     <View style={styles.buttonContainer}>
     <LongButton color={"#41F67F"} onPress={() => navigation.navigate('Form')} text="Ajouter une structure" />  
     </View>
-     </View>
+     </SafeAreaView>
      </AutocompleteDropdownContextProvider>
   );
 }
@@ -305,6 +308,8 @@ const styles = StyleSheet.create({
  container: {
     flex: 1,
     backgroundColor: '#fff',
+    alignItems: 'center',
+
   },
   topBar: {
     flexDirection: 'row',
@@ -321,10 +326,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10
+    marginTop: 0,
+    marginBottom: 10,
+    alignItems :'center'
    },
    label: {
     fontSize: 10,
@@ -389,5 +393,16 @@ const styles = StyleSheet.create({
     fontSize: 16, // Taille de police adaptée
     marginVertical: 2, // Espacement vertical pour séparer les éléments
   },
+  labelContainer: {
+    width: 288
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 20,
+    color: '#085229',
+    fontFamily: 'Poppins'
+  } 
   
 });
