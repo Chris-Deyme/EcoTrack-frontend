@@ -3,49 +3,51 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import { FontAwesome } from "@expo/vector-icons";
-import tipsData from '../collections/ecoTips.json'
+// import tipsData from '../collections/ecoTips.json'
 
 export default function TipsScreen() {
 
   const [randomTip, setRandomTip] = useState('');
 
-  useEffect(() => {
-    // Charger les tips depuis le fichier JOSN
-    const loadTips = async () => {
-      try {
-        const tips = await tipsData;
-        // Récupérer un tips aléatoirement
-        const randomIndex = Math.floor(Math.random() * tips.length);
-        const randomTip = tips[randomIndex].texte;
-        setRandomTip(randomTip);
-      } catch (error) {
-        console.error('Erreur lors du chargement des conseils:', error);
-      }
-    };
-    loadTips();
-  }, []); 
+  // useEffect(() => {
+  //   fetch(`http://172.20.10.4:3000/tips/test`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data.tip[0].texte);
+  //       setRandomTip(data.tip[0].texte)
+  //     });
+  // }, []); 
 
-  // Fonction pour changer le tips qui est affiché
-  const changeTip = () => {
-    // Recharger un nouveau tips
-    const tips = tipsData;
-    const randomIndex = Math.floor(Math.random() * tips.length);
-    const newTip = tips[randomIndex].texte;
-    // Mettre à jour l'état avec le nouveau conseil
-    setRandomTip(newTip);
+  const getRandomTip = () => {
+    fetch(`http://172.20.10.4:3000/tips/test`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.tip[0].texte);
+        const tip = data.tip[0].texte;
+        setRandomTip(tip);
+
+      })
+  }
+  useEffect(() => {
+    getRandomTip();
+  }, []);
+
+   const tipchange = () => {
+    getRandomTip();
   };
+
   
   return (
     <View>
     <Text style={styles.label}>TIPS</Text>
     <Shadow distance={0.5} startColor={'#085229'} offset={[4, 5]}>
       <View style={styles.tipsContainer}>
-        <ScrollView >
-          <View >
+        <ScrollView>
+          <View>
               <Text style={styles.tips}>{randomTip}</Text>
           </View>
         </ScrollView>
-        <TouchableOpacity style={styles.reload} onPress={changeTip}>
+        <TouchableOpacity onPress={tipchange} style={styles.reload}>
           <FontAwesome name="repeat" size={32} color="black" />
         </TouchableOpacity>
       </View>
