@@ -27,8 +27,13 @@ export default function SignupScreen({ navigation }) {
   const [signUpPassword, setSignUpPassword] = useState("");
   const [error, setError] = useState("");
 
+    // const signinFetch = "172.20.10.2";
+  // const signinFetch = "172.20.10.3";
+  const signupFetch = "192.168.1.20";
+
   const handleRegister = () => {
-    fetch("http://172.20.10.13:3000/users/signup", {
+    // fetch("http://172.20.10.13:3000/users/signup", {
+    fetch(`http://${signupFetch}:3000/users/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

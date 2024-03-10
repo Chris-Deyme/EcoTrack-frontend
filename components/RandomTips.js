@@ -9,6 +9,10 @@ export default function TipsScreen() {
 
   const [randomTip, setRandomTip] = useState('');
 
+  // const signinFetch = "172.20.10.2";
+  // const signinFetch = "172.20.10.3";
+  const tipsFetch = "192.168.1.20";
+
   // useEffect(() => {
   //   fetch(`http://172.20.10.4:3000/tips/test`)
   //     .then((response) => response.json())
@@ -18,21 +22,24 @@ export default function TipsScreen() {
   //     });
   // }, []); 
 
+  // Récupération des tips via le fetch vers la route en backline
   const getRandomTip = () => {
-    fetch(`http://172.20.10.4:3000/tips/test`)
+    fetch(`http://${tipsFetch}:3000/tips/test`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data.tip[0].texte);
         const tip = data.tip[0].texte;
         setRandomTip(tip);
-
       })
   }
+
+  // useEffect pour initialiser le composant au chargement
   useEffect(() => {
     getRandomTip();
   }, []);
 
-   const tipchange = () => {
+  // Changement du tips onPress fontAwesome (peut-être enlevé)
+  const tipchange = () => {
     getRandomTip();
   };
 
