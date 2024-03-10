@@ -12,6 +12,7 @@ import {
   Platform,
 } from "react-native";
 import LongButton from "../components/LongButton";
+import EcotrackLogo from "../components/EcotrackLogo"
 import { FontAwesome } from "@expo/vector-icons";
 import { login } from "../reducers/user";
 
@@ -52,6 +53,8 @@ export default function SigninScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      
+      {/* Bouton de retour en haut à gauche */}
       <TouchableOpacity
         onPress={() => navigation.navigate("Home")}
         style={styles.backButton}
@@ -59,11 +62,8 @@ export default function SigninScreen({ navigation }) {
         <FontAwesome name="chevron-left" size={24} color="black" />
       </TouchableOpacity>
 
-      <Image
-        style={styles.image}
-        source={require("../assets/Ecotrack-logo.png")}
-      />
-      <Text style={styles.title}>ECOTRACK</Text>
+      {/* Logo du composant */}
+      <EcotrackLogo />
       <Text>Connexion</Text>
       <View style={styles.registerContainer}>
         <View style={styles.inputContainer}>

@@ -15,8 +15,8 @@ export default function QuestComponent() {
    const handleQuest = () => {
       // Inverser l'état actuel de la quête
       setQuestCompleted(!questCompleted); 
-      // Si la quête n'est pas encore réalisée
-
+      
+      // Si la quête n'est pas encore réalisée (on ajoute l'attribut disable au TouchableOpacity)
       if (questCompleted) {
          return (
             <FontAwesome name="check" size={32} color="black" />

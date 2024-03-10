@@ -10,6 +10,9 @@ import {
 } from "react-native";
 import React from "react";
 import LongButton from "../components/LongButton";
+import EcotrackLogo from "../components/EcotrackLogo"
+import InputComponent from "../components/InputComponent"
+
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
@@ -71,12 +74,12 @@ export default function SignupScreen({ navigation }) {
       >
         <FontAwesome name="chevron-left" size={24} color="black" />
       </TouchableOpacity>
-      <Image
-        style={styles.image}
-        source={require("../assets/Ecotrack-logo.png")}
-      />
-      <Text style={styles.title}>ECOTRACK</Text>
+
+      {/* Logo du composant */}
+      <EcotrackLogo />
+
       <Text>S'inscrire</Text>
+
       <View style={styles.registerContainer}>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Nom d'utilisateur</Text>
