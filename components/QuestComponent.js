@@ -6,11 +6,34 @@ import { FontAwesome } from "@expo/vector-icons";
 
 export default function QuestComponent() {
 
+   // state de récupération random d'une quête
+   const [randomQuest, setRandomQuest] = useState('')
    // state de validation de la quête
    const [questCompleted, setQuestCompleted] = useState(false);
    // state d'incrémentation du compteur
    const [counter, setCounter] = useState(0);
 
+  /** adresses de fetch */
+  // const signinFetch = "172.20.10.2";
+  // const signinFetch = "172.20.10.3";
+   const questFetch = "192.168.1.20";
+
+   const getRandomQuest = () => {
+      fetch(`http://${questFetch}:3000/quests/test`)
+      .then((response) => response.json())
+      .then((data) => {
+         const quest = data.quest[0].description
+         setRandomQuest(quest)
+      })
+   }
+
+   // useEffect pour initialiser le composnt au chargement
+   useEffect(() => {
+      getRandomQuest();
+   }, []);
+
+
+   /** MÉCANIQUE POUR AFFICHER LES POINTS SI LA QUÊTE EST RÉALISÉE */
    // Si la quête est réalisée
    const handleQuest = () => {
       // Inverser l'état actuel de la quête
@@ -36,7 +59,7 @@ export default function QuestComponent() {
       <Shadow distance={0.5} startColor={'#41F67F'} offset={[4,5]}>
          <View style={styles.container}>
             <View style={styles.QuestContainer}>
-               <Text style={styles.tips}>Ne marchez pas sur la queue du chat</Text>
+               <Text style={styles.tips}>{randomQuest}</Text>
             </View>
             <View style={styles.rightSide}>
                <TouchableOpacity style={styles.reload} onPress={handleQuest} disabled={questCompleted}>

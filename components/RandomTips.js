@@ -3,24 +3,15 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import { FontAwesome } from "@expo/vector-icons";
-// import tipsData from '../collections/ecoTips.json'
 
 export default function TipsScreen() {
 
   const [randomTip, setRandomTip] = useState('');
 
+  /** adresses de fetch */
   // const signinFetch = "172.20.10.2";
   // const signinFetch = "172.20.10.3";
   const tipsFetch = "192.168.1.20";
-
-  // useEffect(() => {
-  //   fetch(`http://172.20.10.4:3000/tips/test`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.tip[0].texte);
-  //       setRandomTip(data.tip[0].texte)
-  //     });
-  // }, []); 
 
   // Récupération des tips via le fetch vers la route en backline
   const getRandomTip = () => {
