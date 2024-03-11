@@ -47,7 +47,7 @@ export default function QuestComponent() {
       setCounter(counter + 50); // Incrémenter le compteur
 
       // Mettre à jour le score de l'utilisateur
-      fetch(`http://${IP_ADRESS}/updateScore/${users.id}`, {
+      fetch(`${IP_ADRESS}/updateScore/${users.id}`, {
         method: "PUT",
         header: {
           "content-Type": "application/json",

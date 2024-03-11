@@ -79,7 +79,7 @@ export default function ActionScreen({ navigation }) {
       category.nameCategory === "Énergie"
     ) {
       fetch(
-        `http://172.20.10.2:3000/activities/showActivity/${category.nameCategory}`
+        `${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`
       )
         .then((response) => response.json())
         .then((data) => {
