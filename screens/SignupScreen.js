@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
 import { login } from "../reducers/user";
+import config from "../config";
 
 export default function SignupScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -27,13 +28,12 @@ export default function SignupScreen({ navigation }) {
   const [signUpPassword, setSignUpPassword] = useState("");
   const [error, setError] = useState("");
 
-  // const IP_ADDRESS = "172.20.10.2:3000";
-  // const IP_ADDRESS = "172.20.10.3:3000";
-  // const IP_ADDRESE = "172.20.10.13:3000";
-  const IP_ADDRESS = "192.168.1.20:3000";
+  /** adresses de fetch */
+  const IP_ADDRESS = "http://172.20.10.4:3000";
 
   const handleRegister = () => {
-    fetch(`http://${IP_ADDRESS}/users/signup`, {
+    fetch(`${config.IP_ADDRESS}/users/signup`, 
+    {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

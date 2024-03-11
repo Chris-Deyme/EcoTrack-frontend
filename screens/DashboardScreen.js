@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LineChart, BarChart } from "react-native-chart-kit";
 import moment from "moment";
 import { addScoreToStore } from "../reducers/user";
+import config from "../config";
 
 export default function DashboardScreen() {
   // const [score, setScore] = useState(0);
@@ -44,13 +45,11 @@ export default function DashboardScreen() {
   // }, []);
 
   /** adresses de fetch */
-  // const IP_ADDRESS = "172.20.10.2:3000";
-  // const IP_ADDRESS = "172.20.10.3:3000";
-  const IP_ADDRESS = "192.168.1.20:3000";
+  const IP_ADDRESS = "http://172.20.10.4:3000";
 
   useEffect(() => {
     console.log("Reduce", user.id);
-    fetch(`http://${IP_ADDRESS}/scores/showScore/${user.id}`)
+    fetch(`${config.IP_ADDRESS}/scores/showScore/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.userData?.score) {

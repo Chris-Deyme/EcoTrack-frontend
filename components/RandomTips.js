@@ -4,18 +4,18 @@ import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-nati
 import { Shadow } from 'react-native-shadow-2';
 import { FontAwesome } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import config from "../config"
 
 export default function TipsScreen() {
   const [randomTip, setRandomTip] = useState("");
 
   /** adresses de fetch */
-  // const IP_ADDRESS = "192.168.1.20:3000";
-  // const IP_ADDRESS = "192.168.1.20:3000";
-  const IP_ADDRESS = "http://192.168.1.20:3000";
+  const IP_ADDRESS = "http://172.20.10.4:3000";
 
   // Récupération des tips via le fetch vers la route en backline
   const getRandomTip = () => {
-    fetch(`${IP_ADDRESS}/tips/test`)
+    fetch(`${config.IP_ADDRESS}/tips/test`)
+    // fetch(`${IP_ADDRESS}/tips/test`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data.tip[0].texte);
