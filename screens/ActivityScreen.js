@@ -22,7 +22,7 @@ import InputComponent from "../components/InputComponent";
 // startColor, color, text, name
 // <FontAwesomeIcon icon="mug-saucer" />
 export default function ActivityScreen({ navigation }) {
-  const colorStyle = ["#00B8FF", "#B78CFD", "#FCE340"];
+  const colorStyle = ["#00B8FF", "#B78CFD", "#FF439D"];
   const dispatch = useDispatch();
 
   const handleNavMobilité = () => {
@@ -31,12 +31,12 @@ export default function ActivityScreen({ navigation }) {
   };
 
   const handleNavAlimentation = () => {
-    dispatch(addCategoryToStore("Food"));
+    dispatch(addCategoryToStore("Alimentation"));
     navigation.navigate("Action");
   };
 
   const handleNavEnergie = () => {
-    dispatch(addCategoryToStore("Energie"));
+    dispatch(addCategoryToStore("Énergie"));
     navigation.navigate("Action");
   };
 
@@ -57,7 +57,7 @@ export default function ActivityScreen({ navigation }) {
         <ActivityCard
           onPress={() => handleNavEnergie()}
           startColor={colorStyle[1]}
-          text={"Energie"}
+          text={"Énergie"}
           color={colorStyle[1]}
           icon={faBolt}
         />

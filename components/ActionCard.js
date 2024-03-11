@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Shadow } from "react-native-shadow-2";
-import { FontAwesome } from "@expo/vector-icons";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus, faLeaf, faSeedling } from "@fortawesome/free-solid-svg-icons";
 
 export default function ActionCard({
   startColor,
@@ -10,47 +10,40 @@ export default function ActionCard({
   text,
   points,
   number,
+  textColor
 }) {
   return (
-    <>
-      <View style={styles.card}>
-        {/* <View style={styles.shadow}> */}
-        <View>
-          <Shadow distance={0.5} startColor={startColor} offset={[4, 5]}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "white",
-                width: 103,
-                height: 103,
-                padding: 10,
-                borderRadius: 12,
-                justifyContent: "center",
-                borderWidth: 2,
-                borderColor: color,
-              }}
-            >
-              <View style={styles.iconContainer}>
-                {/* <FontAwesome icon={icon} size={48} color={color} /> */}
-                <Ionicons icon={icon} size={48} color={color} />
-              </View>
-            </TouchableOpacity>
-          </Shadow>
-        </View>
-        <View style={styles.textContainer}>
-          <View style={styles.titleAndScore}>
-            <Text style={styles.title}>{text}</Text>
-            <Text style={styles.score}>{points}</Text>
+    <View style={styles.card}>
+      <Shadow distance={0.5} startColor={startColor} offset={[4, 5]}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "white",
+            width: 103,
+            height: 103,
+            padding: 10,
+            borderRadius: 12,
+            justifyContent: "center",
+            borderWidth: 2,
+            borderColor: color,
+          }}
+        >
+          <View style={styles.iconContainer}>
+            <FontAwesomeIcon icon={icon} size={48} color={color} />
           </View>
-          <Text style={styles.number}>
-            {number}kg Co<Text style={styles.subscript}>2</Text>
-          </Text>
+        </TouchableOpacity>
+      </Shadow>
+      <View style={styles.textContainer}>
+        <View style={styles.titleAndScore}>
+          <Text style={styles.title}>{text}</Text>
+          <Text style={styles.score}>Points rapportés : {points}</Text>
         </View>
+        <Text style={[styles.number, { color: textColor }]} ><FontAwesomeIcon icon={faSeedling} size={14} color={color} /> {number}kg de Co<Text style={[styles.subscript, { color: textColor }]} >2</Text>
+        </Text>
       </View>
-    </>
+    </View>
   );
 }
 
-// style={styles.iconContainer}
 const styles = StyleSheet.create({
   card: {
     width: "80%",
@@ -60,18 +53,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   title: {
-    marginLeft: 15,
+    marginLeft: 5,
     fontSize: 15,
     fontWeight: "bold",
   },
   number: {
-    fontSize: 15,
-    marginLeft: 15,
-    color: "#000000",
+    fontSize: 14,
+    marginLeft: 5,
+    
+
   },
   score: {
-    fontSize: 15,
-    marginLeft: 15,
+    fontSize: 13,
+    marginLeft: 5,
+    fontStyle: "italic"
   },
   textContainer: {
     width: 180,
@@ -83,11 +78,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  border: {
-    borderWidth: 2,
-  },
   subscript: {
     fontSize: 10,
+    fontWeight: "bold",
     textAlignVertical: "bottom",
   },
+  titleAndScore: {
+    gap: 3,
+  }
 });

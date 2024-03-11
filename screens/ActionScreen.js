@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import ActionCard from "../components/ActionCard";
@@ -17,7 +18,20 @@ import {
   faPlus,
   faBusSimple,
   faTimes,
+  faPowerOff,
+  faBatteryHalf,
+  faLightbulb,
+  faFan,
+  faRainbow,
+  faUtensils,
+  faCarrot,
+  faAppleWhole,
+  faBowlRice,
+  faRecycle,
+  faCow,
+  faShower,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesome } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect } from "react";
@@ -27,7 +41,6 @@ import { useDispatch, useSelector } from "react-redux";
 export default function ActionScreen({ navigation }) {
   const category = useSelector((state) => state.category.value);
   const user = useSelector((state) => state.user.value);
-  const colorStyle = ["#00B8FF", "#B78CFD", "#FCE340"];
   const [activities, setActivities] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -35,6 +48,7 @@ export default function ActionScreen({ navigation }) {
   // const IP_ADDRESS = "http://192.168.1.20:3000";
   // const IP_ADDRESS = "http://192.168.1.20:3000";
   const IP_ADDRESS = "http://192.168.1.20:3000";
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleModal = () => {
     setModalVisible(!modalVisible);
@@ -58,69 +72,92 @@ export default function ActionScreen({ navigation }) {
   };
 
   useEffect(() => {
-    if (category.nameCategory === "Mobilité") {
-      console.log("Category", category.nameCategory);
-      fetch(`${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Color", data);
-          setActivities(data);
-          console.log("Comptage", activities.activities.length);
-        });
-    } else if (category.nameCategory === "Food") {
-      console.log("Category", category.nameCategory);
+    setIsLoading(true);
+    if (
+      category.nameCategory === "Mobilité" ||
+      category.nameCategory === "Alimentation" ||
+      category.nameCategory === "Énergie"
+    ) {
       fetch(
-        `${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`
+        `http://172.20.10.2:3000/activities/showActivity/${category.nameCategory}`
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("Hello", data);
           setActivities(data);
-        });
-    } else if (category.nameCategory === "Energie") {
-      console.log("Category", category.nameCategory);
-      fetch(
-        `${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Hello", data);
-          setActivities(data);
+          setIsLoading(false);
         });
     }
-  }, []);
+  }, [category]);
 
   let backColor = "";
   if (category.nameCategory === "Mobilité") {
     backColor = "#00B8FF";
-  } else if (category.nameCategory === "Food") {
-    backColor = "#FCE340";
-  } else if (category.nameCategory === "Energie") {
+  } else if (category.nameCategory === "Alimentation") {
+    backColor = "#FF439D";
+  } else if (category.nameCategory === "Énergie") {
     backColor = "#B78CFD";
   }
 
   console.log("backColor", backColor);
   const allActivities = activities.activities?.map((data, i) => {
-    console.log("data icon", data.Icon);
+    console.log("test", data.Icon);
     let cardColor = {};
     if (data.category === "Mobilité") {
       cardColor = "#00B8FF";
-    } else if (data.category === "Food") {
-      cardColor = "#FCE340";
-    } else if (data.category === "Energie") {
+    } else if (data.category === "Alimentation") {
+      cardColor = "#FF439D";
+    } else if (data.category === "Énergie") {
       cardColor = "#B78CFD";
     }
+
+    if (data.Icon === "faCar") {
+      data.Icon = faCar;
+    } else if (data.Icon === "faBusSimple") {
+      data.Icon = faBusSimple;
+    } else if (data.Icon === "faTrain") {
+      data.Icon = faTrain;
+    } else if (data.Icon === "faPersonWalking") {
+      data.Icon = faPersonWalking;
+    } else if (data.Icon === "faPersonBiking") {
+      data.Icon = faPersonBiking;
+    } else if (data.Icon === "faPowerOff") {
+      data.Icon = faPowerOff;
+    } else if (data.Icon === "faBatteryHalf") {
+      data.Icon = faBatteryHalf;
+    } else if (data.Icon === "faLightbulb") {
+      data.Icon = faLightbulb;
+    } else if (data.Icon === "faFan") {
+      data.Icon = faFan;
+    } else if (data.Icon === "faRainbow") {
+      data.Icon = faRainbow;
+    } else if (data.Icon === "faUtensils") {
+      data.Icon = faUtensils;
+    } else if (data.Icon === "faCarrot") {
+      data.Icon = faCarrot;
+    } else if (data.Icon === "faRecycle") {
+      data.Icon = faRecycle;
+    } else if (data.Icon === "faLightbulb") {
+      data.Icon = faLightbulb;
+    } else if (data.Icon === "faBowlRice") {
+      data.Icon = faBowlRice;
+    } else if (data.Icon === "faCow") {
+      data.Icon = faCow;
+    } else if (data.Icon === "faShower") {
+      data.Icon = faShower;
+    }
+
     return (
       <View style={styles.card} key={i}>
         <ActionCard
           startColor={cardColor}
           color={cardColor}
-          // icon = {data?.Icon}
-          style={[styles.actionCard, { icon: `${data?.Icon}` }]}
+          icon={data?.Icon}
+          // style={[styles.actionCard, { icon: `${data?.Icon}` }]}
           text={data.name}
           // number={0}
           number={data.carbone}
           points={data.points}
+          textColor={cardColor}
         />
         <ShortButton
           color={cardColor}
@@ -144,19 +181,25 @@ export default function ActionScreen({ navigation }) {
           onPress={() => navigation.navigate("TabNavigator")}
           style={styles.backButton}
         >
-          {/* <FontAwesome name="chevron-left" size={24} color="black" /> */}
-          <Ionicons name="chevron-left" size={24} color="black" />
+          <FontAwesome name="chevron-left" size={26} color="black" />
         </TouchableOpacity>
-        <Text style={{ paddingBottom: 60, fontSize: 24, height: 300 }}>
-          ActionScreen
-        </Text>
+        <Text style={styles.titleCategory}>{category.nameCategory}</Text>
       </SafeAreaView>
       <Text style={styles.results} backgroundColor={backColor}>
         {activities.activities?.length} résultats
       </Text>
-      <ScrollView contentContainerStyle={styles.cardContainer}>
-        {allActivities}
-      </ScrollView>
+      {isLoading ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator size="large" color={backColor} />
+        </View>
+      ) : (
+        <ScrollView contentContainerStyle={styles.cardContainer}>
+          {allActivities}
+        </ScrollView>
+      )}
+
       <Modal visible={modalVisible} animationType="fade" transparent>
         <View style={styles.centeredView}>
           <View style={styles.modalView} borderColor={backColor}>
@@ -191,9 +234,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   backButton: {
-    position: "absolute",
-    top: 60,
-    left: 30,
+    // position: "absolute",
+    left: 15,
+    marginTop: 30,
   },
   cardContainer: {
     backgroundColor: "white",
@@ -202,16 +245,22 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   header: {
-    backgroundColor: "white",
+    backgroundColor: "#F4F1F1",
     width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    height: "15%",
+    flexDirection: "column",
+    gap: 40,
+    justifyContent: "space-evenly",
+    height: "18%",
+  },
+  titleCategory: {
+    fontSize: 28,
+    left: 15,
+    fontWeight: "bold",
   },
   results: {
     fontWeight: "bold",
     fontSize: 18,
-    paddingLeft: 10,
+    paddingLeft: 15,
     paddingBottom: 10,
     paddingTop: 10,
     color: "white",
