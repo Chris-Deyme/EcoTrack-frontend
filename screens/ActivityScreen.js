@@ -43,7 +43,7 @@ export default function ActivityScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-      <Text style={styles.title}>ActivityScreen</Text>
+      <Text style={styles.title}>Sélectionnez une activité</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.cardContainer}>
@@ -91,7 +91,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    backgroundColor: "white",
-    width: "100%"
+    fontSize: 22,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 20,
+    color: "#085229",
+    fontFamily: "Poppins",
   }
 });

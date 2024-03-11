@@ -26,134 +26,12 @@ import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
 
-const initialLocations = [
-  {
-    id: 1,
-    name: "Notre Dame de Paris",
-    type: "tri",
-    coordinates: {
-      latitude: 48.867,
-      longitude: 2.328,
-    },
-  },
-  {
-    id: 2,
-    name: "Mont Saint-Michel",
-    type: "tri",
-    coordinates: {
-      latitude: 48.634,
-      longitude: -1.511,
-    },
-  },
-  {
-    id: 3,
-    name: "Mont Blanc",
-    type: "tri",
-    coordinates: {
-      latitude: 45.831,
-      longitude: 6.865,
-    },
-  },
-  {
-    id: 4,
-    name: "Parc Astérix",
-    type: "shopping",
-    coordinates: {
-      latitude: 49.134,
-      longitude: 2.571,
-    },
-  },
-  {
-    id: 5,
-    name: "So Ouest",
-    type: "shopping",
-    coordinates: {
-      latitude: 48.893,
-      longitude: 2.298,
-    },
-  },
-  {
-    id: 6,
-    name: "Big Ben",
-    type: "ecolieu",
-    coordinates: {
-      latitude: 51.5,
-      longitude: -1.124,
-    },
-  },
-  {
-    id: 7,
-    name: "Googleplex",
-    type: "association",
-    coordinates: {
-      latitude: 37.422,
-      longitude: -122.084,
-    },
-  },
-  {
-    id: 8,
-    name: "Big Ben",
-    type: "ecolieu",
-    coordinates: {
-      latitude: 51.5,
-      longitude: -1.124,
-    },
-  },
-  {
-    id: 9,
-    name: "Fourvière",
-    type: "tri",
-    coordinates: {
-      latitude: 45.762,
-      longitude: 4.822,
-    },
-  },
-  {
-    id: 10,
-    name: "Cdiscount",
-    type: "association",
-    coordinates: {
-      latitude: 44.861,
-      longitude: -0.552,
-    },
-  },
-  {
-    id: 11,
-    name: "Fourvière",
-    type: "tri",
-    coordinates: {
-      latitude: 45.762,
-      longitude: 4.822,
-    },
-  },
-  {
-    id: 12,
-    name: "Ricard",
-    type: "association",
-    coordinates: {
-      latitude: 43.306,
-      longitude: 5.366,
-    },
-  },
-  {
-    id: 13,
-    name: "Kilimanjaro",
-    type: "tri",
-    coordinates: {
-      latitude: -3.068,
-      longitude: 37.355,
-    },
-  },
-];
-
-/** adresses de fetch */
-const IP_ADDRESS = "http://172.20.10.4:3000";
 
 const icons = {
-  tri: require("../assets/tri.png"),
-  association: require("../assets/association.png"),
-  shopping: require("../assets/shop.png"),
-  ecolieu: require("../assets/ecolieu.png"),
+  ["Point de tri"]: require("../assets/tri.png"),
+  Association: require("../assets/association.png"),
+  ['Magasin éco/bio']: require("../assets/shop.png"),
+  Écolieu: require("../assets/ecolieu.png"),
 };
 
 export default function MapScreen({ navigation }) {
@@ -187,10 +65,12 @@ export default function MapScreen({ navigation }) {
     fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
       .then((response) => response.json())
       .then((data) => {
-        if (data) {
-          console.log("test", data.structures[0].address);
-          setPlaces(data)
+        if (data && data.structures) {
+          setPlaces(data.structures); 
         }
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des données :", error);
       });
   }, []);
 
@@ -202,7 +82,10 @@ export default function MapScreen({ navigation }) {
       return;
     }
 
-    const suggestions = initialLocations
+    const response = await fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
+    const items = await response.json()
+    console.log(items)
+    const suggestions = items.structures
       .filter((item) => item.name.toLowerCase().includes(filterToken))
       .map((item) => ({
         id: item.id,
@@ -218,8 +101,8 @@ export default function MapScreen({ navigation }) {
 
   const onSelectItem = useCallback((item) => {
     if (item) {
-      const selectedLocation = initialLocations.find(
-        (location) => location.id === parseInt(item.id, 10)
+      const selectedLocation = places.find(
+        (structures) => structures.id === parseInt(item.id, 10)
       );
       if (selectedLocation) {
         const { latitude, longitude } = selectedLocation.coordinates;
@@ -232,18 +115,14 @@ export default function MapScreen({ navigation }) {
       }
     }
   }, []);
+  
 
-  const filteredLocations =
-    selectedCategory === "all"
-      ? initialLocations
-      : initialLocations.filter(
-          (location) => location.type === selectedCategory
-        );
+
 
   return (
     <AutocompleteDropdownContextProvider>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Mes Structures</Text>
+        <Text style={styles.title}>Retrouvez une structure</Text>
         <View style={styles.inputContainer}>
           <View style={styles.labelContainer}>
             <Text style={styles.label}>Rechercher</Text>
@@ -264,7 +143,7 @@ export default function MapScreen({ navigation }) {
 
         {/* Le Modal reste inchangé */}
 
-        <MapView
+        {/* <MapView
           style={styles.map}
           region={mapRegion}
           mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
@@ -275,13 +154,16 @@ export default function MapScreen({ navigation }) {
             longitudeDelta: 0.0421,
           }}
         >
-          {/* {currentLocation && (
-          // <Marker
-          //   coordinate={currentLocation}
-          //   title="Current Location"
-          //   pinColor="#FF0000"
-          // />
-        )} */}
+           {currentLocation && (
+    <Marker
+      coordinate={{
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+      }}
+      title="Votre position actuelle"
+      pinColor="#FF0000"
+    />
+  )}
 
           {initialLocations.map((location, index) => {
             let distance = currentLocation
@@ -303,7 +185,44 @@ export default function MapScreen({ navigation }) {
               />
             );
           })}
-        </MapView>
+        </MapView> */}
+
+<MapView
+  style={styles.map}
+  region={mapRegion}
+  mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
+  initialRegion={{
+    latitude: 48.853, // Default to Paris if no location
+    longitude: 2.349,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }}
+>
+  {currentLocation && (
+    <Marker
+      coordinate={{
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+      }}
+      title="Votre position actuelle"
+      pinColor="#FF0000"
+    />
+  )}
+
+  {places.map((place, index) => (
+    <Marker
+      key={index}
+      coordinate={{
+        latitude: place.address.latitude, 
+        longitude: place.address.longitude,
+      }}
+      title={place.name}
+      description={`Type: ${place.category}`}
+      image={icons[place.category]} 
+    />
+  ))}
+</MapView>
+
         <View style={styles.buttonContainer}>
           <LongButton
             color={"#41F67F"}

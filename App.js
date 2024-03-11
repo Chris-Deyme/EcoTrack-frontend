@@ -72,20 +72,15 @@ function TabNavigator() {
             iconName = faUserLarge;
           }
 
-          return <FontAwesomeIcon icon={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: "#41F67F",
-        tabBarInactiveTintColor: "#00000033",
-        tabBarStyle: { backgroundColor: "#F5F5F5" },
-        headerShown: false,
-      })}
-    >
-      <Tab.Screen
-        name="Dashboard"
-        component={DashboardScreen}
-        options={{ unmountOnBlur: true }}
-      />
-      <Tab.Screen name="Map" component={MapScreen} />
+        return <FontAwesomeIcon icon={iconName} size={size} color={color}/>
+      },
+      tabBarActiveTintColor: '#41F67F',
+      tabBarInactiveTintColor: '#00000033',
+      tabBarStyle: { backgroundColor: '#F5F5F5' },
+      headerShown: false,
+    })}>
+      <Tab.Screen name="Dashboard" component={DashboardScreen} options={{unmountOnBlur: true}} />
+      <Tab.Screen name="Map" component={MapScreen} options={{unmountOnBlur: true}} />
       <Tab.Screen name="Activities" component={ActivityScreen} />
       <Tab.Screen name="Profile" component={ProfilScreen} />
     </Tab.Navigator>
