@@ -188,7 +188,8 @@ export default function MapScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-          console.log(SetPlaces);
+          console.log("test", data.structures[0].address);
+          setPlaces(data)
         }
       });
   }, []);
@@ -206,11 +207,14 @@ export default function MapScreen({ navigation }) {
       .map((item) => ({
         id: item.id,
         title: item.name,
-      }));
-    setSuggestionsList(suggestions);
-  }, []);
+      }))
+    setSuggestionsList(suggestions)
+    // setLoading(false)
+  }, [])
 
-  console.log(suggestionsList);
+  
+
+
 
   const onSelectItem = useCallback((item) => {
     if (item) {
