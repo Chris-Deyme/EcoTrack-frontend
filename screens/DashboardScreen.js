@@ -28,7 +28,12 @@ export default function DashboardScreen() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Test", data.userData.score);
-        dispatch(addScoreToStore({score: data.userData.score, carbone: data.userData.carbone}));
+        dispatch(
+          addScoreToStore({
+            score: data.userData.score,
+            carbone: data.userData.carbone,
+          })
+        );
       });
   }, [user.score]);
 

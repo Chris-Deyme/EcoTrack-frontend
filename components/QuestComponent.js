@@ -76,7 +76,7 @@ export default function QuestComponent() {
 
   return (
     <View>
-      <Text style={styles.label}>QUEST : </Text>
+      <Text style={styles.label}>QUEST : {user.username}</Text>
       <Shadow distance={0.5} startColor={"#085229"} offset={[4, 5]}>
         <View style={styles.container}>
           <View style={styles.QuestContainer}>

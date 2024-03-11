@@ -5,22 +5,30 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import HomeScreen from './screens/HomeScreen';
-import DashboardScreen from './screens/DashboardScreen';
-import MapScreen from './screens/MapScreen';
-import ActivityScreen from './screens/ActivityScreen';
-import ActionScreen from './screens/ActionScreen';
-import ProfilScreen from './screens/ProfilScreen'; 
-import SigninScreen from './screens/SigninScreen';
-import SignupScreen from './screens/SignupScreen';
-import FormScreen from './screens/FormScreen'
-import EnergyScreen from './screens/EnergyScreen';
-import FoodScreen from './screens/FoodScreen';
-import PlacesScreen from './screens/PlacesScreen';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer'
-import { faBicycle, faHouse, faLocationDot, faMapPin, faPersonBiking, faUserLarge, faBurger  } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
+import HomeScreen from "./screens/HomeScreen";
+import DashboardScreen from "./screens/DashboardScreen";
+import MapScreen from "./screens/MapScreen";
+import ActivityScreen from "./screens/ActivityScreen";
+import ActionScreen from "./screens/ActionScreen";
+import ProfilScreen from "./screens/ProfilScreen";
+import SigninScreen from "./screens/SigninScreen";
+import SignupScreen from "./screens/SignupScreen";
+import FormScreen from "./screens/FormScreen";
+import EnergyScreen from "./screens/EnergyScreen";
+import FoodScreen from "./screens/FoodScreen";
+import PlacesScreen from "./screens/PlacesScreen";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faMugSaucer } from "@fortawesome/free-solid-svg-icons/faMugSaucer";
+import {
+  faBicycle,
+  faHouse,
+  faLocationDot,
+  faMapPin,
+  faPersonBiking,
+  faUserLarge,
+  faBurger,
+} from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 import { Provider } from "react-redux";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
@@ -50,27 +58,33 @@ const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
   return (
-    <Tab.Navigator screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
-        let iconName;
-        if (route.name === 'Dashboard') {
-          iconName = faHouse
-        } else if (route.name === 'Map') {
-          iconName = faLocationDot
-        }else if (route.name === 'Activities') {
-          iconName = faPersonBiking
-        }else if (route.name === 'Profile') {
-          iconName = faUserLarge
-        }
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
+          if (route.name === "Dashboard") {
+            iconName = faHouse;
+          } else if (route.name === "Map") {
+            iconName = faLocationDot;
+          } else if (route.name === "Activities") {
+            iconName = faPersonBiking;
+          } else if (route.name === "Profile") {
+            iconName = faUserLarge;
+          }
 
-        return <FontAwesomeIcon icon={iconName} size={size} color={color}/>
-      },
-      tabBarActiveTintColor: '#41F67F',
-      tabBarInactiveTintColor: '#00000033',
-      tabBarStyle: { backgroundColor: '#F5F5F5' },
-      headerShown: false,
-    })}>
-      <Tab.Screen name="Dashboard" component={DashboardScreen} options={{unmountOnBlur: true}} />
+          return <FontAwesomeIcon icon={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#41F67F",
+        tabBarInactiveTintColor: "#00000033",
+        tabBarStyle: { backgroundColor: "#F5F5F5" },
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen
+        name="Dashboard"
+        component={DashboardScreen}
+        options={{ unmountOnBlur: true }}
+      />
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Activities" component={ActivityScreen} />
       <Tab.Screen name="Profile" component={ProfilScreen} />
@@ -90,13 +104,12 @@ export default function App() {
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="Activity" component={ActivityScreen} />
             <Stack.Screen name="Action" component={ActionScreen} />
-        <Stack.Screen name="Form" component={FormScreen} />
+            <Stack.Screen name="Form" component={FormScreen} />
             <Stack.Screen name="Food" component={FoodScreen} />
             <Stack.Screen name="Energy" component={EnergyScreen} />
-        <Stack.Screen name="Dashboard" component={DashboardScreen} />
-        <Stack.Screen name="Places" component={PlacesScreen} />
+            <Stack.Screen name="Dashboard" component={DashboardScreen} />
+            <Stack.Screen name="Places" component={PlacesScreen} />
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
-            
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
