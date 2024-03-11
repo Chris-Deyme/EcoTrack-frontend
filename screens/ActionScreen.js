@@ -45,9 +45,9 @@ export default function ActionScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   /** adresses de fetch */
+  const IP_ADDRESS = "http://172.20.10.2:3000";
   // const IP_ADDRESS = "http://192.168.1.20:3000";
   // const IP_ADDRESS = "http://192.168.1.20:3000";
-  const IP_ADDRESS = "http://192.168.1.20:3000";
   const [isLoading, setIsLoading] = useState(true);
 
   const handleModal = () => {
@@ -56,6 +56,7 @@ export default function ActionScreen({ navigation }) {
 
   const handleAddPoints = (dataActivity) => {
     console.log(dataActivity);
+
     fetch(`${IP_ADDRESS}/scores/updateScore/${user.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -78,9 +79,7 @@ export default function ActionScreen({ navigation }) {
       category.nameCategory === "Alimentation" ||
       category.nameCategory === "Énergie"
     ) {
-      fetch(
-        `${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`
-      )
+      fetch(`${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`)
         .then((response) => response.json())
         .then((data) => {
           setActivities(data);
@@ -98,9 +97,7 @@ export default function ActionScreen({ navigation }) {
     backColor = "#B78CFD";
   }
 
-  console.log("backColor", backColor);
   const allActivities = activities.activities?.map((data, i) => {
-    console.log("test", data.Icon);
     let cardColor = {};
     if (data.category === "Mobilité") {
       cardColor = "#00B8FF";

@@ -8,7 +8,7 @@ import {
   Dimensions,
   Modal,
 } from "react-native";
-import RandomTips from '../components/RandomTips';
+import RandomTips from "../components/RandomTips";
 import QuestComponent from "../components/QuestComponent";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,46 +17,21 @@ import moment from "moment";
 import { addScoreToStore } from "../reducers/user";
 
 export default function DashboardScreen() {
-  // const [score, setScore] = useState(0);
-  const [usageFrequency, setUsageFrequency] = useState({
-    marche: 0,
-    velo: 0,
-    voiture: 0,
-    train: 0,
-    bus: 0,
-  });
-  const [history, setHistory] = useState([10, 20, 30, 40, 50, 60, 70]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
-  // ANCIEN CODE CHRIS
-
-  // useEffect(() => {
-  //   const today = moment().format("YYYY-MM-DD");
-  //   const lastReset = moment().subtract(1, "days").format("YYYY-MM-DD");
-
-  //   if (today !== lastReset) {
-  //     setScore(0);
-  //     setUsageFrequency({ marche: 0, velo: 0, voiture: 0, train: 0, bus: 0 });
-  //   }
-  // }, []);
-
   /** adresses de fetch */
-  // const IP_ADDRESS = "172.20.10.2:3000";
+  const IP_ADDRESS = "172.20.10.2:3000";
   // const IP_ADDRESS = "172.20.10.3:3000";
-  const IP_ADDRESS = "192.168.1.20:3000";
+  // const IP_ADDRESS = "192.168.1.20:3000";
 
+  console.log("Reduce", user);
   useEffect(() => {
-    console.log("Reduce", user.id);
     fetch(`http://${IP_ADDRESS}/scores/showScore/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
-        if (data.userData?.score) {
-          dispatch(addScoreToStore(data.userData.score));
-          console.log("Hell", user);
-        }
+        console.log("Test", data.userData.score);
+        dispatch(addScoreToStore(data.userData.score));
       });
   }, [user]);
 
@@ -73,23 +48,6 @@ export default function DashboardScreen() {
     else if (score < 75) return "Cafard 🪳";
     else return "Putois 🦨";
   };
-
-  useEffect(() => {
-    // Affichage de la modale avec le rang actuel chaque fois que le score change
-    const rank = getRank(user.score);
-    setModalMessage(`Votre rang : ${rank}`);
-    setModalVisible(true);
-  }, [user.score]);
-
-  //ANCIEN CODE CHRIS
-
-  // const handleScoreChange = (amount, mode) => {
-  //   setScore((prevScore) => {
-  //     const newScore = Math.max(0, Math.min(100, prevScore + amount));
-  //     updateUsageFrequency(mode);
-  //     return newScore;
-  //   });
-  // };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -270,5 +228,5 @@ const styles = StyleSheet.create({
   questContainer: {
     height: "40%",
     gap: 29,
-  }
+  },
 });
