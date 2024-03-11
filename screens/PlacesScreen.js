@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import { useDispatch, useSelector } from "react-redux";
+import { login } from '../reducers/user';
 
 const StructuresScreen = ({navigation}) => {
   // Données de structures simulées
@@ -8,13 +10,47 @@ const StructuresScreen = ({navigation}) => {
     { id: 1, name: 'Structure 1' },
     { id: 2, name: 'Structure 2' },
     { id: 3, name: 'Structure 3' },
+    { id: 4, name: 'Structure 4' },
   ];
+  const IP_ADDRESS = "172.20.10.13:3000";
 
-  // Fonction simulée pour la suppression
-  const handleDelete = (structureId) => {
-    console.log(`Suppression de la structure avec l'ID: ${structureId}`);
-    // Implémenter la logique de suppression ici
+  const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+  const [structure, setStructure] = useState([])
+
+  useEffect(() => {
+    console.log("Reduce", user.id);
+    fetch(`http://${IP_ADDRESS}/structures/showStructure/${user.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.userData)
+        if (data.userData) {
+          setStructure(data.userData)
+        }
+      });
+  }, []);
+
+  const handleDelete = () => {
+    console.log(`Tentative de suppression de la structure avec l'ID: ${user.id}`);
+  
+    fetch(`http://${IP_ADDRESS}/structures/deleteStructure/${user.id}`, {
+      method: 'DELETE', 
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          console.log(data.response);
+        
+          setStructure(structure.filter(s => s.id !== userData));
+        } else {
+          console.log('Erreur lors de la suppression :', data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Erreur lors de la suppression de la structure:', error);
+      });
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -23,7 +59,7 @@ const StructuresScreen = ({navigation}) => {
                 </TouchableOpacity>
       <Text style={styles.title}>Mes Structures</Text>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {structures.map((structure) => (
+        {structure.map((structure) => (
           <View key={structure.id} style={styles.card}>
             <Text style={styles.name}>{structure.name}</Text>
             <TouchableOpacity onPress={() => handleDelete(structure.id)}>
