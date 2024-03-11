@@ -193,9 +193,12 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
+    marginTop: 20,
     marginBottom: 20,
+    color: "#085229",
+    fontFamily: "Poppins",
   },
   buttonsContainer: {
     flexDirection: "row",

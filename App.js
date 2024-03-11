@@ -71,7 +71,7 @@ function TabNavigator() {
       headerShown: false,
     })}>
       <Tab.Screen name="Dashboard" component={DashboardScreen} options={{unmountOnBlur: true}} />
-      <Tab.Screen name="Map" component={MapScreen} />
+      <Tab.Screen name="Map" component={MapScreen} options={{unmountOnBlur: true}} />
       <Tab.Screen name="Activities" component={ActivityScreen} />
       <Tab.Screen name="Profile" component={ProfilScreen} />
     </Tab.Navigator>

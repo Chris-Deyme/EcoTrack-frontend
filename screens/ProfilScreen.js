@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Alert, Text, Animated, LayoutAnimation, UIManager, Platform, Button, Dimensions, Modal } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, Alert, Text, Animated, LayoutAnimation, UIManager, Platform, Button, Dimensions, Modal, FlatList, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import LongButton from "../components/LongButton";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -87,9 +87,34 @@ const ProfilScreen = ({navigation}) => {
       openDrawerAnimated();
     }
   };
+  
+  const users = [
+    { id: 1, name: 'John Doe', score: 250 },
+    { id: 2, name: 'Jane Smith', score: 200 },
+    { id: 3, name: 'Alice Johnson', score: 180 },
+    { id: 4, name: 'Bob Brown', score: 150 },
+    { id: 5, name: 'Emma Davis', score: 140 },
+    { id: 6, name: 'Michael Wilson', score: 130 },
+    { id: 7, name: 'Olivia Martinez', score: 120 },
+    { id: 8, name: 'James Anderson', score: 110 },
+    { id: 9, name: 'Sophia Taylor', score: 100 },
+    { id: 10, name: 'William Thomas', score: 90 },
+  ];
+
+  
+  
+    // Fonction pour rendre chaque élément de la liste
+    const renderItem = ({ item }) => (
+      <View style={styles.userItem}>
+        <Text style={styles.userName}>{item.name}</Text>
+        <Text style={styles.userScore}>{item.score} points</Text>
+      </View>
+    );
+
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
           <Text style={styles.title}>Profil de {user.username}</Text>
       <View style={styles.profilePicContainer}>
         {image ? (
@@ -142,6 +167,15 @@ const ProfilScreen = ({navigation}) => {
         }}
       />
 
+      <Text style={styles.title}>Classement des utilisateurs</Text>
+     {users.map((data) => {
+      return (
+        <View style={{ backgroundColor: 'red', marginBottom: 20,flex: 1, flexDirection:'row,'}}>
+      <Text>{data.name}</Text>
+      <Text>{data.score}</Text>
+      </View>)
+     })}
+
 <LongButton color={"#41F67F"} onPress={() => navigation.navigate("Places")} text="Voir mes structures" />
 
 
@@ -163,6 +197,7 @@ const ProfilScreen = ({navigation}) => {
 <TouchableOpacity onPress={toggleDrawer} style={styles.settingsIcon}>
         <FontAwesomeIcon icon={faCog} size={24} />
       </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };
