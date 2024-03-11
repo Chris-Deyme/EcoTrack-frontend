@@ -30,6 +30,9 @@ import {
   faRecycle,
   faCow,
   faShower,
+  faDrumstickBite,
+  faLocationDot,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesome } from "@expo/vector-icons";
@@ -142,6 +145,12 @@ export default function ActionScreen({ navigation }) {
       data.Icon = faCow;
     } else if (data.Icon === "faShower") {
       data.Icon = faShower;
+    } else if (data.Icon === "faDrumstickBite") {
+      data.Icon = faDrumstickBite;
+    } else if (data.Icon === "faLocationDot") {
+      data.Icon = faLocationDot
+    } else if (data.Icon === "faTrash") {
+      data.Icon = faTrash
     }
 
     return (

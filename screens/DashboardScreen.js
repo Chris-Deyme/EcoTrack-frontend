@@ -63,12 +63,16 @@ export default function DashboardScreen() {
         {() => (
           <>
             <Text style={styles.scoreText}>{user.score}</Text>
+            <View style={styles.dataContainer}>
+            <Text style={styles.co2Number}>{user.carbone} kg Co2</Text>
             <Text style={styles.rank}>{getRank(user.score)}</Text>
-            <Text style={styles.rank}>{user.carbone} kg Co2</Text>
+            </View>
+            
             
           </>
         )}
       </AnimatedCircularProgress>
+      
       <View style={styles.questContainer}>
         <QuestComponent />
         <RandomTips />
@@ -77,19 +81,12 @@ export default function DashboardScreen() {
   );
 }
 
-// Styles...
-
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -109,7 +106,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   scoreText: {
-    fontSize: 24,
+    fontSize: 50,
     fontWeight: "bold",
   },
   historyTitle: {
@@ -151,44 +148,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  container: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 20,
-  },
-  // Vos styles existants...
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  container: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 20,
-  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -200,32 +159,18 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
   },
-  button: {
-    backgroundColor: "#007bff",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginHorizontal: 5, // Assurez un espacement entre les boutons
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-  },
-  scoreText: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  historyTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 30,
-    marginBottom: 10,
-  },
-  // Ajoutez ici les styles supplémentaires pour le graphique d'historique et autres éléments
-
-  // Style supplémentaire pour quest et tips
   questContainer: {
     height: "40%",
     gap: 29,
   },
+  co2Number: {
+    fontSize: 20,
+  },
+  dataContainer: {
+    alignItems: "center",
+    gap: 7,
+  },
+  rank: {
+    fontSize: 15,
+  }
 });
