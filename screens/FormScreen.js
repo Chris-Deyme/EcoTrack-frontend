@@ -6,6 +6,12 @@ import { AutocompleteDropdown, AutocompleteDropdownContextProvider } from 'react
 import LongButton from "../components/LongButton";
 import { FontAwesome } from "@expo/vector-icons";
 
+  /** adresses de fetch */
+  // const IP_ADDRESS = "192.168.1.20:3000";
+  // const IP_ADDRESS = "192.168.1.20:3000";
+  const IP_ADDRESS = "http://192.168.1.20:3000";
+  const API_ADDRESS = "https://api-adresse.data.gouv.fr";
+
 export default function FormScreen({ navigation }) {
     const [structureName, setStructureName] = useState('');
     const [structureCategory, setStructureCategory] = useState('');
@@ -17,8 +23,8 @@ export default function FormScreen({ navigation }) {
 
     const user = useSelector((state) => state.user.value);
 
-const [modalVisible, setModalVisible] = useState(false);
-const [modalMessage, setModalMessage] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
 
     const searchAddress = (query) => {
@@ -26,22 +32,22 @@ const [modalMessage, setModalMessage] = useState('');
           return;
       }
 
-      fetch(`https://api-adresse.data.gouv.fr/search/?q=${query}&limit=5`)
-          .then((response) => response.json())
-          .then(({ features }) => {
-              const suggestions = features.map((feature, i) => ({
-                  id: String(i),
-                  title: feature.properties.label,
-              }));
-              setDataSet(suggestions);
-          })
-          .catch((error) => console.error(error));
+      fetch(`${API_ADDRESS}/search/?q=${query}&limit=5`)
+        .then((response) => response.json())
+        .then(({ features }) => {
+          const suggestions = features.map((feature, i) => ({
+            id: String(i),
+            title: feature.properties.label,
+          }));
+          setDataSet(suggestions);
+        })
+        .catch((error) => console.error(error));
   };
 
   const handleSelectAddress = (item) => {
     if (item) {
       // Requête pour obtenir les détails de l'adresse sélectionnée
-      fetch(`https://api-adresse.data.gouv.fr/search/?q=${item.title}&limit=1`)
+      fetch(`${API_ADDRESS}/search/?q=${item.title}&limit=1`)
         .then((response) => response.json())
         .then((data) => {
           if (data.features.length > 0) {
@@ -52,7 +58,12 @@ const [modalMessage, setModalMessage] = useState('');
             setPostalCode(addressDetails.postcode);
           }
         })
-        .catch((error) => console.error("Erreur lors de la récupération des détails de l'adresse:", error));
+        .catch((error) =>
+          console.error(
+            "Erreur lors de la récupération des détails de l'adresse:",
+            error
+          )
+        );
     }
   };
   
@@ -61,43 +72,45 @@ const [modalMessage, setModalMessage] = useState('');
 
   const handleNewStructureSubmit = () => {
     console.log()
-    fetch("http://172.20.10.13:3000/structures/newStructure", {
-        method: "POST",
-        headers: { 
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            name: structureName,
-            category: structureCategory,
-         
-                street: address,
-                city: city,
-                postcode: postalCode,
+    fetch(`${IP_ADDRESS}/structures/newStructure`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: structureName,
+        category: structureCategory,
 
-            token: user.token,
-            user: user.id
-             // Assurez-vous que c'est bien l'ID de l'utilisateur
-        }),
+        street: address,
+        city: city,
+        postcode: postalCode,
+
+        token: user.token,
+        user: user.id,
+        // Assurez-vous que c'est bien l'ID de l'utilisateur
+      }),
     })
-    .then(response => response.json())
-    .then(data => {
-console.log("Hello", data)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Hello", data);
         if (data.result) {
-            setModalMessage("Structure créée avec succès");
-            // Redirection vers la page MapScreen
-            navigation.navigate('Map'); // Assurez-vous que 'MapScreen' est le bon nom de votre écran de carte
+          setModalMessage("Structure créée avec succès");
+          // Redirection vers la page MapScreen
+          navigation.navigate("Map"); // Assurez-vous que 'MapScreen' est le bon nom de votre écran de carte
         } else {
-            // Définition du message d'erreur
-            setModalMessage("Erreur lors de l'ajout de la structure : " + data.error);
-            // Affichage de la modale d'erreur
-            setModalVisible(true);
+          // Définition du message d'erreur
+          setModalMessage(
+            "Erreur lors de l'ajout de la structure : " + data.error
+          );
+          // Affichage de la modale d'erreur
+          setModalVisible(true);
         }
-    })
-    .catch(error => {
+      })
+      .catch((error) => {
         // Gestion des erreurs de réseau ou autres erreurs
         setModalMessage("Erreur lors de l'envoi de la requête : " + error);
         setModalVisible(true); // Afficher la modale d'erreur
-    });
+      });
 };
 
 

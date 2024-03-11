@@ -3,26 +3,26 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import { FontAwesome } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TipsScreen() {
-
-  const [randomTip, setRandomTip] = useState('');
+  const [randomTip, setRandomTip] = useState("");
 
   /** adresses de fetch */
-  // const signinFetch = "172.20.10.2";
-  // const signinFetch = "172.20.10.3";
-  const tipsFetch = "192.168.1.20";
+  // const IP_ADDRESS = "192.168.1.20:3000";
+  // const IP_ADDRESS = "192.168.1.20:3000";
+  const IP_ADDRESS = "http://192.168.1.20:3000";
 
   // Récupération des tips via le fetch vers la route en backline
   const getRandomTip = () => {
-    fetch(`http://${tipsFetch}:3000/tips/test`)
+    fetch(`${IP_ADDRESS}/tips/test`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data.tip[0].texte);
         const tip = data.tip[0].texte;
         setRandomTip(tip);
-      })
-  }
+      });
+  };
 
   // useEffect pour initialiser le composant au chargement
   useEffect(() => {
@@ -33,25 +33,25 @@ export default function TipsScreen() {
   const tipchange = () => {
     getRandomTip();
   };
-
-  
+  const icon = ["reload", "car-sport", "walk", "bicycle", "train", "bus"];
   return (
     <View>
-    <Text style={styles.label}>TIPS</Text>
-    <Shadow distance={0.5} startColor={'#085229'} offset={[4, 5]}>
-      <View style={styles.tipsContainer}>
-        <ScrollView>
-          <View>
+      <Text style={styles.label}>TIPS</Text>
+      <Shadow distance={0.5} startColor={"#085229"} offset={[4, 5]}>
+        <View style={styles.tipsContainer}>
+          <ScrollView>
+            <View>
               <Text style={styles.tips}>{randomTip}</Text>
-          </View>
-        </ScrollView>
-        <TouchableOpacity onPress={tipchange} style={styles.reload}>
-          <FontAwesome name="repeat" size={32} color="black" />
-        </TouchableOpacity>
-      </View>
-    </Shadow>
+            </View>
+          </ScrollView>
+          <TouchableOpacity onPress={tipchange} style={styles.reload}>
+            {/* <FontAwesome name={icon[1]} size={32} color="black" /> */}
+            <Ionicons name={icon[0]} size={30} color="black" />
+          </TouchableOpacity>
+        </View>
+      </Shadow>
     </View>
-  )
+  );
 }
 
 //  style={styles.tipsText}

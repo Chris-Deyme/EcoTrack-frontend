@@ -19,6 +19,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,13 +31,18 @@ export default function ActionScreen({ navigation }) {
   const [activities, setActivities] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
+  /** adresses de fetch */
+  // const IP_ADDRESS = "http://192.168.1.20:3000";
+  // const IP_ADDRESS = "http://192.168.1.20:3000";
+  const IP_ADDRESS = "http://192.168.1.20:3000";
+
   const handleModal = () => {
     setModalVisible(!modalVisible);
   };
 
   const handleAddPoints = (dataActivity) => {
     console.log(dataActivity);
-    fetch(`http://172.20.10.2:3000/scores/updateScore/${user.id}`, {
+    fetch(`${IP_ADDRESS}/scores/updateScore/${user.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -54,19 +60,17 @@ export default function ActionScreen({ navigation }) {
   useEffect(() => {
     if (category.nameCategory === "Mobilité") {
       console.log("Category", category.nameCategory);
-      fetch(
-        `http://172.20.10.13:3000/activities/showActivity/${category.nameCategory}`
-      )
+      fetch(`${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log("Hello", data);
+          console.log("Color", data);
           setActivities(data);
           console.log("Comptage", activities.activities.length);
         });
     } else if (category.nameCategory === "Food") {
       console.log("Category", category.nameCategory);
       fetch(
-        `http://172.20.10.13:3000/activities/showActivity/${category.nameCategory}`
+        `${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -76,7 +80,7 @@ export default function ActionScreen({ navigation }) {
     } else if (category.nameCategory === "Energie") {
       console.log("Category", category.nameCategory);
       fetch(
-        `http://172.20.10.13:3000/activities/showActivity/${category.nameCategory}`
+        `${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -95,9 +99,9 @@ export default function ActionScreen({ navigation }) {
     backColor = "#B78CFD";
   }
 
-  console.log("Hello", backColor);
+  console.log("backColor", backColor);
   const allActivities = activities.activities?.map((data, i) => {
-    console.log('test', data.Icon)
+    console.log("data icon", data.Icon);
     let cardColor = {};
     if (data.category === "Mobilité") {
       cardColor = "#00B8FF";
@@ -140,7 +144,8 @@ export default function ActionScreen({ navigation }) {
           onPress={() => navigation.navigate("TabNavigator")}
           style={styles.backButton}
         >
-          <FontAwesome name="chevron-left" size={24} color="black" />
+          {/* <FontAwesome name="chevron-left" size={24} color="black" /> */}
+          <Ionicons name="chevron-left" size={24} color="black" />
         </TouchableOpacity>
         <Text style={{ paddingBottom: 60, fontSize: 24, height: 300 }}>
           ActionScreen

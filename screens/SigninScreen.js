@@ -22,13 +22,12 @@ export default function SigninScreen({ navigation }) {
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
-  // const signinFetch = "172.20.10.2";
-  // const signinFetch = "172.20.10.3";
-  const signinFetch = "192.168.1.20";
+  // const IP_ADDRESS = "172.20.10.2:3000";
+  // const IP_ADDRESS = "172.20.10.3:3000";
+  const IP_ADDRESS = "192.168.1.20:3000";
 
   const handleConnection = () => {
-    // fetch("http://192.168.1.20:3000/users/signin", {
-    fetch(`http://${signinFetch}:3000/users/signin`, {
+    fetch(`http://${IP_ADDRESS}:3000/users/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),
@@ -58,7 +57,6 @@ export default function SigninScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      
       {/* Bouton de retour en haut à gauche */}
       <TouchableOpacity
         onPress={() => navigation.navigate("Home")}

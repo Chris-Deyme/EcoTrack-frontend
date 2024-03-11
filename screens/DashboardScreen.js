@@ -43,15 +43,20 @@ export default function DashboardScreen() {
   //   }
   // }, []);
 
+  /** adresses de fetch */
+  // const IP_ADDRESS = "172.20.10.2:3000";
+  // const IP_ADDRESS = "172.20.10.3:3000";
+  const IP_ADDRESS = "192.168.1.20:3000";
+
   useEffect(() => {
     console.log("Reduce", user.id);
-    fetch(`http://172.20.10.13:3000/scores/showScore/${user.id}`)
+    fetch(`http://${IP_ADDRESS}/scores/showScore/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.userData?.score) {
-        dispatch(addScoreToStore(data.userData.score));
-        console.log("Hell", user);}
-        
+          dispatch(addScoreToStore(data.userData.score));
+          console.log("Hell", user);
+        }
       });
   }, [user]);
 
@@ -76,8 +81,7 @@ export default function DashboardScreen() {
     setModalVisible(true);
   }, [user.score]);
 
-
-//ANCIEN CODE CHRIS 
+  //ANCIEN CODE CHRIS
 
   // const handleScoreChange = (amount, mode) => {
   //   setScore((prevScore) => {

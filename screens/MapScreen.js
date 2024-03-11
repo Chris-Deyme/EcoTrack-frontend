@@ -127,6 +127,11 @@ const initialLocations = [
   }
 ];
 
+  /** adresses de fetch */
+  // const IP_ADDRESS = "http://172.20.10.2:3000";
+  // const IP_ADDRESS = "http://172.20.10.3:3000";
+  const IP_ADDRESS = "http://192.168.1.20:3000";
+
 const icons = {
   tri: require('../assets/tri.png'),
   association: require('../assets/association.png'),
@@ -163,12 +168,12 @@ export default function MapScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
-    fetch('http://172.20.10.13:3000/structures/showStructure/')
+    fetch(`${IP_ADDRESS}/structures/showStructure/`)
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-        console.log(SetPlaces);}
-        
+          console.log(SetPlaces);
+        }
       });
   }, []);
 

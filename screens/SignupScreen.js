@@ -27,13 +27,13 @@ export default function SignupScreen({ navigation }) {
   const [signUpPassword, setSignUpPassword] = useState("");
   const [error, setError] = useState("");
 
-    // const signinFetch = "172.20.10.2";
-  // const signinFetch = "172.20.10.3";
-  const signupFetch = "192.168.1.20";
+  // const IP_ADDRESS = "172.20.10.2:3000";
+  // const IP_ADDRESS = "172.20.10.3:3000";
+  // const IP_ADDRESE = "172.20.10.13:3000";
+  const IP_ADDRESS = "192.168.1.20:3000";
 
   const handleRegister = () => {
-    // fetch("http://172.20.10.13:3000/users/signup", {
-    fetch(`http://${signupFetch}:3000/users/signup`, {
+    fetch(`http://${IP_ADDRESS}/users/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -44,7 +44,7 @@ export default function SignupScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.userData._id)
+        console.log(data.userData._id);
         if (data.result) {
           dispatch(
             login({
@@ -63,7 +63,6 @@ export default function SignupScreen({ navigation }) {
           console.log("Errror", data);
           setError("Votre compte n'a pas pu être créé.");
         }
-
       });
   };
 
