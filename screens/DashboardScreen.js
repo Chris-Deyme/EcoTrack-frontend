@@ -31,7 +31,7 @@ export default function DashboardScreen() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Test", data.userData.score);
-        dispatch(addScoreToStore(data.userData.score));
+        dispatch(addScoreToStore({score: data.userData.score, carbone: data.userData.carbone}));
       });
   }, [user]);
 
@@ -43,8 +43,8 @@ export default function DashboardScreen() {
   };
 
   const getRank = (score) => {
-    if (score < 25) return "Grenouille 🐸";
-    else if (score < 50) return "Renard 🦊";
+    if (score < 25) return "Abeille 🐝";
+    else if (score < 50) return "Grenouille 🐸";
     else if (score < 75) return "Cafard 🪳";
     else return "Putois 🦨";
   };
@@ -53,7 +53,7 @@ export default function DashboardScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Score CO2</Text>
       <AnimatedCircularProgress
-        size={200}
+        size={270}
         width={15}
         fill={user.score} // Directement la valeur du score
         tintColor={getColorForScore(user.score)} // Couleur basée sur le score
@@ -67,6 +67,8 @@ export default function DashboardScreen() {
           <>
             <Text style={styles.scoreText}>{user.score}</Text>
             <Text style={styles.rank}>{getRank(user.score)}</Text>
+            <Text style={styles.rank}>{user.carbone} kg Co2</Text>
+            
           </>
         )}
       </AnimatedCircularProgress>
