@@ -128,9 +128,9 @@ const initialLocations = [
 ];
 
   /** adresses de fetch */
-  // const IP_ADDRESS = "http://172.20.10.2:3000";
+  const IP_ADDRESS = "http://172.20.10.2:3000";
   // const IP_ADDRESS = "http://172.20.10.3:3000";
-  const IP_ADDRESS = "http://192.168.1.20:3000";
+  // const IP_ADDRESS = "http://192.168.1.20:3000";
 
 const icons = {
   tri: require('../assets/tri.png'),
@@ -172,7 +172,8 @@ export default function MapScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-          console.log(SetPlaces);
+          console.log("test", data.structures[0].address);
+          setPlaces(data)
         }
       });
   }, []);
@@ -200,7 +201,7 @@ export default function MapScreen({ navigation }) {
   }, [])
 
   
-  console.log(suggestionsList)
+
 
 
   const onSelectItem = useCallback((item) => {

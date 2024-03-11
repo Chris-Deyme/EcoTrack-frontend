@@ -27,10 +27,10 @@ export default function SignupScreen({ navigation }) {
   const [signUpPassword, setSignUpPassword] = useState("");
   const [error, setError] = useState("");
 
-  // const IP_ADDRESS = "172.20.10.2:3000";
+  const IP_ADDRESS = "172.20.10.2:3000";
   // const IP_ADDRESS = "172.20.10.3:3000";
   // const IP_ADDRESE = "172.20.10.13:3000";
-  const IP_ADDRESS = "192.168.1.20:3000";
+  // const IP_ADDRESS = "192.168.1.20:3000";
 
   const handleRegister = () => {
     fetch(`http://${IP_ADDRESS}/users/signup`, {
