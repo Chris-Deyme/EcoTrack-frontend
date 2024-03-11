@@ -5,23 +5,21 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import config from "../config";
+import { addScoreToStore } from "../reducers/user";
 
 export default function QuestComponent() {
-
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   // state de récupération random d'une quête
   const [randomQuest, setRandomQuest] = useState("");
   // state de validation de la quête
   const [questCompleted, setQuestCompleted] = useState(false);
   // state d'incrémentation du compteur
-  const [counter, setCounter] = useState(0);
-
-  /** adresses de fetch */
-  const IP_ADDRESS = "http://172.20.10.4:3000";
+  const [counter, setCounter] = useState(-5);
 
   const getRandomQuest = () => {
     fetch(`${config.IP_ADDRESS}/quests/test`)
-    // fetch(`${IP_ADDRESS}/quests/test`)
+      // fetch(`${IP_ADDRESS}/quests/test`)
       .then((response) => response.json())
       .then((data) => {
         const quest = data.quest[0].description;
@@ -47,26 +45,31 @@ export default function QuestComponent() {
       return <Ionicons name={questIcons[1]} size={30} color="black" />;
     } else {
       setQuestCompleted(true); // Marquer la quête comme réalisée
-      setCounter(counter + 50); // Incrémenter le compteur
+      // setCounter(counter -5); // Incrémenter le compteur
 
       // Mettre à jour le score de l'utilisateur
       console.log("user", user.id);
+
       fetch(`${config.IP_ADDRESS}/scores/updateScore/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          scoreIncrement: 50,
+          scoreIncrement: -5,
           carboneIncrement: 0,
           user: user.id,
         }),
-
       })
         .then((response) => response.json())
         .then((data) => {
           console.log("Score mis à jour avec succès:", data);
-        });
-      // console.log("QUEST >>> users.id : ", users.id);
-      // return <FontAwesome name={questIcons[0]} size={32} color="black" />;
+
+          //* Mettre à jour le score dans le store Redux
+          dispatch(addScoreToStore({ score: data.newScore }));
+        })
+        .catch((error) =>
+          console.error("Erreur lors de la mise à jour du score:", error)
+        );
+
       return <Ionicons name={questIcons[0]} size={32} color="#FF435E" />;
     }
   };

@@ -21,9 +21,6 @@ export default function DashboardScreen() {
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
-  /** adresses de fetch */
-  const IP_ADDRESS = "http://172.20.10.4:3000";
-
   console.log("Reduce", user);
   useEffect(() => {
     console.log("Reduce", user.id);
@@ -33,7 +30,7 @@ export default function DashboardScreen() {
         console.log("Test", data.userData.score);
         dispatch(addScoreToStore({score: data.userData.score, carbone: data.userData.carbone}));
       });
-  }, [user]);
+  }, [user.score]);
 
   const getColorForScore = (score) => {
     if (score < 25) return "#085229";
@@ -55,7 +52,7 @@ export default function DashboardScreen() {
       <AnimatedCircularProgress
         size={270}
         width={15}
-        fill={user.score} // Directement la valeur du score
+        fill={user.score || 0} //! Directement la valeur du score
         tintColor={getColorForScore(user.score)} // Couleur basée sur le score
         backgroundColor="#e6e6e6" // Couleur de fond neutre
         padding={10}

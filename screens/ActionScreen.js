@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 40,
     justifyContent: "space-evenly",
-    height: "18%",
+    height: "20%",
   },
   titleCategory: {
     fontSize: 28,

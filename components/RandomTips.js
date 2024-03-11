@@ -9,9 +9,6 @@ import config from "../config"
 export default function TipsScreen() {
   const [randomTip, setRandomTip] = useState("");
 
-  /** adresses de fetch */
-  const IP_ADDRESS = "http://172.20.10.4:3000";
-
   // Récupération des tips via le fetch vers la route en backline
   const getRandomTip = () => {
     fetch(`${config.IP_ADDRESS}/tips/test`)
