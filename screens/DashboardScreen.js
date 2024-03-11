@@ -28,7 +28,12 @@ export default function DashboardScreen() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Test", data.userData.score);
-        dispatch(addScoreToStore({score: data.userData.score, carbone: data.userData.carbone}));
+        dispatch(
+          addScoreToStore({
+            score: data.userData.score,
+            carbone: data.userData.carbone,
+          })
+        );
       });
   }, [user.score]);
 
@@ -65,7 +70,6 @@ export default function DashboardScreen() {
             <Text style={styles.scoreText}>{user.score}</Text>
             <Text style={styles.rank}>{getRank(user.score)}</Text>
             <Text style={styles.rank}>{user.carbone} kg Co2</Text>
-            
           </>
         )}
       </AnimatedCircularProgress>
@@ -157,7 +161,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 20,
   },
-  // Vos styles existants...
+  // Les styles existants...
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -221,7 +225,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 10,
   },
-  // Ajoutez ici les styles supplémentaires pour le graphique d'historique et autres éléments
 
   // Style supplémentaire pour quest et tips
   questContainer: {
