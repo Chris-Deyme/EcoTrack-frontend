@@ -90,6 +90,7 @@ const ProfilScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+          <Text style={styles.title}>Profil de {user.username}</Text>
       <View style={styles.profilePicContainer}>
         {image ? (
           <Image source={{ uri: image }} style={styles.profilePic} />
@@ -113,8 +114,6 @@ const ProfilScreen = ({navigation}) => {
       <TouchableOpacity onPress={() => {}} style={styles.settingsIcon}>
         <FontAwesomeIcon icon={faCog} size={24} />
       </TouchableOpacity>
-
-      <Text style={styles.title}>Salut {user.username}</Text>
 
     <Text style={styles.historyTitle}>
         Historique des scores de la semaine
@@ -297,7 +296,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '90%', // Utiliser un pourcentage de la largeur pour une meilleure réactivité
+    width: '100%', // Utiliser un pourcentage de la largeur pour une meilleure réactivité
     marginBottom: 20,
     marginTop: 20, // Ajouter un espace au-dessus des boutons
   },
@@ -318,9 +317,11 @@ const styles = StyleSheet.create({
   },
   buttonCamera: {
     backgroundColor: "#41F67F",
+    width: '40%',
   },
   buttonGallery: {
     backgroundColor: "#085229",
+    width: '40%',
   },
   buttonText: {
     color: 'white',
@@ -337,7 +338,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 20,
+    color: '#085229',
+    fontFamily: 'Poppins'
+  } 
   
 });
 
