@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { Shadow } from "react-native-shadow-2";
-import { FontAwesome } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import config from "../config";
 
 export default function QuestComponent() {
+
+  const user = useSelector((state) => state.user.value);
   // state de récupération random d'une quête
   const [randomQuest, setRandomQuest] = useState("");
   // state de validation de la quête
@@ -14,12 +17,11 @@ export default function QuestComponent() {
   const [counter, setCounter] = useState(0);
 
   /** adresses de fetch */
-  // const IP_ADRESS = "172.20.10.2:3000";
-  // const IP_ADRESS = "172.20.10.3:3000";
-  const IP_ADRESS = "http://192.168.1.20:3000";
+  const IP_ADDRESS = "http://172.20.10.4:3000";
 
   const getRandomQuest = () => {
-    fetch(`${IP_ADRESS}/quests/test`)
+    fetch(`${config.IP_ADDRESS}/quests/test`)
+    // fetch(`${IP_ADDRESS}/quests/test`)
       .then((response) => response.json())
       .then((data) => {
         const quest = data.quest[0].description;
@@ -35,6 +37,7 @@ export default function QuestComponent() {
   /** MÉCANIQUE POUR AFFICHER LES POINTS SI LA QUÊTE EST RÉALISÉE */
   // Si la quête est réalisée
   const questIcons = ["cube", "checkmark"];
+
   const handleQuest = () => {
     // Inverser l'état actuel de la quête
     setQuestCompleted(!questCompleted);
@@ -47,20 +50,22 @@ export default function QuestComponent() {
       setCounter(counter + 50); // Incrémenter le compteur
 
       // Mettre à jour le score de l'utilisateur
-      fetch(`${IP_ADRESS}/updateScore/${users.id}`, {
+      console.log("user", user.id);
+      fetch(`${config.IP_ADDRESS}/scores/updateScore/${user.id}`, {
         method: "PUT",
-        header: {
-          "content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          scoreUpsdate: 50,
+          scoreIncrement: 50,
+          carboneIncrement: 0,
+          user: user.id,
         }),
+
       })
         .then((response) => response.json())
         .then((data) => {
-          //  console.log("Score mis à jour avec succès:", data);
+          console.log("Score mis à jour avec succès:", data);
         });
-      console.log("QUEST >>> users.id : ", users.id);
+      // console.log("QUEST >>> users.id : ", users.id);
       // return <FontAwesome name={questIcons[0]} size={32} color="black" />;
       return <Ionicons name={questIcons[0]} size={32} color="#FF435E" />;
     }
@@ -78,7 +83,7 @@ export default function QuestComponent() {
             <TouchableOpacity
               style={styles.quest}
               onPress={handleQuest}
-              disabled={questCompleted}
+              // disabled={questCompleted}
             >
               <Ionicons
                 name={questCompleted ? questIcons[1] : questIcons[0]}

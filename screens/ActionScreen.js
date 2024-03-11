@@ -37,6 +37,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
+import config from "../config";
 
 export default function ActionScreen({ navigation }) {
   const category = useSelector((state) => state.category.value);
@@ -45,9 +46,8 @@ export default function ActionScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   /** adresses de fetch */
-  const IP_ADDRESS = "http://172.20.10.2:3000";
-  // const IP_ADDRESS = "http://192.168.1.20:3000";
-  // const IP_ADDRESS = "http://192.168.1.20:3000";
+  const IP_ADDRESS = "http://172.20.10.4:3000";
+
   const [isLoading, setIsLoading] = useState(true);
 
   const handleModal = () => {
@@ -56,8 +56,9 @@ export default function ActionScreen({ navigation }) {
 
   const handleAddPoints = (dataActivity) => {
     console.log(dataActivity);
-
-    fetch(`${IP_ADDRESS}/scores/updateScore/${user.id}`, {
+    fetch(`${config.IP_ADDRESS}/scores/updateScore/${user.id}`,
+    // fetch(`${IP_ADDRESS}/scores/updateScore/${user.id}`, 
+    {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -79,7 +80,7 @@ export default function ActionScreen({ navigation }) {
       category.nameCategory === "Alimentation" ||
       category.nameCategory === "Énergie"
     ) {
-      fetch(`${IP_ADDRESS}/activities/showActivity/${category.nameCategory}`)
+      fetch(`${config.IP_ADDRESS}/activities/showActivity/${category.nameCategory}`)
         .then((response) => response.json())
         .then((data) => {
           setActivities(data);

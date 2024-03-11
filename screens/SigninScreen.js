@@ -12,9 +12,10 @@ import {
   Platform,
 } from "react-native";
 import LongButton from "../components/LongButton";
-import EcotrackLogo from "../components/EcotrackLogo"
+import EcotrackLogo from "../components/EcotrackLogo";
 import { FontAwesome } from "@expo/vector-icons";
 import { login } from "../reducers/user";
+import config from "../config";
 
 export default function SigninScreen({ navigation }) {
   const [signInEmail, setSignInEmail] = useState("test@gmail.com");
@@ -22,12 +23,11 @@ export default function SigninScreen({ navigation }) {
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
-  const IP_ADDRESS = "172.20.10.2";
-  // const IP_ADDRESS = "172.20.10.3";
-  // const IP_ADDRESS = "192.168.1.20";
+  /** adresses de fetch */
+  const IP_ADDRESS = "http://172.20.10.4:3000";
 
   const handleConnection = () => {
-    fetch(`http://${IP_ADDRESS}:3000/users/signin`, {
+    fetch(`${config.IP_ADDRESS}/users/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),
