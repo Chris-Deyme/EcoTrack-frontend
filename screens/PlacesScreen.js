@@ -30,10 +30,10 @@ const StructuresScreen = ({navigation}) => {
       });
   }, []);
 
-  const handleDelete = () => {
-    console.log(`Tentative de suppression de la structure avec l'ID: ${user.id}`);
+  const handleDelete = (id) => {
+    console.log(`Tentative de suppression de la structure avec l'ID: ${id}`);
   
-    fetch(`http://${IP_ADDRESS}/structures/deleteStructure/${user.id}`, {
+    fetch(`http://${IP_ADDRESS}/structures/deleteStructure/${id}`, {
       method: 'DELETE', 
     })
       .then(response => response.json())
@@ -41,7 +41,7 @@ const StructuresScreen = ({navigation}) => {
         if (data.result) {
           console.log(data.response);
         
-          setStructure(structure.filter(s => s.id !== userData));
+          setStructure(structure.filter(s => id !== s._id));
         } else {
           console.log('Erreur lors de la suppression :', data.error);
         }
@@ -51,6 +51,7 @@ const StructuresScreen = ({navigation}) => {
       });
   };
   
+ 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,10 +60,13 @@ const StructuresScreen = ({navigation}) => {
                 </TouchableOpacity>
       <Text style={styles.title}>Mes Structures</Text>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {structure.map((structure) => (
-          <View key={structure.id} style={styles.card}>
+        {structure.map((structure, index) => 
+         
+        (
+       
+          <View key={index} style={styles.card}>
             <Text style={styles.name}>{structure.name}</Text>
-            <TouchableOpacity onPress={() => handleDelete(structure.id)}>
+            <TouchableOpacity onPress={() => handleDelete(structure._id)}>
               <FontAwesome name="trash" size={24} color="#41F67F" />
             </TouchableOpacity>
           </View>
