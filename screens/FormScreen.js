@@ -9,7 +9,7 @@ import { FontAwesome } from "@expo/vector-icons";
   /** adresses de fetch */
   // const IP_ADDRESS = "192.168.1.20:3000";
   // const IP_ADDRESS = "192.168.1.20:3000";
-  const IP_ADDRESS = "http://192.168.1.20:3000";
+  const IP_ADDRESS = "http://172.20.10.13:3000";
   const API_ADDRESS = "https://api-adresse.data.gouv.fr";
 
 export default function FormScreen({ navigation }) {

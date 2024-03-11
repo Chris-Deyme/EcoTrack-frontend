@@ -11,7 +11,7 @@ export default function TipsScreen() {
   /** adresses de fetch */
   // const IP_ADDRESS = "192.168.1.20:3000";
   // const IP_ADDRESS = "192.168.1.20:3000";
-  const IP_ADDRESS = "http://192.168.1.20:3000";
+  const IP_ADDRESS = "http://172.20.10.13:3000";
 
   // Récupération des tips via le fetch vers la route en backline
   const getRandomTip = () => {

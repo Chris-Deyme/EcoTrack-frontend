@@ -24,7 +24,7 @@ export default function SigninScreen({ navigation }) {
 
   // const IP_ADDRESS = "172.20.10.2:3000";
   // const IP_ADDRESS = "172.20.10.3:3000";
-  const IP_ADDRESS = "192.168.1.20:3000";
+  const IP_ADDRESS = "172.20.10.13";
 
   const handleConnection = () => {
     fetch(`http://${IP_ADDRESS}:3000/users/signin`, {

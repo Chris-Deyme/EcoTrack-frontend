@@ -47,7 +47,7 @@ export default function ActionScreen({ navigation }) {
   /** adresses de fetch */
   // const IP_ADDRESS = "http://192.168.1.20:3000";
   // const IP_ADDRESS = "http://192.168.1.20:3000";
-  const IP_ADDRESS = "http://192.168.1.20:3000";
+  const IP_ADDRESS = "http://172.20.10.13:3000";
   const [isLoading, setIsLoading] = useState(true);
 
   const handleModal = () => {

@@ -16,7 +16,7 @@ export default function QuestComponent() {
   /** adresses de fetch */
   // const IP_ADRESS = "172.20.10.2:3000";
   // const IP_ADRESS = "172.20.10.3:3000";
-  const IP_ADRESS = "http://192.168.1.20:3000";
+  const IP_ADRESS = "http://172.20.10.13:3000";
 
   const getRandomQuest = () => {
     fetch(`${IP_ADRESS}/quests/test`)
