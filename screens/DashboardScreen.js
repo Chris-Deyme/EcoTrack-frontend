@@ -65,7 +65,7 @@ export default function DashboardScreen() {
             <Text style={styles.scoreText}>{user.score}</Text>
             <View style={styles.dataContainer}>
             <Text style={styles.co2Number}>{user.carbone} kg Co2</Text>
-            <Text style={styles.rank}>{getRank(user.score)}</Text>
+            <Text style={styles.rank}>Rang : {getRank(user.score)}</Text>
             </View>
             
             
