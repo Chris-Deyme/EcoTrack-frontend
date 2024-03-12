@@ -1,11 +1,11 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React from 'react'
 
-export default function InputComponent(label, placeholder, keyboardType) {
+export default function InputComponent(label, placeholder) {
   return (
       <View style={styles.inputContainer}>
         <Text style={styles.label}>{label}</Text>
-        <TextInput style={styles.input} placeholder={placeholder} keyboardType={keyboardType}/>
+        <TextInput style={styles.input} placeholder={placeholder}/>
       </View>
   )
 }

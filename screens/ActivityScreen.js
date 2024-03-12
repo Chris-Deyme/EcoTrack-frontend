@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import ActivityCard from "../components/ActivityCard";
+import SearchComponent from "../components/SearchComponent";
 import {
   faPersonBiking,
   faBolt,
@@ -17,7 +18,6 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { addCategoryToStore } from "../reducers/category";
 import { useDispatch, useSelector } from "react-redux";
-import InputComponent from "../components/InputComponent";
 
 // startColor, color, text, name
 // <FontAwesomeIcon icon="mug-saucer" />
@@ -42,8 +42,12 @@ export default function ActivityScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{ marginTop: 50 }}>
+        <SearchComponent />
+      </View>
+
       <View style={styles.header}>
-      <Text style={styles.title}>Sélectionnez une activité</Text>
+        <Text style={styles.title}>Sélectionnez une activité</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.cardContainer}>
@@ -77,7 +81,7 @@ export default function ActivityScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 25,
+    gap: 20,
     // alignItems: "center",
     // justifyContent: "center",
     backgroundColor: "white",
@@ -85,7 +89,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "white",
     gap: 30,
-    paddingTop: 40,
+    paddingTop: 20,
     paddingBottom: 40,
     width: "100%",
     alignItems: "center",
@@ -93,9 +97,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
+    textAlign: "center",
     marginTop: 20,
-    marginBottom: 20,
+    // marginBottom:10,
     color: "#085229",
     fontFamily: "Poppins",
-  }
+  },
 });

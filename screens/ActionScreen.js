@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import ActionCard from "../components/ActionCard";
+import SearchComponent from "../components/SearchComponent";
 import ShortButton from "../components/ShortButton";
 import {
   faPersonBiking,
@@ -190,6 +191,7 @@ export default function ActionScreen({ navigation }) {
         >
           <FontAwesome name="chevron-left" size={26} color="black" />
         </TouchableOpacity>
+        <SearchComponent  style={{top: 0}}/>
         <Text style={styles.titleCategory}>{category.nameCategory}</Text>
       </SafeAreaView>
       <Text style={styles.results} backgroundColor={backColor}>
