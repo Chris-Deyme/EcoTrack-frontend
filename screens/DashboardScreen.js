@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
     color: "#085229",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
   },
   buttonsContainer: {
     flexDirection: "row",
