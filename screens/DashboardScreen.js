@@ -38,6 +38,20 @@ export default function DashboardScreen() {
       });
   }, [user.score]);
 
+  useEffect(() => {
+    fetch(`${config.IP_ADDRESS}/scores/classement`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Limiter le classement aux 5 premiers utilisateurs
+        const top5Users = data.classement.slice(0, 5);
+        setUsers(top5Users); // Mettre à jour la liste des utilisateurs
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération du classement :", error);
+      });
+  }, []);
+  
+
   const getColorForScore = (score) => {
     if (score < 25) return "#085229";
     else if (score < 50) return "#FCE340";
@@ -52,25 +66,13 @@ export default function DashboardScreen() {
     else return "Putois 🦨";
   };
 
-  const users = [
-    { id: 1, name: 'John Doe', score: 250 },
-    { id: 2, name: 'Jane Smith', score: 200 },
-    { id: 3, name: 'Alice Johnson', score: 180 },
-    { id: 4, name: 'Bob Brown', score: 150 },
-    { id: 5, name: 'Emma Davis', score: 140 },
-    { id: 6, name: 'Michael Wilson', score: 130 },
-    { id: 7, name: 'Olivia Martinez', score: 120 },
-    { id: 8, name: 'James Anderson', score: 110 },
-    { id: 9, name: 'Sophia Taylor', score: 100 },
-    { id: 10, name: 'William Thomas', score: 90 },
-  ];
-  
-    // Fonction pour rendre chaque élément de la liste
-    const renderItem = ({ item, index }) => (
+  const [users, setUsers] = useState([]);
+
+      const renderItem = ({ item, index }) => (
       <View style={styles.userItem}>
         <Text style={styles.userRank}>{index + 1}</Text>
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{item.name}</Text>
+          <Text style={styles.userName}>{item.user.username}</Text>
           <Text style={styles.userScore}>{item.score} points</Text>
         </View>
       </View>
@@ -109,11 +111,13 @@ export default function DashboardScreen() {
       </View>
 
       <Text style={styles.title}>Classement des utilisateurs</Text>
-<FlatList
+      <FlatList
   data={users}
   renderItem={({ item, index }) => renderItem({ item, index })}
-  keyExtractor={(item) => item.id.toString()}
+  keyExtractor={(item, index) => (item && item.id) ? item.id.toString() : index.toString()}
 />
+
+
 
     </ScrollView>
   );

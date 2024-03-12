@@ -21,7 +21,16 @@ import {
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import LongButton from "../components/LongButton";
-// import ShortButton from "../components/ShortButton";
+import ShortButton from "../components/ShortButton";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+  faCog,
+  faCamera,
+  faTimes,
+  faImages,
+  faImage,
+  faSliders,
+} from "@fortawesome/free-solid-svg-icons";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
@@ -117,7 +126,7 @@ export default function MapScreen({ navigation }) {
     }
   };
   
-
+console.log(places)
 
 
   return (
@@ -127,6 +136,7 @@ export default function MapScreen({ navigation }) {
         <View style={styles.inputContainer}>
           <View style={styles.labelContainer}>
             <Text style={styles.label}>Rechercher</Text>
+            
           </View>
           {
             !!places.length &&
@@ -143,54 +153,42 @@ export default function MapScreen({ navigation }) {
             suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
           />
         }
-
+<ShortButton color={"#41F67F"} icon={faSliders} startColor={"#085229"}onPress={() => setFilterModalVisible(true)}>
+            Filtrer
+          </ShortButton>
         </View>
 
-        {/* Le Modal reste inchangé */}
-
-        {/* <MapView
-          style={styles.map}
-          region={mapRegion}
-          mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
-          initialRegion={{
-            latitude: 48.853, // Default to Paris if no location
-            longitude: 2.349,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={filterModalVisible}
+          onRequestClose={() => {
+            setFilterModalVisible(!filterModalVisible);
           }}
         >
-           {currentLocation && (
-    <Marker
-      coordinate={{
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-      }}
-      title="Votre position actuelle"
-      pinColor="#FF0000"
-    />
-  )}
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Sélectionner une catégorie :</Text>
+              <Button
+               title='Point de tri' onPress={() => setSelectedCategory('Point de tri')} />
+                 <Button
+               title='Association' onPress={() => setSelectedCategory('Association')} />
+                 <Button
+               title='Écolieu' onPress={() => setSelectedCategory('Écolieu')} />
+               <Button
+               title='Magasin éco/bio' onPress={() => setSelectedCategory('Magasin éco/bio')} />
+               <Button
+               title='Voir tous' onPress={() => setSelectedCategory('all')} />
 
-          {initialLocations.map((location, index) => {
-            let distance = currentLocation
-              ? getDistanceFromLatLonInKm(
-                  currentLocation.latitude,
-                  currentLocation.longitude,
-                  location.coordinates.latitude,
-                  location.coordinates.longitude
-                ).toFixed(2)
-              : "Unknown";
-
-            return (
-              <Marker
-                key={index}
-                coordinate={location.coordinates}
-                title={location.name}
-                description={`Distance: ${distance} km`}
-                image={icons[location.type]}
+              <Button
+                title="Fermer"
+                onPress={() => setFilterModalVisible(!filterModalVisible)}
               />
-            );
-          })}
-        </MapView> */}
+            </View>
+          </View>
+        </Modal>
+
+        
 
 <MapView
   style={styles.map}
@@ -214,7 +212,24 @@ export default function MapScreen({ navigation }) {
     />
   )}
 
-  {places.map((place, index) => (
+{places
+            .filter((place) =>
+              selectedCategory === "all"
+                ? true
+                : place.category === selectedCategory
+            )
+            .map((place, index) => {
+              let distance = currentLocation
+                ? getDistanceFromLatLonInKm(
+                    currentLocation.latitude,
+                    currentLocation.longitude,
+                    place.address.latitude,
+                    place.address.longitude
+                  ).toFixed(2)
+                : "Unknown";
+
+
+  return (
     <Marker
       key={index}
       coordinate={{
@@ -222,10 +237,10 @@ export default function MapScreen({ navigation }) {
         longitude: place.address.longitude,
       }}
       title={place.name}
-      description={`Type: ${place.category}`}
+      description={`Type: ${place.category} Distance: ${distance} km`}
       image={icons[place.category]} 
     />
-  ))}
+  ); })}
 </MapView>
 
         <View style={styles.buttonContainer}>
