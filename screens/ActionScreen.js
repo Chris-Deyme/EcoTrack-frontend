@@ -191,7 +191,6 @@ export default function ActionScreen({ navigation }) {
         >
           <FontAwesome name="chevron-left" size={26} color="black" />
         </TouchableOpacity>
-        <SearchComponent  style={{top: 0}}/>
         <Text style={styles.titleCategory}>{category.nameCategory}</Text>
       </SafeAreaView>
       <Text style={styles.results} backgroundColor={backColor}>
