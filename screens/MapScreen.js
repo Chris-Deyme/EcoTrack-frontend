@@ -26,11 +26,10 @@ import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
 
-
 const icons = {
   ["Point de tri"]: require("../assets/tri.png"),
   Association: require("../assets/association.png"),
-  ['Magasin éco/bio']: require("../assets/shop.png"),
+  ["Magasin éco/bio"]: require("../assets/shop.png"),
   Écolieu: require("../assets/ecolieu.png"),
 };
 
@@ -66,7 +65,7 @@ export default function MapScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data && data.structures) {
-          setPlaces(data.structures); 
+          setPlaces(data.structures);
         }
       })
       .catch((error) => {
@@ -82,22 +81,20 @@ export default function MapScreen({ navigation }) {
       return;
     }
 
-    const response = await fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
-    const items = await response.json()
-    console.log(items)
+    const response = await fetch(
+      `${config.IP_ADDRESS}/structures/showStructure/`
+    );
+    const items = await response.json();
+    console.log(items);
     const suggestions = items.structures
       .filter((item) => item.name.toLowerCase().includes(filterToken))
       .map((item) => ({
         id: item.id,
         title: item.name,
-      }))
-    setSuggestionsList(suggestions)
+      }));
+    setSuggestionsList(suggestions);
     // setLoading(false)
-  }, [])
-
-  
-
-
+  }, []);
 
   const onSelectItem = useCallback((item) => {
     if (item) {
@@ -115,9 +112,6 @@ export default function MapScreen({ navigation }) {
       }
     }
   }, []);
-  
-
-
 
   return (
     <AutocompleteDropdownContextProvider>
@@ -187,41 +181,43 @@ export default function MapScreen({ navigation }) {
           })}
         </MapView> */}
 
-<MapView
-  style={styles.map}
-  region={mapRegion}
-  mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
-  initialRegion={{
-    latitude: 48.853, // Default to Paris if no location
-    longitude: 2.349,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }}
->
-  {currentLocation && (
-    <Marker
-      coordinate={{
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-      }}
-      title="Votre position actuelle"
-      pinColor="#FF0000"
-    />
-  )}
+        <MapView
+          style={styles.map}
+          region={mapRegion}
+          mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
+          initialRegion={{
+            latitude: 48.853, // Default to Paris if no location
+            longitude: 2.349,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          {currentLocation && (
+            <Marker
+              coordinate={{
+                latitude: currentLocation.latitude,
+                longitude: currentLocation.longitude,
+              }}
+              title="Votre position actuelle"
+              pinColor="#FF0000"
+            />
+          )}
 
-  {places.map((place, index) => (
-    <Marker
-      key={index}
-      coordinate={{
-        latitude: place.address.latitude, 
-        longitude: place.address.longitude,
-      }}
-      title={place.name}
-      description={`Type: ${place.category}`}
-      image={icons[place.category]} 
-    />
-  ))}
-</MapView>
+          {setTimeout(() => {
+            places.map((place, index) => (
+              <Marker
+                key={index}
+                coordinate={{
+                  latitude: place.address.latitude,
+                  longitude: place.address.longitude,
+                }}
+                title={place.name}
+                description={`Type: ${place.category}`}
+                image={icons[place.category]}
+              />
+            ));
+          }, 3000)}
+        </MapView>
 
         <View style={styles.buttonContainer}>
           <LongButton
