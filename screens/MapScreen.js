@@ -45,7 +45,7 @@ const icons = {
 export default function MapScreen({ navigation }) {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
-  // const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [suggestionsList, setSuggestionsList] = useState(null);
   const [loading, setLoading] = useState(false); //!
   const [mapRegion, setMapRegion] = useState({

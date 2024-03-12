@@ -3,10 +3,10 @@ import { Shadow } from 'react-native-shadow-2';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function ShortButton({ onPress, icon, color }) {
+export default function ShortButton({ onPress, icon, color, startColor }) {
    return (
       <>
-         <Shadow distance={0.5} startColor={'#085229ff'} offset={[4, 5]}>
+         <Shadow distance={0.5} startColor={startColor} offset={[4, 5]}>
             <TouchableOpacity
             style={
                { 

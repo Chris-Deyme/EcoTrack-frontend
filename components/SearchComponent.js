@@ -13,26 +13,34 @@ import ShortButton from "./ShortButton";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
+import { addCategoryToStore } from "../reducers/category";
 
-export default function SearchComponent() {
+export default function SearchComponent({ navigation }) {
   // const actionName = useSelector((state) => state.name);
   const [searchText, setSearchText] = useState("");
   const [action, setAction] = useState(null);
-  // const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const category = useSelector((state) => state.category.value);
 
   const handleResearch = () => {
-    console.log(searchText);
-    fetch(`${config.IP_ADDRESS}/activities/activityName/${searchText}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data) {
-        }
-        console.log("prout :", data);
+    dispatch(
+      addCategoryToStore({
+        nameCategory: "Votre Recherche",
+        keyword: searchText,
       })
-      .catch((error) => {
-        console.error("Erreur, ta mère en fetch !!!", error);
-      });
+    );
+    navigation.navigate("Action");
+    setSearchText("");
   };
+  // console.log(searchText);
+  // fetch(`${config.IP_ADDRESS}/activities/activityName/${searchText}`)
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     if (data) {
+  //     }
+  //     console.log("prout :", data);
+  //   })
+
   useEffect(() => {}, []);
 
   const getSuggestions = async (q) => {
@@ -55,19 +63,21 @@ export default function SearchComponent() {
   return (
     <AutocompleteDropdownContextProvider>
       <SafeAreaView style={styles.container}>
-        <View>
-          <View style={styles.labelContainer}>
-            <Text style={styles.label}>Rechercher</Text>
-            <AutocompleteDropdown
-              direction={Platform.select({ ios: "down" })}
-              onChangeText={(value) => setSearchText(value)}
-              value={searchText}
-            />
-          </View>
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>Rechercher</Text>
+          <AutocompleteDropdown
+            direction={Platform.select({ ios: "down" })}
+            onChangeText={(value) => setSearchText(value)}
+            value={searchText}
+            inputContainerStyle={styles.inputSearch}
+            textInputProps={{
+              placeholder: "Activités écologiques...",
+            }}
+          />
         </View>
         {/* bouton de recherche */}
-        <TouchableOpacity >
-          <View style={{ display: "flex" }}>
+        <TouchableOpacity>
+          <View style={styles.btnContainer}>
             <ShortButton
               color={"#41F67F"}
               icon={faMagnifyingGlass}
@@ -87,26 +97,37 @@ const styles = StyleSheet.create({
   container: {
     width: "80%",
     flexDirection: "row",
-    // gap: 10,
-    justifyContent: "center",
-    alignItems: "flex-end",
-  },
-  inputContainer: {
-    marginTop: 0,
-    marginBottom: 10,
+    // marginLeft: 60,
+    // justifyContent: "center",
     alignItems: "center",
+    justifyContent: "space-evenly"
+  },
+  labelContainer: {
+    flexDirection: "column",
+    width: 290,
+    height: 80,
+    justifyContent: "center",
+    // backgroundColor: "red"
+  },
+  btnContainer: {
+    height: 100,
+    justifyContent: "center",
+    marginTop: 10,
+    // backgroundColor: "blue"
+  },
+
+  inputSearch: {
+    width: 260,
+    height: 51,
+    borderWidth: 1,
+    borderColor: "#41F67F",
+    borderRadius: 10,
   },
 
   label: {
     marginLeft: 10,
-  },
-  input: {
-    width: "100%",
-    height: 51,
-    borderWidth: 1,
-    borderColor: "#085229",
-    borderRadius: 12,
-    // paddingLeft: 10,
+    fontWeight: "600",
+    fontSize: 12,
   },
   autocompleteContainer: {
     position: "relative",

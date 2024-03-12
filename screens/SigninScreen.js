@@ -20,7 +20,7 @@ import config from "../config";
 export default function SigninScreen({ navigation }) {
   const [signInEmail, setSignInEmail] = useState("test@gmail.com");
   const [signInPassword, setSignInPassword] = useState("testCapsule");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
 
   /** adresses de fetch */
