@@ -34,12 +34,13 @@ import { Provider } from "react-redux";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import user from "./reducers/user";
 import category from "./reducers/category";
+import activities from "./reducers/activities";
 
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const reducers = combineReducers({ user, category });
+const reducers = combineReducers({ user, category, activities });
 const persistConfig = {
   key: "faceup",
   storage: AsyncStorage,
@@ -47,8 +48,10 @@ const persistConfig = {
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    immutableCheck: false,
+    serializableCheck: false,
+})
 });
 
 const persistor = persistStore(store);

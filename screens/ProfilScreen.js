@@ -1,7 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Alert, Text, Animated, LayoutAnimation, UIManager, Platform, Button, Dimensions, Modal, FlatList, ScrollView } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Text,
+  Animated,
+  LayoutAnimation,
+  UIManager,
+  Platform,
+  Button,
+  Dimensions,
+  Modal,
+  FlatList,
+  ScrollView,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import LongButton from "../components/LongButton";
+import DoneActivities from "../components/DoneActivities";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCog,
@@ -14,6 +31,7 @@ import { LineChart } from "react-native-chart-kit";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/user";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { removeAllActivities } from "../reducers/activities";
 
 if (
   Platform.OS === "android" &&
@@ -28,8 +46,8 @@ const ProfilScreen = ({ navigation }) => {
   const drawerAnimation = useRef(new Animated.Value(-220)).current;
   const [history, setHistory] = useState([45, 40, 70, 80, 50, 30, 10]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const user = useSelector((state) => state.user.value);
+
 
   const openDrawerAnimated = () => {
     Animated.spring(drawerAnimation, {
@@ -101,87 +119,113 @@ const ProfilScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-          <Text style={styles.title}>Profil de {user.username}</Text>
-      <View style={styles.profilePicContainer}>
-        {image ? (
-          <Image source={{ uri: image }} style={styles.profilePic} />
-        ) : (
-          <FontAwesomeIcon icon={faImage} size={24} style={styles.profilePic} />
-        )}
-      </View>
+        <Text style={styles.title}>Profil de {user.username}</Text>
+        <View style={styles.profilePicContainer}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.profilePic} />
+          ) : (
+            <FontAwesomeIcon
+              icon={faImage}
+              size={24}
+              style={styles.profilePic}
+            />
+          )}
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={openCamera}
-          style={[styles.button, styles.buttonCamera]}
-        >
-          <FontAwesomeIcon icon={faCamera} size={24} color={"white"} />
-          <Text style={styles.buttonText}>Prendre une photo</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={openCamera}
+            style={[styles.button, styles.buttonCamera]}
+          >
+            <FontAwesomeIcon icon={faCamera} size={24} color={"white"} />
+            <Text style={styles.buttonText}>Prendre une photo</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={pickImage}
+            style={[styles.button, styles.buttonGallery]}
+          >
+            <FontAwesomeIcon icon={faImage} size={24} color={"white"} />
+            <Text style={styles.buttonText}>Charger de la galerie</Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity onPress={() => {}} style={styles.settingsIcon}>
+          <FontAwesomeIcon icon={faCog} size={24} />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={pickImage}
-          style={[styles.button, styles.buttonGallery]}
+        <Text style={styles.historyTitle}>
+          Historique des scores de la semaine
+        </Text>
+        <LineChart
+          data={{
+            labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+            datasets: [{ data: history }],
+          }}
+          width={Dimensions.get("window").width - 16}
+          height={220}
+          chartConfig={{
+            backgroundColor: "#41F67F",
+            backgroundGradientFrom: "#085229",
+            backgroundGradientTo: "#41F67F",
+            decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 12,
+            },
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
+
+        <Text style={styles.title}>Classement des utilisateurs</Text>
+        {users.map((data) => {
+          return (
+            <View
+              style={{
+                backgroundColor: "red",
+                marginBottom: 20,
+                flex: 1,
+                flexDirection: "row,",
+              }}
+            >
+              <Text>{data.name}</Text>
+              <Text>{data.score}</Text>
+            </View>
+          );
+        })}
+
+        <LongButton
+          color={"#41F67F"}
+          onPress={() => navigation.navigate("Places")}
+          text="Voir mes structures"
+        />
+        <View style={styles.activitiesInput}>
+          <DoneActivities></DoneActivities>
+        </View>
+
+        <Animated.View
+          style={[
+            styles.drawerContainer,
+            {
+              transform: [{ translateX: drawerAnimation }],
+            },
+          ]}
         >
-          <FontAwesomeIcon icon={faImage} size={24} color={"white"} />
-          <Text style={styles.buttonText}>Charger de la galerie</Text>
+          {isDrawerOpen && (
+            <DrawerNav
+              closeDrawer={closeDrawerAnimated}
+              navigation={navigation}
+            />
+          )}
+        </Animated.View>
+
+        <TouchableOpacity onPress={toggleDrawer} style={styles.settingsIcon}>
+          <FontAwesomeIcon icon={faCog} size={24} />
         </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity onPress={() => {}} style={styles.settingsIcon}>
-        <FontAwesomeIcon icon={faCog} size={24} />
-      </TouchableOpacity>
-
-      <Text style={styles.historyTitle}>
-        Historique des scores de la semaine
-      </Text>
-      <LineChart
-        data={{
-          labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-          datasets: [{ data: history }],
-        }}
-        width={Dimensions.get("window").width - 16}
-        height={220}
-        chartConfig={{
-          backgroundColor: "#41F67F",
-          backgroundGradientFrom: "#085229",
-          backgroundGradientTo: "#41F67F",
-          decimalPlaces: 2,
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 12,
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-
-<LongButton color={"#41F67F"} onPress={() => navigation.navigate("Places")} text="Voir mes structures" />
-
-
-
-      <Animated.View
-        style={[
-          styles.drawerContainer,
-          {
-            transform: [{ translateX: drawerAnimation }],
-          },
-        ]}
-      >
-        {isDrawerOpen && (
-          <DrawerNav
-            closeDrawer={closeDrawerAnimated}
-            navigation={navigation}
-          />
-        )}
-      </Animated.View>
-
-      <TouchableOpacity onPress={toggleDrawer} style={styles.settingsIcon}>
-        <FontAwesomeIcon icon={faCog} size={24} />
-      </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -193,6 +237,7 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(removeAllActivities());
     navigation.navigate("Home");
   };
 
@@ -371,31 +416,8 @@ const styles = StyleSheet.create({
     color: "#085229",
     fontFamily: "Poppins",
   },
-  userItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: "#41F67F",
-    backgroundGradientFrom: "#085229",
-    backgroundGradientTo: "#41F67F",
-    marginBottom: 0,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
-  },
-  userRank: {
-    marginRight: 10,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  userInfo: {
-    flexDirection: 'column',
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  userScore: {
-    fontSize: 14,
+  activitiesInput: {
+    marginTop: 20,
   },
 });
 

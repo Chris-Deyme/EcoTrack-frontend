@@ -42,12 +42,15 @@ import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import config from "../config";
+import { addActivitiesToStore } from "../reducers/activities";
 
 export default function ActionScreen({ navigation }) {
   const category = useSelector((state) => state.category.value);
   const user = useSelector((state) => state.user.value);
+  const activitiesDone = useSelector((state) => state.activities.value);
   const [activities, setActivities] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
 
   /** adresses de fetch */
   const IP_ADDRESS = "http://172.20.10.4:3000";
@@ -59,21 +62,31 @@ export default function ActionScreen({ navigation }) {
   };
 
   const handleAddPoints = (dataActivity) => {
-    console.log(dataActivity);
-    fetch(`${config.IP_ADDRESS}/scores/updateScore/${user.id}`,
-    // fetch(`${IP_ADDRESS}/scores/updateScore/${user.id}`, 
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        scoreIncrement: dataActivity.dataPoints,
-        carboneIncrement: dataActivity.dataCarbone,
-        user: user.id,
-      }),
-    })
+    fetch(
+      `${config.IP_ADDRESS}/scores/updateScore/${user.id}`,
+      // fetch(`${IP_ADDRESS}/scores/updateScore/${user.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          scoreIncrement: dataActivity.dataPoints,
+          carboneIncrement: dataActivity.dataCarbone,
+          user: user.id,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setModalVisible(!modalVisible);
+        dispatch(
+          addActivitiesToStore({
+            activityName: dataActivity.name,
+            activityScore: dataActivity.dataPoints,
+            activityCarbone: dataActivity.dataCarbone,
+            activityIcon: dataActivity.icon,
+            activityCategory : dataActivity.category
+          })
+        );
       });
   };
 
@@ -84,7 +97,9 @@ export default function ActionScreen({ navigation }) {
       category.nameCategory === "Alimentation" ||
       category.nameCategory === "Énergie"
     ) {
-      fetch(`${config.IP_ADDRESS}/activities/showActivity/${category.nameCategory}`)
+      fetch(
+        `${config.IP_ADDRESS}/activities/showActivity/${category.nameCategory}`
+      )
         .then((response) => response.json())
         .then((data) => {
           setActivities(data);
@@ -149,9 +164,9 @@ export default function ActionScreen({ navigation }) {
     } else if (data.Icon === "faDrumstickBite") {
       data.Icon = faDrumstickBite;
     } else if (data.Icon === "faLocationDot") {
-      data.Icon = faLocationDot
+      data.Icon = faLocationDot;
     } else if (data.Icon === "faTrash") {
-      data.Icon = faTrash
+      data.Icon = faTrash;
     }
 
     return (
@@ -175,6 +190,9 @@ export default function ActionScreen({ navigation }) {
             handleAddPoints({
               dataCarbone: data.carbone,
               dataPoints: data.points,
+              name: data.name,
+              icon: data.Icon.iconName,
+              category: data.category,
             })
           }
         />
