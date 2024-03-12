@@ -36,9 +36,9 @@ const icons = {
 export default function MapScreen({ navigation }) {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  // const [selectedCategory, setSelectedCategory] = useState("all");
   const [suggestionsList, setSuggestionsList] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); //!
   const [mapRegion, setMapRegion] = useState({
     latitude: 48.853, // Valeur par défaut centrée sur Paris
     longitude: 2.349,
@@ -47,6 +47,7 @@ export default function MapScreen({ navigation }) {
   });
   const [places, setPlaces] = useState([]);
 
+  // Permissions utilisateurs pour se servir de la map
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -54,24 +55,27 @@ export default function MapScreen({ navigation }) {
         Alert.alert("Permission to access location was denied");
         return;
       }
-
       let location = await Location.getCurrentPositionAsync({});
       setCurrentLocation(location.coords);
     })();
   }, []);
 
+  // fetch toutes les structures
   useEffect(() => {
     fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.structures) {
           setPlaces(data.structures);
+          setTimeout(() => { //!
+            setLoading(true);
+          }, 5000);
         }
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des données :", error);
       });
-  }, []);
+  }, [loading]); //!
 
   const getSuggestions = async (q) => {
     const filterToken = q.toLowerCase();
@@ -82,27 +86,22 @@ export default function MapScreen({ navigation }) {
       return;
     }
 
-    const suggestions = places.filter((item) => item.name.toLowerCase().includes(filterToken))
+    const suggestions = places
+      .filter((item) => item.name.toLowerCase().includes(filterToken))
       .map((item) => ({
         id: item._id,
         title: item.name,
-      }))
+      }));
 
-    setSuggestionsList(suggestions)
+    setSuggestionsList(suggestions);
     // setLoading(false)
-  }
-
-  
-  
-
+  };
 
   const onSelectItem = (item) => {
     if (item) {
-
       const selectedLocation = places.find(
         (structure) => structure._id == item.id
       );
-
 
       if (selectedLocation) {
         const { latitude, longitude } = selectedLocation.address;
@@ -115,9 +114,6 @@ export default function MapScreen({ navigation }) {
       }
     }
   };
-  
-
-
 
   return (
     <AutocompleteDropdownContextProvider>
@@ -127,69 +123,21 @@ export default function MapScreen({ navigation }) {
           <View style={styles.labelContainer}>
             <Text style={styles.label}>Rechercher</Text>
           </View>
-          {
-            !!places.length &&
-          <AutocompleteDropdown
-            direction={Platform.select({ ios: "down" })}
-            dataSet={suggestionsList}
-            onChangeText={getSuggestions}
-            onSelectItem={onSelectItem}
-            debounce={600}
-            textInputProps={{
-              placeholder: "Rechercher une structure",
-            }}
-            inputContainerStyle={styles.input}
-            suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
-          />
-        }
-
+          {!!places.length && (
+            <AutocompleteDropdown
+              direction={Platform.select({ ios: "down" })}
+              dataSet={suggestionsList}
+              onChangeText={getSuggestions}
+              onSelectItem={onSelectItem}
+              debounce={600}
+              textInputProps={{
+                placeholder: "Rechercher une structure",
+              }}
+              inputContainerStyle={styles.input}
+              suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
+            />
+          )}
         </View>
-
-        {/* Le Modal reste inchangé */}
-
-        {/* <MapView
-          style={styles.map}
-          region={mapRegion}
-          mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
-          initialRegion={{
-            latitude: 48.853, // Default to Paris if no location
-            longitude: 2.349,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-           {currentLocation && (
-    <Marker
-      coordinate={{
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-      }}
-      title="Votre position actuelle"
-      pinColor="#FF0000"
-    />
-  )}
-
-          {initialLocations.map((location, index) => {
-            let distance = currentLocation
-              ? getDistanceFromLatLonInKm(
-                  currentLocation.latitude,
-                  currentLocation.longitude,
-                  location.coordinates.latitude,
-                  location.coordinates.longitude
-                ).toFixed(2)
-              : "Unknown";
-
-            return (
-              <Marker
-                key={index}
-                coordinate={location.coordinates}
-                title={location.name}
-                description={`Distance: ${distance} km`}
-                image={icons[location.type]}
-              />
-            );
-          })}
-        </MapView> */}
 
         <MapView
           style={styles.map}
@@ -212,21 +160,19 @@ export default function MapScreen({ navigation }) {
               pinColor="#FF0000"
             />
           )}
-
-          {setTimeout(() => {
+          {loading &&
             places.map((place, index) => (
               <Marker
                 key={index}
                 coordinate={{
-                  latitude: place.address.latitude,
-                  longitude: place.address.longitude,
+                  latitude: Number(place.address.latitude),
+                  longitude: Number(place.address.longitude),
                 }}
                 title={place.name}
                 description={`Type: ${place.category}`}
                 image={icons[place.category]}
               />
-            ));
-          }, 3000)}
+            ))}
         </MapView>
 
         <View style={styles.buttonContainer}>
@@ -357,6 +303,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
     color: "#085229",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
   },
 });
