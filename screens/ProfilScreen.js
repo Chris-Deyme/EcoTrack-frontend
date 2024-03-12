@@ -181,23 +181,6 @@ const ProfilScreen = ({ navigation }) => {
           }}
         />
 
-        <Text style={styles.title}>Classement des utilisateurs</Text>
-        {users.map((data) => {
-          return (
-            <View
-              style={{
-                backgroundColor: "red",
-                marginBottom: 20,
-                flex: 1,
-                flexDirection: "row,",
-              }}
-            >
-              <Text>{data.name}</Text>
-              <Text>{data.score}</Text>
-            </View>
-          );
-        })}
-
         <LongButton
           color={"#41F67F"}
           onPress={() => navigation.navigate("Places")}
