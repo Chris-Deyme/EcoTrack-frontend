@@ -7,6 +7,7 @@ import {
   ScrollView,
   Dimensions,
   Modal,
+  FlatList,
 } from "react-native";
 import RandomTips from "../components/RandomTips";
 import QuestComponent from "../components/QuestComponent";
@@ -51,6 +52,30 @@ export default function DashboardScreen() {
     else return "Putois 🦨";
   };
 
+  const users = [
+    { id: 1, name: 'John Doe', score: 250 },
+    { id: 2, name: 'Jane Smith', score: 200 },
+    { id: 3, name: 'Alice Johnson', score: 180 },
+    { id: 4, name: 'Bob Brown', score: 150 },
+    { id: 5, name: 'Emma Davis', score: 140 },
+    { id: 6, name: 'Michael Wilson', score: 130 },
+    { id: 7, name: 'Olivia Martinez', score: 120 },
+    { id: 8, name: 'James Anderson', score: 110 },
+    { id: 9, name: 'Sophia Taylor', score: 100 },
+    { id: 10, name: 'William Thomas', score: 90 },
+  ];
+  
+    // Fonction pour rendre chaque élément de la liste
+    const renderItem = ({ item, index }) => (
+      <View style={styles.userItem}>
+        <Text style={styles.userRank}>{index + 1}</Text>
+        <View style={styles.userInfo}>
+          <Text style={styles.userName}>{item.name}</Text>
+          <Text style={styles.userScore}>{item.score} points</Text>
+        </View>
+      </View>
+    );
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Score CO2</Text>
@@ -82,6 +107,14 @@ export default function DashboardScreen() {
         <QuestComponent />
         <RandomTips />
       </View>
+
+      <Text style={styles.title}>Classement des utilisateurs</Text>
+<FlatList
+  data={users}
+  renderItem={({ item, index }) => renderItem({ item, index })}
+  keyExtractor={(item) => item.id.toString()}
+/>
+
     </ScrollView>
   );
 }
@@ -180,5 +213,29 @@ const styles = StyleSheet.create({
   },
   rank: {
     fontSize: 15,
-  }
+  },
+  userItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#41F67F',
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+  },
+  userRank: {
+    marginRight: 10,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  userInfo: {
+    flexDirection: 'column',
+  },
+  userName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  userScore: {
+    fontSize: 14,
+  },
 });

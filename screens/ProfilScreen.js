@@ -98,30 +98,6 @@ const ProfilScreen = ({ navigation }) => {
     }
   };
   
-  const users = [
-    { id: 1, name: 'John Doe', score: 250 },
-    { id: 2, name: 'Jane Smith', score: 200 },
-    { id: 3, name: 'Alice Johnson', score: 180 },
-    { id: 4, name: 'Bob Brown', score: 150 },
-    { id: 5, name: 'Emma Davis', score: 140 },
-    { id: 6, name: 'Michael Wilson', score: 130 },
-    { id: 7, name: 'Olivia Martinez', score: 120 },
-    { id: 8, name: 'James Anderson', score: 110 },
-    { id: 9, name: 'Sophia Taylor', score: 100 },
-    { id: 10, name: 'William Thomas', score: 90 },
-  ];
-
-  
-  
-    // Fonction pour rendre chaque élément de la liste
-    const renderItem = ({ item }) => (
-      <View style={styles.userItem}>
-        <Text style={styles.userName}>{item.name}</Text>
-        <Text style={styles.userScore}>{item.score} points</Text>
-      </View>
-    );
-
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -182,15 +158,6 @@ const ProfilScreen = ({ navigation }) => {
           borderRadius: 16,
         }}
       />
-
-      <Text style={styles.title}>Classement des utilisateurs</Text>
-     {users.map((data) => {
-      return (
-        <View style={{ backgroundColor: 'red', marginBottom: 20,flex: 1, flexDirection:'row,'}}>
-      <Text>{data.name}</Text>
-      <Text>{data.score}</Text>
-      </View>)
-     })}
 
 <LongButton color={"#41F67F"} onPress={() => navigation.navigate("Places")} text="Voir mes structures" />
 
@@ -403,6 +370,32 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#085229",
     fontFamily: "Poppins",
+  },
+  userItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: "#41F67F",
+    backgroundGradientFrom: "#085229",
+    backgroundGradientTo: "#41F67F",
+    marginBottom: 0,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+  },
+  userRank: {
+    marginRight: 10,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  userInfo: {
+    flexDirection: 'column',
+  },
+  userName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  userScore: {
+    fontSize: 14,
   },
 });
 

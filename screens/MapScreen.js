@@ -74,39 +74,39 @@ export default function MapScreen({ navigation }) {
       });
   }, []);
 
-  const getSuggestions = useCallback(async (q) => {
+  const getSuggestions = async (q) => {
     const filterToken = q.toLowerCase();
+
     console.log("getSuggestions", q);
     if (typeof q !== "string" || q.length < 3) {
       setSuggestionsList(null);
       return;
     }
 
-    const response = await fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
-    const items = await response.json()
-    const suggestions = items.structures
-      .filter((item) => item.name.toLowerCase().includes(filterToken))
+    const suggestions = places.filter((item) => item.name.toLowerCase().includes(filterToken))
       .map((item) => ({
         id: item._id,
         title: item.name,
       }))
+
     setSuggestionsList(suggestions)
     // setLoading(false)
-  }, [])
+  }
 
   
   
 
-  const onSelectItem = useCallback((item) => {
+
+  const onSelectItem = (item) => {
     if (item) {
+
       const selectedLocation = places.find(
-        (structures) => structures._id == item.id
+        (structure) => structure._id == item.id
       );
 
-      console.log(places)
-        return
+
       if (selectedLocation) {
-        const { latitude, longitude } = selectedLocation.coordinates;
+        const { latitude, longitude } = selectedLocation.address;
         setMapRegion({
           latitude: latitude,
           longitude: longitude,
@@ -115,7 +115,7 @@ export default function MapScreen({ navigation }) {
         });
       }
     }
-  }, []);
+  };
   
 
 
@@ -128,6 +128,8 @@ export default function MapScreen({ navigation }) {
           <View style={styles.labelContainer}>
             <Text style={styles.label}>Rechercher</Text>
           </View>
+          {
+            !!places.length &&
           <AutocompleteDropdown
             direction={Platform.select({ ios: "down" })}
             dataSet={suggestionsList}
@@ -140,6 +142,8 @@ export default function MapScreen({ navigation }) {
             inputContainerStyle={styles.input}
             suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
           />
+        }
+
         </View>
 
         {/* Le Modal reste inchangé */}
