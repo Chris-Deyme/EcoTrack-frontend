@@ -84,11 +84,10 @@ export default function MapScreen({ navigation }) {
 
     const response = await fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
     const items = await response.json()
-    console.log(items)
     const suggestions = items.structures
       .filter((item) => item.name.toLowerCase().includes(filterToken))
       .map((item) => ({
-        id: item.id,
+        id: item._id,
         title: item.name,
       }))
     setSuggestionsList(suggestions)
@@ -96,14 +95,16 @@ export default function MapScreen({ navigation }) {
   }, [])
 
   
-
-
+  
 
   const onSelectItem = useCallback((item) => {
     if (item) {
       const selectedLocation = places.find(
-        (structures) => structures.id === parseInt(item.id, 10)
+        (structures) => structures._id == item.id
       );
+
+      console.log(places)
+        return
       if (selectedLocation) {
         const { latitude, longitude } = selectedLocation.coordinates;
         setMapRegion({
