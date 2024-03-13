@@ -114,7 +114,7 @@ export default function DoneActivities() {
 
   return (
     <View style={styles.main}>
-      <Text style={styles.title}>Vos dernières activités</Text>
+      <Text style={styles.h2}>Vos dernières activités</Text>
       {allActivitiesDone}
     </View>
   );
@@ -135,6 +135,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4F1F1",
     padding: 10,
     borderRadius: 15,
+    marginLeft: 20,
+    marginRight: 20,
   },
   main: {
     gap: 10,
@@ -166,5 +168,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "bold",
     textAlignVertical: "bottom",
+  },
+  h2: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginBottom: 3,
+    color: "black",
+    // fontFamily: "Poppins",
   },
 });
