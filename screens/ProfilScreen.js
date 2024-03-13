@@ -31,7 +31,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { LineChart } from "react-native-chart-kit";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../reducers/user";
+import { logout, addImgToStore } from "../reducers/user";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { removeAllActivities } from "../reducers/activities";
 
@@ -160,8 +160,8 @@ const ProfilScreen = ({ navigation }) => {
         </View>
         <View style={styles.profilContent}>
           <View style={styles.profilePicContainer}>
-            {image ? (
-              <Image source={{ uri: image }} style={styles.profilePic} />
+            {user.image ? (
+              <Image source={{ uri: user.image }} style={styles.profilePic} />
             ) : (
               <FontAwesomeIcon
                 icon={faImage}
@@ -235,6 +235,8 @@ const ProfilScreen = ({ navigation }) => {
 const DrawerNav = ({ navigation, closeDrawer }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
+  const [image, setImage] = useState(null);
+  
 
   const handleLogout = () => {
     dispatch(logout());
@@ -270,8 +272,8 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
       quality: 1,
     });
 
-    if (!result.cancelled && result.assets) {
-      setImage(result.assets[0].uri);
+    if (!result.canceled && result.assets) {
+      dispatch(addImgToStore({image: result.assets[0].uri}));
     }
   };
 
@@ -285,8 +287,9 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
 
     console.log(result);
 
-    if (!result.cancelled) {
-      setImage(result.assets[0].uri);
+    if (!result.canceled) {
+      dispatch(addImgToStore({image: result.assets[0].uri}));
+      console.log("est", user.image)
     }
   };
 
