@@ -35,7 +35,6 @@ import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
 import RadioGroup from "react-native-radio-buttons-group";
-import { RadioButton } from "react-native-paper";
 
 const icons = {
   ["Point de tri"]: require("../assets/tri.png"),
@@ -159,8 +158,6 @@ export default function MapScreen({ navigation }) {
     console.log("ok", radioButtons);
     setSelectedCategory(radioButtons);
   };
-
-  const [checked, setChecked] = React.useState("first");
 
   return (
     <AutocompleteDropdownContextProvider>

@@ -18,12 +18,18 @@ export default function App({ navigation }) {
         shouldPlay={true}
         onPlaybackStatusUpdate={(status) => setStatus(() => status)}
       />
-      <View style={{ position: "absolute", alignItems: "center", justifyContent: "center" }}>
+      <View
+        style={{
+          position: "absolute",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Image
-          source={require("../assets/logotype.png")}
+          source={require("../assets/Logotype-ecotrack.png")}
           style={styles.image}
         />
-        <View style={{ marginTop: 180 }}>
+        <View style={{ marginTop: 160 }}>
           <View style={styles.button}>
             <LongButton
               color={"#41F67F"}
@@ -34,9 +40,11 @@ export default function App({ navigation }) {
           <View style={styles.textView}>
             <Text style={styles.text}>Déja inscrit ?</Text>
             <Text
-               style={[styles.text, styles.textOne]}
-               onPress={() => navigation.navigate("Signin")}
-            >Se connecter</Text>
+              style={[styles.text, styles.textOne]}
+              onPress={() => navigation.navigate("Signin")}
+            >
+              Se connecter
+            </Text>
           </View>
         </View>
       </View>
@@ -73,6 +81,7 @@ const styles = StyleSheet.create({
   image: {
     width: 280,
     marginTop: 250,
+    resizeMode: "contain"
   },
   video: {
     width: "100%",
