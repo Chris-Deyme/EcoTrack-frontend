@@ -34,8 +34,7 @@ import {
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
-import RadioGroup from 'react-native-radio-buttons-group';
-
+import RadioGroup from "react-native-radio-buttons-group";
 
 const icons = {
   ["Point de tri"]: require("../assets/tri.png"),
@@ -46,29 +45,29 @@ const icons = {
 
 const options = [
   {
-    id: 'Point de tri',
-    label: 'Point de tri',
-    value: 'Point de tri'
+    id: "Point de tri",
+    label: "Point de tri",
+    value: "Point de tri",
   },
   {
-    id: 'Association',
-    label: 'Association',
-    value: 'Association'
+    id: "Association",
+    label: "Association",
+    value: "Association",
   },
   {
-    id: 'Écolieu',
-    label: 'Écolieu',
-    value: 'Écolieu'
+    id: "Écolieu",
+    label: "Écolieu",
+    value: "Écolieu",
   },
   {
-    id: 'Magasin éco/bio',
-    label: 'Magasin éco/bio',
-    value: 'Magasin éco/bio'
+    id: "Magasin éco/bio",
+    label: "Magasin éco/bio",
+    value: "Magasin éco/bio",
   },
   {
-    id: 'all',
-    label: 'Tous',
-    value: 'all'
+    id: "all",
+    label: "Tous",
+    value: "all",
   },
 ];
 
@@ -106,7 +105,8 @@ export default function MapScreen({ navigation }) {
       .then((data) => {
         if (data && data.structures) {
           setPlaces(data.structures);
-          setTimeout(() => { //!
+          setTimeout(() => {
+            //!
             setLoading(true);
           }, 5000);
         }
@@ -155,91 +155,95 @@ export default function MapScreen({ navigation }) {
   };
 
   const onPress = (radioButtons) => {
-    console.log("ok", radioButtons)
-    setSelectedCategory(radioButtons)
-
+    console.log("ok", radioButtons);
+    setSelectedCategory(radioButtons);
   };
-  
-  
 
   return (
     <AutocompleteDropdownContextProvider>
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Retrouvez une structure</Text>
         <View style={styles.topBar}>
-        <View style={styles.inputContainer}>
-          <View style={styles.labelContainer}>
-            <Text style={styles.label}>Rechercher</Text>
-            
+          <View style={styles.inputContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.label}>Rechercher</Text>
+            </View>
+            {!!places.length && (
+              <AutocompleteDropdown
+                direction={Platform.select({ ios: "down" })}
+                dataSet={suggestionsList}
+                onChangeText={getSuggestions}
+                onSelectItem={onSelectItem}
+                debounce={600}
+                textInputProps={{
+                  placeholder: "Rechercher une structure",
+                }}
+                inputContainerStyle={styles.input}
+                suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
+              />
+            )}
+            <ShortButton
+              color={"#41F67F"}
+              icon={faSliders}
+              startColor={"#085229"}
+              onPress={() => setFilterModalVisible(true)}
+            >
+              Filtrer
+            </ShortButton>
           </View>
-          {
-            !!places.length &&
-          <AutocompleteDropdown
-            direction={Platform.select({ ios: "down" })}
-            dataSet={suggestionsList}
-            onChangeText={getSuggestions}
-            onSelectItem={onSelectItem}
-            debounce={600}
-            textInputProps={{
-              placeholder: "Rechercher une structure",
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={filterModalVisible}
+            onRequestClose={() => {
+              setFilterModalVisible(!filterModalVisible);
             }}
-            inputContainerStyle={styles.input}
-            suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
-          />
-        }
-<ShortButton color={"#41F67F"} icon={faSliders} startColor={"#085229"}onPress={() => setFilterModalVisible(true)}>
-            Filtrer
-          </ShortButton>
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  Sélectionner une catégorie :
+                </Text>
+                <View style={styles.radioGroup}>
+                  <RadioGroup
+                    radioButtons={options}
+                    onPress={(e) => onPress(e)}
+                    selectedId={selectedCategory}
+                  />
+                </View>
+                <Button
+                  title="Fermer"
+                  onPress={() => setFilterModalVisible(!filterModalVisible)}
+                />
+              </View>
+            </View>
+          </Modal>
         </View>
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={filterModalVisible}
-          onRequestClose={() => {
-            setFilterModalVisible(!filterModalVisible);
+        <MapView
+          style={styles.map}
+          region={mapRegion}
+          mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
+          initialRegion={{
+            latitude: 48.853, // Default to Paris if no location
+            longitude: 2.349,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
           }}
         >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Sélectionner une catégorie :</Text>
-              <View style={styles.radioGroup}>
-              <RadioGroup radioButtons={options} onPress={(e) => onPress(e)} selectedId={selectedCategory} />
-              </View>
-              <Button
-                title="Fermer"
-                onPress={() => setFilterModalVisible(!filterModalVisible)}
-              />
-            </View>
-          </View>
-        </Modal>
-        </View>
+          {currentLocation && (
+            <Marker
+              coordinate={{
+                latitude: currentLocation.latitude,
+                longitude: currentLocation.longitude,
+              }}
+              title="Votre position actuelle"
+              pinColor="#FF0000"
+            />
+          )}
 
-        
-
-<MapView
-  style={styles.map}
-  region={mapRegion}
-  mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
-  initialRegion={{
-    latitude: 48.853, // Default to Paris if no location
-    longitude: 2.349,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }}
->
-  {currentLocation && (
-    <Marker
-      coordinate={{
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-      }}
-      title="Votre position actuelle"
-      pinColor="#FF0000"
-    />
-  )}
-
-{places
+          {places
             .filter((place) =>
               selectedCategory === "all"
                 ? true
@@ -255,20 +259,20 @@ export default function MapScreen({ navigation }) {
                   ).toFixed(2)
                 : "Unknown";
 
-
-  return (
-    <Marker
-      key={index}
-      coordinate={{
-        latitude: place.address.latitude, 
-        longitude: place.address.longitude,
-      }}
-      title={place.name}
-      description={`Type: ${place.category} Distance: ${distance} km`}
-      image={icons[place.category]} 
-    />
-  ); })}
-</MapView>
+              return (
+                <Marker
+                  key={index}
+                  coordinate={{
+                    latitude: place.address.latitude,
+                    longitude: place.address.longitude,
+                  }}
+                  title={place.name}
+                  description={`Type: ${place.category} Distance: ${distance} km`}
+                  image={icons[place.category]}
+                />
+              );
+            })}
+        </MapView>
 
         <View style={styles.buttonContainer}>
           <LongButton
@@ -354,7 +358,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center", 
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -365,10 +369,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   radioGroup: {
-backgroundColor: 'red',
-width: 200,
-alignItems: 'flex-start',
-justifyContent: 'flex-start'
+    backgroundColor: "red",
+    width: 200,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
   filterButton: {
     marginBottom: 15,
