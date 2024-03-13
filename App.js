@@ -44,7 +44,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const reducers = combineReducers({ user, category, activities });
 const persistConfig = {
-  key: "faceup",
+  key: "ecotrack",
   storage: AsyncStorage,
 };
 
