@@ -57,6 +57,6 @@ const styles = StyleSheet.create({
       fontWeight: 600
    },
    vousavezdejauncompte: {
-      marginTop: 85,
+      marginTop: 40,
    },
 });

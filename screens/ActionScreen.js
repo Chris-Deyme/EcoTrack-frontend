@@ -84,7 +84,7 @@ export default function ActionScreen({ navigation }) {
             activityScore: dataActivity.dataPoints,
             activityCarbone: dataActivity.dataCarbone,
             activityIcon: dataActivity.icon,
-            activityCategory : dataActivity.category
+            activityCategory: dataActivity.category,
           })
         );
       });
@@ -105,6 +105,20 @@ export default function ActionScreen({ navigation }) {
           setActivities(data);
           setIsLoading(false);
         });
+    } else if (category.nameCategory === "Votre Recherche") {
+      fetch(`${config.IP_ADDRESS}/activities/activityName/${category.keyword}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setActivities(data);
+          setIsLoading(false);
+        });
+    } else if (category.nameCategory === "Toutes les activités") {
+      fetch(`${config.IP_ADDRESS}/activities/showActivity`)
+        .then((response) => response.json())
+        .then((data) => {
+          setActivities(data);
+          setIsLoading(false);
+        });
     }
   }, [category]);
 
@@ -115,16 +129,26 @@ export default function ActionScreen({ navigation }) {
     backColor = "#FF439D";
   } else if (category.nameCategory === "Énergie") {
     backColor = "#B78CFD";
+  } else if (
+    category.nameCategory === "Votre Recherche" ||
+    category.nameCategory === "Toutes les activités"
+  ) {
+    backColor = "#41F67F";
   }
 
   const allActivities = activities.activities?.map((data, i) => {
     let cardColor = {};
-    if (data.category === "Mobilité") {
+    if (category.nameCategory === "Mobilité") {
       cardColor = "#00B8FF";
-    } else if (data.category === "Alimentation") {
+    } else if (category.nameCategory === "Alimentation") {
       cardColor = "#FF439D";
-    } else if (data.category === "Énergie") {
+    } else if (category.nameCategory === "Énergie") {
       cardColor = "#B78CFD";
+    } else if (
+      category.nameCategory === "Votre Recherche" ||
+      category.nameCategory === "Toutes les activités"
+    ) {
+      cardColor = "#41F67F";
     }
 
     if (data.Icon === "faCar") {
@@ -184,7 +208,7 @@ export default function ActionScreen({ navigation }) {
         />
         <ShortButton
           color={cardColor}
-          startColor={cardColor}
+          startColor={"black"}
           icon={faPlus}
           onPress={() =>
             handleAddPoints({
@@ -276,7 +300,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 40,
     justifyContent: "space-evenly",
-    height: "20%",
+    height: 180,
   },
   titleCategory: {
     fontSize: 28,

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: { nameCategory: null, nameAction: null },
+  value: { nameCategory: null, nameAction: null, keyword: null },
 };
 
 export const categorySlice = createSlice({
@@ -9,7 +9,8 @@ export const categorySlice = createSlice({
   initialState,
   reducers: {
     addCategoryToStore: (state, action) => {
-      state.value.nameCategory = action.payload;
+      state.value.nameCategory = action.payload.nameCategory;
+      state.value.keyword = action.payload.keyword
   },
   },
 });
