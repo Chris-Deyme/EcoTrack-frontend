@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeScreen from "./screens/HomeScreen";
+import OnboardScreen from "./screens/OnboardScreen";
+import CarouselScreen from "./screens/CarouselScreen";
 import DashboardScreen from "./screens/DashboardScreen";
 import MapScreen from "./screens/MapScreen";
 import ActivityScreen from "./screens/ActivityScreen";
@@ -48,10 +50,11 @@ const persistConfig = {
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    immutableCheck: false,
-    serializableCheck: false,
-})
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
 });
 
 const persistor = persistStore(store);
@@ -75,15 +78,24 @@ function TabNavigator() {
             iconName = faUserLarge;
           }
 
-        return <FontAwesomeIcon icon={iconName} size={size} color={color}/>
-      },
-      tabBarActiveTintColor: '#41F67F',
-      tabBarInactiveTintColor: '#00000033',
-      tabBarStyle: { backgroundColor: '#F5F5F5' },
-      headerShown: false,
-    })}>
-      <Tab.Screen name="Dashboard" component={DashboardScreen} options={{unmountOnBlur: true}} />
-      <Tab.Screen name="Map" component={MapScreen} options={{unmountOnBlur: true}} />
+          return <FontAwesomeIcon icon={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#41F67F",
+        tabBarInactiveTintColor: "#00000033",
+        tabBarStyle: { backgroundColor: "#F5F5F5" },
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen
+        name="Dashboard"
+        component={DashboardScreen}
+        options={{ unmountOnBlur: true }}
+      />
+      <Tab.Screen
+        name="Map"
+        component={MapScreen}
+        options={{ unmountOnBlur: true }}
+      />
       <Tab.Screen name="Activities" component={ActivityScreen} />
       <Tab.Screen name="Profile" component={ProfilScreen} />
     </Tab.Navigator>
@@ -96,7 +108,8 @@ export default function App() {
       <PersistGate persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {/* navigation de dev */}
+            <Stack.Screen name="Onboard" component={OnboardScreen} />
+            <Stack.Screen name="Carousel" component={CarouselScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Signin" component={SigninScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
