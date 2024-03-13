@@ -34,6 +34,8 @@ import {
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
+import RadioGroup from 'react-native-radio-buttons-group';
+
 
 const icons = {
   ["Point de tri"]: require("../assets/tri.png"),
@@ -41,6 +43,34 @@ const icons = {
   ["Magasin éco/bio"]: require("../assets/shop.png"),
   Écolieu: require("../assets/ecolieu.png"),
 };
+
+const options = [
+  {
+    id: 'Point de tri',
+    label: 'Point de tri',
+    value: 'Point de tri'
+  },
+  {
+    id: 'Association',
+    label: 'Association',
+    value: 'Association'
+  },
+  {
+    id: 'Écolieu',
+    label: 'Écolieu',
+    value: 'Écolieu'
+  },
+  {
+    id: 'Magasin éco/bio',
+    label: 'Magasin éco/bio',
+    value: 'Magasin éco/bio'
+  },
+  {
+    id: 'all',
+    label: 'Tous',
+    value: 'all'
+  },
+];
 
 export default function MapScreen({ navigation }) {
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -124,10 +154,19 @@ export default function MapScreen({ navigation }) {
     }
   };
 
+  const onPress = (radioButtons) => {
+    console.log("ok", radioButtons)
+    setSelectedCategory(radioButtons)
+
+  };
+  
+  
+
   return (
     <AutocompleteDropdownContextProvider>
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Retrouvez une structure</Text>
+        <View style={styles.topBar}>
         <View style={styles.inputContainer}>
           <View style={styles.labelContainer}>
             <Text style={styles.label}>Rechercher</Text>
@@ -164,17 +203,9 @@ export default function MapScreen({ navigation }) {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Sélectionner une catégorie :</Text>
-              <Button
-               title='Point de tri' onPress={() => setSelectedCategory('Point de tri')} />
-                 <Button
-               title='Association' onPress={() => setSelectedCategory('Association')} />
-                 <Button
-               title='Écolieu' onPress={() => setSelectedCategory('Écolieu')} />
-               <Button
-               title='Magasin éco/bio' onPress={() => setSelectedCategory('Magasin éco/bio')} />
-               <Button
-               title='Voir tous' onPress={() => setSelectedCategory('all')} />
-
+              <View style={styles.radioGroup}>
+              <RadioGroup radioButtons={options} onPress={(e) => onPress(e)} selectedId={selectedCategory} />
+              </View>
               <Button
                 title="Fermer"
                 onPress={() => setFilterModalVisible(!filterModalVisible)}
@@ -182,6 +213,7 @@ export default function MapScreen({ navigation }) {
             </View>
           </View>
         </Modal>
+        </View>
 
         
 
@@ -277,9 +309,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
+    justifyContent: "space-between", // Ajustement pour espacer les éléments
   },
   searchInput: {
     borderWidth: 1,
@@ -324,7 +354,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
+    alignItems: "center", 
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -333,6 +363,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  radioGroup: {
+backgroundColor: 'red',
+width: 200,
+alignItems: 'flex-start',
+justifyContent: 'flex-start'
   },
   filterButton: {
     marginBottom: 15,
