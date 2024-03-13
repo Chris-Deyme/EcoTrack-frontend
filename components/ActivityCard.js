@@ -25,7 +25,8 @@ export default function activityCard({ onPress, startColor, color, text, icon, b
               fontWeight: "bold",
               alignItems: "flex-start",
               marginBottom: 20,
-              marginTop: 0,
+              marginTop: 10,
+              marginLeft: 5,
             }}
           >
             {text}

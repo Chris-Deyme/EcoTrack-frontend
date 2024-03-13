@@ -26,6 +26,8 @@ import {
   faTimes,
   faImages,
   faImage,
+  faRightFromBracket,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { LineChart } from "react-native-chart-kit";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,7 +50,6 @@ const ProfilScreen = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [chartParentWidth, setChartParentWidth] = useState(0);
   const user = useSelector((state) => state.user.value);
-
 
   const openDrawerAnimated = () => {
     Animated.spring(drawerAnimation, {
@@ -116,120 +117,116 @@ const ProfilScreen = ({ navigation }) => {
       openDrawerAnimated();
     }
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View
-          style={[
-            styles.drawerContainer,
-            {
-              transform: [{ translateX: drawerAnimation }],
-              height:Dimensions.get("window").height
-            },
-          ]}
-        >
-          {isDrawerOpen && (
-            <DrawerNav
-              closeDrawer={closeDrawerAnimated}
-              navigation={navigation}
-            />
-          )}
-        </Animated.View>
-        {
-          isDrawerOpen &&
+        style={[
+          styles.drawerContainer,
+          {
+            transform: [{ translateX: drawerAnimation }],
+            height: Dimensions.get("window").height,
+          },
+        ]}
+      >
+        {isDrawerOpen && (
+          <DrawerNav
+            closeDrawer={closeDrawerAnimated}
+            navigation={navigation}
+          />
+        )}
+      </Animated.View>
+      {isDrawerOpen && (
         <TouchableOpacity
-        style={{
-          backgroundColor: "#00000033",
-          height: Dimensions.get("window").height,
-          position: "absolute",
-          top: -60,
-          zIndex:2,
-          left: 0,
-          width: 800,
-        }}
-        onPress={() => closeDrawerAnimated()}
-      ></TouchableOpacity>
-    }
+          style={{
+            backgroundColor: "#00000033",
+            height: Dimensions.get("window").height,
+            position: "absolute",
+            top: -60,
+            zIndex: 2,
+            left: 0,
+            width: 800,
+          }}
+          onPress={() => closeDrawerAnimated()}
+        ></TouchableOpacity>
+      )}
 
       <ScrollView>
-        <Text style={styles.title}>Profil de {user.username}</Text>
-        <View style={styles.profilePicContainer}>
-          {image ? (
-            <Image source={{ uri: image }} style={styles.profilePic} />
-          ) : (
-            <FontAwesomeIcon
-              icon={faImage}
-              size={24}
-              style={styles.profilePic}
-            />
-          )}
+        <View style={styles.profilHeader}>
+          <Text style={styles.h1}>PROFIL</Text>
+          <TouchableOpacity onPress={toggleDrawer} style={styles.settingsIcon}>
+            <FontAwesomeIcon icon={faCog} size={24} />
+          </TouchableOpacity>
         </View>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
+        <View style={styles.profilContent}>
+          <View style={styles.profilePicContainer}>
+            {image ? (
+              <Image source={{ uri: image }} style={styles.profilePic} />
+            ) : (
+              <FontAwesomeIcon
+                icon={faImage}
+                size={24}
+                style={styles.profilePic}
+              />
+            )}
+          </View>
+          <Text style={styles.profilName}>Bonjour {user.username},</Text>
+          {/* <TouchableOpacity
             onPress={openCamera}
-            style={[styles.button, styles.buttonCamera]}
+            style={styles.addPictureBtn}
           >
-            <FontAwesomeIcon icon={faCamera} size={24} color={"white"} />
-            <Text style={styles.buttonText}>Prendre une photo</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
+            <Text style={styles.buttonText2}>Editer votre profil</Text>
+          </TouchableOpacity> */}
+          {/* <TouchableOpacity
             onPress={pickImage}
-            style={[styles.button, styles.buttonGallery]}
+            style={styles.addPictureBtn}
           >
-            <FontAwesomeIcon icon={faImage} size={24} color={"white"} />
-            <Text style={styles.buttonText}>Charger de la galerie</Text>
-          </TouchableOpacity>
+            <FontAwesomeIcon icon={faImage} size={18} color={"black"} />
+            <Text style={styles.buttonText2}>Charger de la galerie</Text>
+          </TouchableOpacity> */}
+          <LongButton
+            color={"#41F67F"}
+            onPress={() => navigation.navigate("Places")}
+            text="Voir vos structures"
+          />
         </View>
+        <View style={styles.bodyContainer}>
+          <Text style={styles.h2}>Historique des scores de la semaine</Text>
+          <View style={styles.graphicContainer}>
+            <View
+              onLayout={({ nativeEvent }) =>
+                setChartParentWidth(nativeEvent.layout.width)
+              }
+              style={styles.historyContainer}
+            >
+              <LineChart
+                data={{
+                  labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                  datasets: [{ data: history }],
+                }}
+                width={chartParentWidth}
+                height={220}
+                chartConfig={{
+                  backgroundColor: "#41F67F",
+                  backgroundGradientFrom: "#085229",
+                  backgroundGradientTo: "#41F67F",
+                  decimalPlaces: 2,
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                }}
+                bezier
+                style={{
+                  marginVertical: 8,
+                  marginHorizontal: 8,
+                  borderRadius: 16,
+                }}
+              />
+            </View>
+          </View>
 
-        <TouchableOpacity onPress={() => {}} style={styles.settingsIcon}>
-          <FontAwesomeIcon icon={faCog} size={24} />
-        </TouchableOpacity>
-
-        <Text style={styles.historyTitle}>
-          Historique des scores de la semaine
-        </Text>
-        <View onLayout={({ nativeEvent }) => setChartParentWidth(nativeEvent.layout.width)}>
-           <LineChart
-          data={{
-            labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-            datasets: [{ data: history }],
-          }}
-          width={chartParentWidth}
-          height={220}
-          chartConfig={{
-            backgroundColor: "#41F67F",
-            backgroundGradientFrom: "#085229",
-            backgroundGradientTo: "#41F67F",
-            decimalPlaces: 2,
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 12,
-            },
-          }}
-          bezier
-          style={{
-            marginVertical: 8,
-            borderRadius: 16,
-          }}
-        />
+          <View style={styles.activitiesInput}>
+            <DoneActivities></DoneActivities>
+          </View>
         </View>
-       
-
-        <LongButton
-          color={"#41F67F"}
-          onPress={() => navigation.navigate("Places")}
-          text="Voir mes structures"
-        />
-        <View style={styles.activitiesInput}>
-          <DoneActivities></DoneActivities>
-        </View>
-
-        
-        <TouchableOpacity onPress={toggleDrawer} style={styles.settingsIcon}>
-          <FontAwesomeIcon icon={faCog} size={24} />
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -266,23 +263,63 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
   //   dispatch(logout());
   //   navigation.navigate('Home')
   // }
+  const openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled && result.assets) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   return (
     <View>
-        <TouchableOpacity
-          style={{ alignSelf: "flex-end" }}
-          onPress={() => closeDrawer()}
-        >
-          <FontAwesomeIcon icon={faTimes} size={24} />
+      <TouchableOpacity
+        style={{ alignSelf: "flex-end" }}
+        onPress={() => closeDrawer()}
+      >
+        <FontAwesomeIcon icon={faTimes} size={24} />
+      </TouchableOpacity>
+      <View style={styles.menuContainer}>
+        <TouchableOpacity onPress={openCamera} style={styles.addPictureBtn}>
+          <FontAwesomeIcon icon={faCamera} size={18} color={"#085229"} />
+          <Text style={styles.buttonText2}>Prendre une photo de profil</Text>
         </TouchableOpacity>
-
-        <Text style={{paddingTop:20}} onPress={() => handleLogout()}>
-          Se déconnecter
-        </Text>
-        <Text style={{paddingTop:20}} onPress={() => handleDelete()}>
-          Supprimer le compte
-        </Text>
-      
+        <TouchableOpacity onPress={pickImage} style={styles.addPictureBtn}>
+          <FontAwesomeIcon icon={faImages} size={18} color={"#085229"} />
+          <Text style={styles.buttonText2}>Charger de la galerie</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout} style={styles.addPictureBtn}>
+          <FontAwesomeIcon
+            icon={faRightFromBracket}
+            size={18}
+            color={"#085229"}
+          />
+          <Text style={styles.buttonText2}>Se déconnecter</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout} style={styles.addPictureBtn}>
+          <FontAwesomeIcon icon={faTrash} size={18} color={"#085229"} />
+          <Text style={styles.buttonText2}>Supprimer le compte</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -290,15 +327,15 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "flex-start",
-    paddingTop: 50,
-    paddingHorizontal: 20,
-    backgroundColor: '#ffffff'
+    // paddingTop: 50,
+    // paddingHorizontal: 20,
+    backgroundColor: "#ffffff",
   },
   drawerContainer: {
-    padding:20,
-    paddingTop:70,
+    padding: 20,
+    paddingTop: 70,
     position: "absolute",
     top: 0,
     left: 0,
@@ -367,28 +404,75 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 10,
   },
+  buttonText2: {
+    color: "black",
+    marginLeft: 10,
+  },
   settingsIcon: {
-    position: "absolute",
-    top: Platform.OS === "ios" ? 40 : 60,
-    right: 20,
+    // position: "absolute",
+    top: 10,
+    // top: Platform.OS === "ios" ? 40 : 60,
+    right: 30,
   },
-  title: {
-    fontSize: 22,
-    color: "#41F67F",
-    fontWeight: "bold",
-    marginBottom: 20,
+  profilHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 30,
   },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 20,
-    color: "#085229",
-    fontFamily: "Poppins",
+  profilContent: {
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
   },
   activitiesInput: {
     marginTop: 20,
   },
+  h2: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginBottom: 3,
+    color: "black",
+    // fontFamily: "Poppins",
+  },
+  h1: {
+    fontSize: 34,
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginTop: 20,
+    color: "#41F67F",
+  },
+  profilName: {
+    fontSize: 20,
+    color: "#085229",
+    fontWeight: "500",
+    marginBottom: 10,
+  },
+  historyContainer: {
+    paddingLeft: 30,
+    paddingRight: 30,
+    alignItems: "center",
+    width: "90%",
+    // backgroundColor: "red"
+  },
+  graphicContainer: {
+    alignItems: "center",
+  },
+  addPictureBtn: {
+    // backgroundColor: "red",
+    flexDirection: "row",
+    color: "black",
+  },
+  menuContainer: {
+    gap: 20,
+    marginTop: 30,
+    width: 150,
+  },
+  bodyContainer: {
+    gap: 5,
+    marginTop: 30,
+  }
 });
 
 export default ProfilScreen;
