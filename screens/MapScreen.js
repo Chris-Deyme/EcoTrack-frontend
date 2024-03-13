@@ -34,8 +34,8 @@ import {
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
-import RadioGroup from 'react-native-radio-buttons-group';
-
+import RadioGroup from "react-native-radio-buttons-group";
+import { RadioButton } from "react-native-paper";
 
 const icons = {
   ["Point de tri"]: require("../assets/tri.png"),
@@ -46,29 +46,29 @@ const icons = {
 
 const options = [
   {
-    id: 'Point de tri',
-    label: 'Point de tri',
-    value: 'Point de tri'
+    id: "Point de tri",
+    label: "Point de tri",
+    value: "Point de tri",
   },
   {
-    id: 'Association',
-    label: 'Association',
-    value: 'Association'
+    id: "Association",
+    label: "Association",
+    value: "Association",
   },
   {
-    id: 'Écolieu',
-    label: 'Écolieu',
-    value: 'Écolieu'
+    id: "Écolieu",
+    label: "Écolieu",
+    value: "Écolieu",
   },
   {
-    id: 'Magasin éco/bio',
-    label: 'Magasin éco/bio',
-    value: 'Magasin éco/bio'
+    id: "Magasin éco/bio",
+    label: "Magasin éco/bio",
+    value: "Magasin éco/bio",
   },
   {
-    id: 'all',
-    label: 'Tous',
-    value: 'all'
+    id: "all",
+    label: "Tous",
+    value: "all",
   },
 ];
 
@@ -106,7 +106,8 @@ export default function MapScreen({ navigation }) {
       .then((data) => {
         if (data && data.structures) {
           setPlaces(data.structures);
-          setTimeout(() => { //!
+          setTimeout(() => {
+            //!
             setLoading(true);
           }, 5000);
         }
@@ -155,128 +156,144 @@ export default function MapScreen({ navigation }) {
   };
 
   const onPress = (radioButtons) => {
-    console.log("ok", radioButtons)
-    setSelectedCategory(radioButtons)
-
+    console.log("ok", radioButtons);
+    setSelectedCategory(radioButtons);
   };
-  
-  
+
+  const [checked, setChecked] = React.useState("first");
 
   return (
     <AutocompleteDropdownContextProvider>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Retrouvez une structure</Text>
-        <View style={styles.topBar}>
-        <View style={styles.inputContainer}>
-          <View style={styles.labelContainer}>
-            <Text style={styles.label}>Rechercher</Text>
-            
-          </View>
-          {
-            !!places.length &&
-          <AutocompleteDropdown
-            direction={Platform.select({ ios: "down" })}
-            dataSet={suggestionsList}
-            onChangeText={getSuggestions}
-            onSelectItem={onSelectItem}
-            debounce={600}
-            textInputProps={{
-              placeholder: "Rechercher une structure",
-            }}
-            inputContainerStyle={styles.input}
-            suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
-          />
-        }
-<ShortButton color={"#41F67F"} icon={faSliders} startColor={"#085229"}onPress={() => setFilterModalVisible(true)}>
-            Filtrer
-          </ShortButton>
-        </View>
+        <Text style={styles.h1}>CARTE</Text>
+        <ScrollView>
+          <View style={styles.topBar}>
+            <View style={styles.inputContainer}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>Rechercher</Text>
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={filterModalVisible}
-          onRequestClose={() => {
-            setFilterModalVisible(!filterModalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Sélectionner une catégorie :</Text>
-              <View style={styles.radioGroup}>
-              <RadioGroup radioButtons={options} onPress={(e) => onPress(e)} selectedId={selectedCategory} />
+                {!!places.length && (
+                  <AutocompleteDropdown
+                    direction={Platform.select({ ios: "down" })}
+                    dataSet={suggestionsList}
+                    onChangeText={getSuggestions}
+                    onSelectItem={onSelectItem}
+                    debounce={600}
+                    textInputProps={{
+                      placeholder: "Rechercher une structure...",
+                    }}
+                    inputContainerStyle={styles.input}
+                    suggestionsListMaxHeight={
+                      Dimensions.get("window").height * 0.4
+                    }
+                  />
+                )}
               </View>
-              <Button
-                title="Fermer"
-                onPress={() => setFilterModalVisible(!filterModalVisible)}
-              />
+              <View style={styles.btnContainer}>
+                <ShortButton
+                  color={"#41F67F"}
+                  icon={faSliders}
+                  startColor={"#085229"}
+                  onPress={() => setFilterModalVisible(true)}
+                  style={styles.btnSearch}
+                ></ShortButton>
+              </View>
             </View>
+
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={filterModalVisible}
+              onRequestClose={() => {
+                setFilterModalVisible(!filterModalVisible);
+              }}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>
+                    Sélectionner une catégorie :
+                  </Text>
+                  <View style={styles.radioGroup}>
+                    <RadioGroup
+                      radioButtons={options}
+                      onPress={(e) => onPress(e)}
+                      selectedId={selectedCategory}
+                      style={styles.radioTextGroup}
+                    />
+                  </View>
+                  <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.8}
+                    onPress={() => setFilterModalVisible(!filterModalVisible)}
+                  >
+                    <Text style={styles.textReturn}>Fermer</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
           </View>
-        </Modal>
-        </View>
 
-        
+          <MapView
+            style={styles.map}
+            region={mapRegion}
+            mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
+            initialRegion={{
+              latitude: 48.853, // Default to Paris if no location
+              longitude: 2.349,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            {currentLocation && (
+              <Marker
+                coordinate={{
+                  latitude: currentLocation.latitude,
+                  longitude: currentLocation.longitude,
+                }}
+                title="Votre position actuelle"
+                pinColor="#FF0000"
+              />
+            )}
 
-<MapView
-  style={styles.map}
-  region={mapRegion}
-  mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
-  initialRegion={{
-    latitude: 48.853, // Default to Paris if no location
-    longitude: 2.349,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }}
->
-  {currentLocation && (
-    <Marker
-      coordinate={{
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-      }}
-      title="Votre position actuelle"
-      pinColor="#FF0000"
-    />
-  )}
+            {places
+              .filter((place) =>
+                selectedCategory === "all"
+                  ? true
+                  : place.category === selectedCategory
+              )
+              .map((place, index) => {
+                let distance = currentLocation
+                  ? getDistanceFromLatLonInKm(
+                      currentLocation.latitude,
+                      currentLocation.longitude,
+                      place.address.latitude,
+                      place.address.longitude
+                    ).toFixed(2)
+                  : "Unknown";
 
-{places
-            .filter((place) =>
-              selectedCategory === "all"
-                ? true
-                : place.category === selectedCategory
-            )
-            .map((place, index) => {
-              let distance = currentLocation
-                ? getDistanceFromLatLonInKm(
-                    currentLocation.latitude,
-                    currentLocation.longitude,
-                    place.address.latitude,
-                    place.address.longitude
-                  ).toFixed(2)
-                : "Unknown";
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{
+                      latitude: place.address.latitude,
+                      longitude: place.address.longitude,
+                    }}
+                    title={place.name}
+                    description={`Type: ${place.category} Distance: ${distance} km`}
+                    image={icons[place.category]}
+                  />
+                );
+              })}
+          </MapView>
 
-
-  return (
-    <Marker
-      key={index}
-      coordinate={{
-        latitude: place.address.latitude, 
-        longitude: place.address.longitude,
-      }}
-      title={place.name}
-      description={`Type: ${place.category} Distance: ${distance} km`}
-      image={icons[place.category]} 
-    />
-  ); })}
-</MapView>
-
-        <View style={styles.buttonContainer}>
-          <LongButton
-            color={"#41F67F"}
-            onPress={() => navigation.navigate("Form")}
-            text="Ajouter une structure"
-          />
-        </View>
+          <View style={styles.buttonContainer}>
+            <LongButton
+              color={"#41F67F"}
+              onPress={() => navigation.navigate("Form")}
+              text="Ajouter une structure"
+            />
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </AutocompleteDropdownContextProvider>
   );
@@ -305,7 +322,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
   },
   topBar: {
     flexDirection: "row",
@@ -320,25 +337,26 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   inputContainer: {
-    marginTop: 0,
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 15,
     alignItems: "center",
+    flexDirection: "row",
   },
   label: {
-    fontSize: 10,
-    paddingLeft: 10,
+    marginLeft: 10,
+    fontWeight: "600",
+    fontSize: 12,
   },
   input: {
-    width: 288,
+    width: 260,
     height: 51,
     borderWidth: 1,
     borderColor: "#41F67F",
     borderRadius: 10,
-    paddingLeft: 10,
   },
   map: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height * 0.6, // La carte prend maintenant 80% de l'écran
+    height: Dimensions.get("window").height * 0.55, // La carte prend maintenant 80% de l'écran
   },
   addButton: {
     marginBottom: 20, // Ajustez selon vos besoins
@@ -353,8 +371,8 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
-    alignItems: "center", 
+    padding: 25,
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -363,13 +381,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    gap: 20,
   },
-  radioGroup: {
-backgroundColor: 'red',
-width: 200,
-alignItems: 'flex-start',
-justifyContent: 'flex-start'
-  },
+
   filterButton: {
     marginBottom: 15,
     padding: 10,
@@ -380,8 +394,9 @@ justifyContent: 'flex-start'
     textAlign: "center",
   },
   buttonContainer: {
-    alignItems: "center", // Centre horizontalement dans le conteneur
-    marginTop: 20, // Espace au-dessus du bouton, ajustez selon vos besoins
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: 30,
   },
   suggestionItem: {
     padding: 15,
@@ -395,6 +410,7 @@ justifyContent: 'flex-start'
   },
   labelContainer: {
     width: 288,
+    marginLeft: 30,
   },
   title: {
     fontSize: 22,
@@ -403,5 +419,46 @@ justifyContent: 'flex-start'
     marginBottom: 20,
     color: "#085229",
     // fontFamily: "Poppins",
+  },
+  h2: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginLeft: 30,
+    marginBottom: 3,
+    color: "black",
+    // fontFamily: "Poppins",
+  },
+  h1: {
+    fontSize: 34,
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginTop: 20,
+    color: "#41F67F",
+  },
+  btnContainer: {
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  radioTextGroup: {
+    alignItems: "flex-start",
+    color: "black",
+  },
+  radioGroup: {
+    backgroundColor: "white",
+    width: 200,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+  },
+  button: {
+    width: 80,
+    borderRadius: 20,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#41F67F",
+  },
+  filterBtn: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

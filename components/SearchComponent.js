@@ -144,27 +144,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// <View
-//   style={{
-//     width: "100%",
-//     flexDirection: "row",
-//     gap: 10,
-//     justifyContent: "center",
-//     alignItems: "flex-end",
-//   }}
-// >
-//   <View style={styles.inputContainer}>
-//     <Text style={{ marginLeft: 10 }}>Rechercher</Text>
-//     <TextInput style={styles.input} />
-//   </View>
-//   <TouchableOpacity>
-//     <View style={{ display: "flex" }}>
-//       <ShortButton
-//         color={"#41F67F"}
-//         icon={faMagnifyingGlass}
-//         startColor={"#085229"}
-//         onPress={() => {}}
-//       />
-//     </View>
-//   </TouchableOpacity>
-// </View>
