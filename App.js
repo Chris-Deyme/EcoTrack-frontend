@@ -17,6 +17,7 @@ import FormScreen from "./screens/FormScreen";
 import EnergyScreen from "./screens/EnergyScreen";
 import FoodScreen from "./screens/FoodScreen";
 import PlacesScreen from "./screens/PlacesScreen";
+import CarouselScreen from "./screens/CarouselScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMugSaucer } from "@fortawesome/free-solid-svg-icons/faMugSaucer";
 import {
@@ -107,6 +108,7 @@ export default function App() {
             <Stack.Screen name="Energy" component={EnergyScreen} />
             <Stack.Screen name="Dashboard" component={DashboardScreen} />
             <Stack.Screen name="Places" component={PlacesScreen} />
+            <Stack.Screen name="Carousel" component={CarouselScreen} />
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
           </Stack.Navigator>
         </NavigationContainer>

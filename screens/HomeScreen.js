@@ -12,7 +12,7 @@ export default function HomeScreen({ navigation }) {
       </View>
       <View style={styles.vueDuBouton}>
          {/* navigation pour dev */}
-         <LongButton color={"#FFF"} onPress={() => navigation.navigate('Activity')} text="S'inscrire avec Apple" borderColor={"#41F67F"} />
+         <LongButton color={"#FFF"} onPress={() => navigation.navigate('Carousel')} text="S'inscrire avec Apple" borderColor={"#41F67F"} />
       </View>
       <View style={styles.vueDuBouton}>
       <LongButton color={"#FFF"} onPress={() => navigation.navigate('Dashboard')} text="S'inscrire avec Google" />
