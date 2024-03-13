@@ -46,6 +46,7 @@ const ProfilScreen = ({ navigation }) => {
   const drawerAnimation = useRef(new Animated.Value(-220)).current;
   const [history, setHistory] = useState([45, 40, 70, 80, 50, 30, 10]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [chartParentWidth, setChartParentWidth] = useState(0);
   const user = useSelector((state) => state.user.value);
 
 
@@ -118,6 +119,38 @@ const ProfilScreen = ({ navigation }) => {
   
   return (
     <SafeAreaView style={styles.container}>
+      <Animated.View
+          style={[
+            styles.drawerContainer,
+            {
+              transform: [{ translateX: drawerAnimation }],
+              height:Dimensions.get("window").height
+            },
+          ]}
+        >
+          {isDrawerOpen && (
+            <DrawerNav
+              closeDrawer={closeDrawerAnimated}
+              navigation={navigation}
+            />
+          )}
+        </Animated.View>
+        {
+          isDrawerOpen &&
+        <TouchableOpacity
+        style={{
+          backgroundColor: "#00000033",
+          height: Dimensions.get("window").height,
+          position: "absolute",
+          top: -60,
+          zIndex:2,
+          left: 0,
+          width: 800,
+        }}
+        onPress={() => closeDrawerAnimated()}
+      ></TouchableOpacity>
+    }
+
       <ScrollView>
         <Text style={styles.title}>Profil de {user.username}</Text>
         <View style={styles.profilePicContainer}>
@@ -157,12 +190,13 @@ const ProfilScreen = ({ navigation }) => {
         <Text style={styles.historyTitle}>
           Historique des scores de la semaine
         </Text>
-        <LineChart
+        <View onLayout={({ nativeEvent }) => setChartParentWidth(nativeEvent.layout.width)}>
+           <LineChart
           data={{
             labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
             datasets: [{ data: history }],
           }}
-          width={Dimensions.get("window").width - 16}
+          width={chartParentWidth}
           height={220}
           chartConfig={{
             backgroundColor: "#41F67F",
@@ -180,6 +214,8 @@ const ProfilScreen = ({ navigation }) => {
             borderRadius: 16,
           }}
         />
+        </View>
+       
 
         <LongButton
           color={"#41F67F"}
@@ -190,22 +226,7 @@ const ProfilScreen = ({ navigation }) => {
           <DoneActivities></DoneActivities>
         </View>
 
-        <Animated.View
-          style={[
-            styles.drawerContainer,
-            {
-              transform: [{ translateX: drawerAnimation }],
-            },
-          ]}
-        >
-          {isDrawerOpen && (
-            <DrawerNav
-              closeDrawer={closeDrawerAnimated}
-              navigation={navigation}
-            />
-          )}
-        </Animated.View>
-
+        
         <TouchableOpacity onPress={toggleDrawer} style={styles.settingsIcon}>
           <FontAwesomeIcon icon={faCog} size={24} />
         </TouchableOpacity>
@@ -247,29 +268,7 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
   // }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        position: "absolute",
-        height: "110%",
-        zIndex: -1,
-        backgroundColor: "white",
-      }}
-    >
-      <View
-        style={{
-          height: "100%",
-          borderRightColor: "black",
-          borderBottomWidth: 1,
-          backgroundColor: "white",
-          top: 0,
-          left: 0,
-          width: 220,
-          display: "flex",
-          flexDirection: "column",
-          padding: 20,
-        }}
-      >
+    <View>
         <TouchableOpacity
           style={{ alignSelf: "flex-end" }}
           onPress={() => closeDrawer()}
@@ -277,25 +276,13 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
           <FontAwesomeIcon icon={faTimes} size={24} />
         </TouchableOpacity>
 
-        <Text style={{}} onPress={() => handleLogout()}>
+        <Text style={{paddingTop:20}} onPress={() => handleLogout()}>
           Se déconnecter
         </Text>
-        <Text style={{}} onPress={() => handleDelete()}>
+        <Text style={{paddingTop:20}} onPress={() => handleDelete()}>
           Supprimer le compte
         </Text>
-      </View>
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#0000",
-          height: "110%",
-          position: "absolute",
-          top: 0,
-          zIndex: 20,
-          left: 220,
-          width: 500,
-        }}
-        onPress={() => closeDrawer()}
-      ></TouchableOpacity>
+      
     </View>
   );
 };
@@ -307,19 +294,19 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingTop: 50,
     paddingHorizontal: 20,
-    backgroundColor: "#FFF",
+    backgroundColor: '#ffffff'
   },
   drawerContainer: {
-    flex: 1,
+    padding:20,
+    paddingTop:70,
     position: "absolute",
     top: 0,
     left: 0,
-    height: "100%",
     backgroundColor: "#FFF", // Fond blanc pour le tiroir
     width: 220, // Largeur du tiroir
     borderWidth: 2,
     borderColor: "#41F67F", // Bordure verte
-    zIndex: 1, // Assurez-vous que le tiroir est bien au-dessus des autres éléments
+    zIndex: 1000, // Assurez-vous que le tiroir est bien au-dessus des autres éléments
   },
   profilePicContainer: {
     width: 100,
