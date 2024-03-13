@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   h2: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "600",
     marginLeft: 30,
     marginBottom: 3,
     color: "black",

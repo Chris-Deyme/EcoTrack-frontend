@@ -29,6 +29,7 @@
     "expo-font": "~11.10.3",
     "expo-image-picker": "~14.7.1",
     "expo-location": "~16.5.5",
+    "expo-radio-button": "^1.0.8",
     "expo-status-bar": "~1.11.1",
     "i": "^0.3.7",
     "moment": "^2.30.1",
