@@ -66,10 +66,31 @@ export default function DashboardScreen() {
     else return "Putois 🦨";
   };
 
+  const getColorByRank = (rank) => {
+    switch (rank) {
+      case 0: // 1ère place
+        return "#FFD700"; // Or
+      case 1: // 2ème place
+        return "#C0C0C0"; // Argent
+      case 2: // 3ème place
+        return "#CD7F32"; // Bronze
+      case 3: // 4ème place
+        return "#4F7942"; // Vert foncé
+      case 4: // 5ème place
+        return "#87CEEB"; // Bleu ciel
+      default:
+        return "#fff"; // Blanc par défaut
+    }
+  };
+
   const [users, setUsers] = useState([]);
 
   const renderItem = ({ item, index }) => (
+<<<<<<< HEAD
     <View style={styles.userItem}>
+=======
+    <View style={[styles.userItem, { backgroundColor: getColorByRank(index) }]}>
+>>>>>>> chris17
       <Text style={styles.userRank}>{index + 1}</Text>
       <View style={styles.userInfo}>
         <Text style={styles.userName}>{item.user.username}</Text>
@@ -77,7 +98,10 @@ export default function DashboardScreen() {
       </View>
     </View>
   );
+<<<<<<< HEAD
 
+=======
+>>>>>>> chris17
   return (
     <View>
       <ScrollView contentContainerStyle={styles.container}>
