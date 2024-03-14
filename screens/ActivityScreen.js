@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     gap: 10,
+    paddingTop: 20,
   },
   cardContainer: {
     backgroundColor: "white",

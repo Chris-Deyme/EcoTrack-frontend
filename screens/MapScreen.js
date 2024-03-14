@@ -35,6 +35,8 @@ import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
 import RadioGroup from "react-native-radio-buttons-group";
+import RadioForm from "react-native-simple-radio-button";
+
 import { useSelector, useDispatch } from "react-redux";
 
 const icons = {
@@ -45,6 +47,11 @@ const icons = {
 };
 
 const options = [
+  {
+    id: "all",
+    label: "Tous",
+    value: "all",
+  },
   {
     id: "Point de tri",
     label: "Point de tri",
@@ -61,15 +68,11 @@ const options = [
     value: "Écolieu",
   },
   {
-    id: "Magasin Éco/bio",
-    label: "Magasin Éco/bio",
-    value: "Magasin Éco/bio",
+    id: "Magasin Éco-bio",
+    label: "Magasin Éco-bio",
+    value: "Magasin Éco-bio",
   },
-  {
-    id: "all",
-    label: "Tous",
-    value: "all",
-  },
+
 ];
 
 export default function MapScreen({ navigation }) {
@@ -91,30 +94,29 @@ export default function MapScreen({ navigation }) {
   useEffect(() => {
     (async () => {
       const result = await Location.requestForegroundPermissionsAsync();
-      const status = result?.status
+      const status = result?.status;
 
-      if (status === 'granted') {
-        Location.watchPositionAsync({ distanceInterval: 100 },
-          (location) => {
-            setCurrentLocation(location.coords);
-          });
+      if (status === "granted") {
+        Location.watchPositionAsync({ distanceInterval: 100 }, (location) => {
+          setCurrentLocation(location.coords);
+        });
       }
     })();
   }, []);
 
   useEffect(() => {
     if (currentLocation) {
-      setMapRegion(prevRegion => ({
+      setMapRegion((prevRegion) => ({
         ...prevRegion,
         latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude
+        longitude: currentLocation.longitude,
       }));
     }
   }, [currentLocation]);
 
   // fetch toutes les structures
   useEffect(() => {
-    console.log("testui", user)
+    console.log("testui", user);
     fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
       .then((response) => response.json())
       .then((data) => {
@@ -176,10 +178,12 @@ export default function MapScreen({ navigation }) {
 
   return (
     <AutocompleteDropdownContextProvider>
-      <ScrollView>
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.h1}>CARTE</Text>
-        
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          <SafeAreaView>
+            <Text style={styles.h1}>CARTE</Text>
+          </SafeAreaView>
+
           <View style={styles.topBar}>
             <View style={styles.inputContainer}>
               <View style={styles.labelContainer}>
@@ -227,12 +231,14 @@ export default function MapScreen({ navigation }) {
                     Sélectionner une catégorie :
                   </Text>
                   <View style={styles.radioGroup}>
-                    <RadioGroup
-                      radioButtons={options}
+                    <RadioForm
+                      radio_props={options}
                       onPress={(e) => onPress(e)}
+                      initial={options.findIndex((option) => option.value === selectedCategory)}
                       selectedId={selectedCategory}
                       style={styles.radioTextGroup}
-                      
+                      buttonColor={"#41F67F"}
+                      selectedButtonColor={"#085229"}
                     />
                   </View>
                   <TouchableOpacity
@@ -302,8 +308,7 @@ export default function MapScreen({ navigation }) {
               text="Ajouter une structure"
             />
           </View>
-        
-      </SafeAreaView>
+        </View>
       </ScrollView>
     </AutocompleteDropdownContextProvider>
   );
@@ -331,7 +336,8 @@ function deg2rad(deg) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
+    height: "100%",
     // alignItems: "center",
   },
   topBar: {
@@ -452,6 +458,8 @@ const styles = StyleSheet.create({
   radioTextGroup: {
     alignItems: "flex-start",
     color: "black",
+    gap: 5,
+
   },
   radioGroup: {
     backgroundColor: "white",
@@ -470,5 +478,11 @@ const styles = StyleSheet.create({
   filterBtn: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  scrollContainer: {
+    gap: 10,
+    paddingTop: 50,
+    paddingBottom: 10,
+    backgroundColor: "white",
   },
 });

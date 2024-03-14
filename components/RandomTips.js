@@ -34,19 +34,21 @@ export default function TipsScreen() {
   return (
     <View>
       <Text style={styles.h2}>Nos tips</Text>
+      <View style={styles.cardContainer}>
       <Shadow distance={0.5} startColor={"#085229"} offset={[4, 5]}>
         <View style={styles.tipsContainer}>
-          <ScrollView>
+        
             <View>
               <Text style={styles.tips}>{randomTip}</Text>
             </View>
-          </ScrollView>
+        
           <TouchableOpacity onPress={tipchange} style={styles.reload}>
             {/* <FontAwesome name={icon[1]} size={32} color="black" /> */}
-            <Ionicons name={icon[0]} size={30} color="black" />
+            <Ionicons name={icon[0]} size={24} color="black" />
           </TouchableOpacity>
         </View>
       </Shadow>
+      </View>
     </View>
   );
 }
@@ -56,11 +58,11 @@ const styles = StyleSheet.create({
   tipsContainer: {
     backgroundColor: 'white',
     width: 340,
-    height: 120,
+    height: 150,
     borderRadius: 12,
     borderWidth: 2,
     borderColor: "#085229",
-    padding: 8,
+    padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -83,5 +85,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: "black",
     // fontFamily: "Poppins",
+  },
+  cardContainer: {
+    alignItems: "center",
+  },
+  tips: {
+    height: 60,
+fontWeight: "400"
   },
 });

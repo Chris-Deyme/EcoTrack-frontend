@@ -70,34 +70,36 @@ export default function QuestComponent() {
           console.error("Erreur lors de la mise à jour du score:", error)
         );
 
-      return <Ionicons name={questIcons[0]} size={32} color="#FF435E" />;
+      return <Ionicons name={questIcons[0]} size={32} color="#41F67F" />;
     }
   };
 
   return (
     <View>
       <Text style={styles.h2}>Quête du jour</Text>
-      <Shadow distance={0.5} startColor={"#085229"} offset={[4, 5]}>
-        <View style={styles.container}>
-          <View style={styles.QuestContainer}>
-            <Text style={styles.tips}>{randomQuest}</Text>
+      <View style={styles.cardContainer}>
+        <Shadow distance={0.5} startColor={"#085229"} offset={[4, 5]}>
+          <View style={styles.container}>
+            <View style={styles.QuestContainer}>
+              <Text style={styles.tips}>{randomQuest}</Text>
+            </View>
+            <View style={styles.rightSide}>
+              <TouchableOpacity
+                style={styles.quest}
+                onPress={handleQuest}
+                // disabled={questCompleted}
+              >
+                <Ionicons
+                  name={questCompleted ? questIcons[1] : questIcons[0]}
+                  size={32}
+                  color={questCompleted ? "#085229" : "#41F67F"}
+                />
+              </TouchableOpacity>
+              <Text style={styles.points}>{counter}</Text>
+            </View>
           </View>
-          <View style={styles.rightSide}>
-            <TouchableOpacity
-              style={styles.quest}
-              onPress={handleQuest}
-              // disabled={questCompleted}
-            >
-              <Ionicons
-                name={questCompleted ? questIcons[1] : questIcons[0]}
-                size={32}
-                color={questCompleted ? "#085229" : "#FF435E"}
-              />
-            </TouchableOpacity>
-            <Text>{counter}</Text>
-          </View>
-        </View>
-      </Shadow>
+        </Shadow>
+      </View>
     </View>
   );
 }
@@ -106,10 +108,9 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
     backgroundColor: "white",
     width: 340,
-    height: 120,
+    height: 150,
     borderRadius: 12,
     borderWidth: 2,
     borderColor: "#085229",
@@ -135,4 +136,14 @@ const styles = StyleSheet.create({
     color: "black",
     // fontFamily: "Poppins",
   },
+  cardContainer: {
+    alignItems: "center",
+  },
+  tips: {
+    width: "80%",
+    fontWeight: "400"
+  },
+  points: {
+    fontWeight: "600"
+  }
 });

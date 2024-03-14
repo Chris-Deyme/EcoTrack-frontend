@@ -172,7 +172,7 @@ export default function FormScreen({ navigation }) {
                   style={{ width: 250, height: 200 }}
                 >
                   <Picker.Item
-                    label="Magasin Éco/bio"
+                    label="Magasin Éco-bio"
                     value="Magasin Éco-bio"
                   />
                   <Picker.Item label="Association" value="Association" />
