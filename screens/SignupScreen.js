@@ -73,7 +73,7 @@ export default function SignupScreen({ navigation }) {
     >
       {/* Bouton de retour en haut à gauche */}
       <TouchableOpacity
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("Onboard")}
         style={styles.backButton}
       >
         <FontAwesome name="chevron-left" size={24} color="black" />

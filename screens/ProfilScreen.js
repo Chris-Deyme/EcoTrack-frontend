@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  View,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  Text,
   Animated,
-  LayoutAnimation,
-  UIManager,
-  Platform,
-  Button,
   Dimensions,
+  Image,
+  Platform,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  UIManager,
+  Alert,
+  LayoutAnimation,
+  Button,
   Modal,
   FlatList,
   ScrollView,
@@ -171,19 +171,6 @@ const ProfilScreen = ({ navigation }) => {
             )}
           </View>
           <Text style={styles.profilName}>Bonjour {user.username},</Text>
-          {/* <TouchableOpacity
-            onPress={openCamera}
-            style={styles.addPictureBtn}
-          >
-            <Text style={styles.buttonText2}>Editer votre profil</Text>
-          </TouchableOpacity> */}
-          {/* <TouchableOpacity
-            onPress={pickImage}
-            style={styles.addPictureBtn}
-          >
-            <FontAwesomeIcon icon={faImage} size={18} color={"black"} />
-            <Text style={styles.buttonText2}>Charger de la galerie</Text>
-          </TouchableOpacity> */}
           <LongButton
             color={"#41F67F"}
             onPress={() => navigation.navigate("Places")}
@@ -243,27 +230,6 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
     navigation.navigate("Onboard");
   };
 
-  // const handleDelete = () => {
-  //   console.log(user)
-  //   fetch(`http://172.20.10.2:3000/users/deleteUser/${user.username}`, {
-  //     method: "DELETE",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       username: user.username,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data.result) {
-  //         dispatch(logout());
-  //         navigation.navigate('Home')
-  //       }
-  //     });
-  // };
-
-  //   dispatch(logout());
-  //   navigation.navigate('Home')
-  // }
   const openCamera = async () => {
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
