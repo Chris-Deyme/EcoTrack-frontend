@@ -35,7 +35,7 @@ export default function App({ navigation }) {
               color={"#41F67F"}
               onPress={() => navigation.navigate("Info")}
               // onPress={() => navigation.navigate("Carousel")}
-              text="Voir la Démo"
+              text="Découvrir Ecotrack"
             />
           </View>
           <View style={styles.textView}>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   text: {
     marginTop: 20,
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   },
   textOne: {
     textDecorationLine: "underline",
+    paddingLeft: 8,
   },
   image: {
     width: 280,
