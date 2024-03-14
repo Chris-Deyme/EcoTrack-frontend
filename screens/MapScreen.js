@@ -72,7 +72,6 @@ const options = [
     label: "Magasin Éco-bio",
     value: "Magasin Éco-bio",
   },
-
 ];
 
 export default function MapScreen({ navigation }) {
@@ -234,7 +233,9 @@ export default function MapScreen({ navigation }) {
                     <RadioForm
                       radio_props={options}
                       onPress={(e) => onPress(e)}
-                      initial={options.findIndex((option) => option.value === selectedCategory)}
+                      initial={options.findIndex(
+                        (option) => option.value === selectedCategory
+                      )}
                       selectedId={selectedCategory}
                       style={styles.radioTextGroup}
                       buttonColor={"#41F67F"}
@@ -256,14 +257,18 @@ export default function MapScreen({ navigation }) {
           <MapView
             style={styles.map}
             region={mapRegion}
-            mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
+            // mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
             initialRegion={mapRegion}
           >
             {currentLocation && (
               <Marker
                 coordinate={{
-                  latitude: currentLocation.latitude,
-                  longitude: currentLocation.longitude,
+                  latitude: currentLocation.latitude
+                    ? parseFloat(currentLocation.latitude)
+                    : 0,
+                  longitude: currentLocation.longitude
+                    ? parseFloat(currentLocation.longitude)
+                    : 0,
                 }}
                 title="Votre position actuelle"
                 pinColor="#FF0000"
@@ -287,11 +292,12 @@ export default function MapScreen({ navigation }) {
                   : "Unknown";
 
                 return (
+                  // Convert strings coordinates (bdd) to float in utilisation
                   <Marker
                     key={index}
                     coordinate={{
-                      latitude: place.address.latitude,
-                      longitude: place.address.longitude,
+                      latitude: parseFloat(place.address.latitude),
+                      longitude: parseFloat(place.address.longitude),
                     }}
                     title={place.name}
                     description={`Type: ${place.category} Distance: ${distance} km`}
@@ -459,7 +465,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     color: "black",
     gap: 5,
-
   },
   radioGroup: {
     backgroundColor: "white",

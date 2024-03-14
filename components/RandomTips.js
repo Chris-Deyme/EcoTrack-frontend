@@ -15,7 +15,7 @@ export default function TipsScreen() {
     // fetch(`${IP_ADDRESS}/tips/test`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.tip[0].texte);
+        // console.log(data.tip[0].texte);
         const tip = data.tip[0].texte;
         setRandomTip(tip);
       });

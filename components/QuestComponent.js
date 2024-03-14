@@ -48,7 +48,7 @@ export default function QuestComponent() {
       // setCounter(counter -5); // Incrémenter le compteur
 
       // Mettre à jour le score de l'utilisateur
-      console.log("user", user.id);
+      // console.log("user", user.id);
 
       fetch(`${config.IP_ADDRESS}/scores/updateScore/${user.id}`, {
         method: "PUT",
