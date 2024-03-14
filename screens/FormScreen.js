@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   StyleSheet,
   View,
@@ -19,6 +19,7 @@ import {
 import LongButton from "../components/LongButton";
 import { FontAwesome } from "@expo/vector-icons";
 import config from "../config";
+import { addStructureToStore } from "../reducers/user";
 
 /** adresses de fetch */
 const IP_ADDRESS = "http://172.20.10.4:3000";
@@ -26,7 +27,7 @@ const API_ADDRESS = "https://api-adresse.data.gouv.fr";
 
 export default function FormScreen({ navigation }) {
   const [structureName, setStructureName] = useState("");
-  const [structureCategory, setStructureCategory] = useState("");
+  const [structureCategory, setStructureCategory] = useState("Magasin Éco/bio");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
@@ -34,6 +35,7 @@ export default function FormScreen({ navigation }) {
   const [dataSet, setDataSet] = useState([]);
 
   const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -46,7 +48,7 @@ export default function FormScreen({ navigation }) {
     fetch(`${API_ADDRESS}/search/?q=${query}&limit=5`)
       .then((response) => response.json())
       .then(({ features }) => {
-        const suggestions = features.map((feature, i) => ({
+        const suggestions = features?.map((feature, i) => ({
           id: String(i),
           title: feature.properties.label,
         }));
@@ -103,6 +105,7 @@ export default function FormScreen({ navigation }) {
         if (data.result) {
           setModalMessage("Structure créée avec succès");
           // Redirection vers la page MapScreen
+          dispatch(addStructureToStore({structuresAdded : 1}))
           navigation.navigate("Map"); // Assurez-vous que 'MapScreen' est le bon nom de votre écran de carte
         } else {
           // Définition du message d'erreur
@@ -169,7 +172,7 @@ export default function FormScreen({ navigation }) {
                   style={{ width: 250, height: 200 }}
                 >
                   <Picker.Item
-                    label="Magasin éco/bio"
+                    label="Magasin Éco/bio"
                     value="Magasin Éco-bio"
                   />
                   <Picker.Item label="Association" value="Association" />

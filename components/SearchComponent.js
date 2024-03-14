@@ -62,7 +62,7 @@ export default function SearchComponent({ navigation }) {
 
   return (
     <AutocompleteDropdownContextProvider>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Rechercher</Text>
           <AutocompleteDropdown
@@ -87,7 +87,7 @@ export default function SearchComponent({ navigation }) {
             />
           </View>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     </AutocompleteDropdownContextProvider>
   );
 }

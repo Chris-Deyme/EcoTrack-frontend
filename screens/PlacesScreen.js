@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, ScrollView, SafeAreaView } fr
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch, useSelector } from "react-redux";
 import { login } from '../reducers/user';
+import config from "../config";
 
 const StructuresScreen = ({navigation}) => {
   // Données de structures simulées
@@ -12,7 +13,6 @@ const StructuresScreen = ({navigation}) => {
     { id: 3, name: 'Structure 3' },
     { id: 4, name: 'Structure 4' },
   ];
-  const IP_ADDRESS = "172.20.10.13:3000";
 
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
@@ -20,11 +20,11 @@ const StructuresScreen = ({navigation}) => {
 
   useEffect(() => {
     console.log("Reduce", user.id);
-    fetch(`http://${IP_ADDRESS}/structures/showStructure/${user.id}`)
+    fetch(`${config.IP_ADDRESS}/structures/showStructure/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data.userData)
-        if (data.userData) {
+        if ("test", data.userData) {
           setStructure(data.userData)
         }
       });
@@ -33,7 +33,7 @@ const StructuresScreen = ({navigation}) => {
   const handleDelete = (id) => {
     console.log(`Tentative de suppression de la structure avec l'ID: ${id}`);
   
-    fetch(`http://${IP_ADDRESS}/structures/deleteStructure/${id}`, {
+    fetch(`${config.IP_ADDRESS}/structures/deleteStructure/${id}`, {
       method: 'DELETE', 
     })
       .then(response => response.json())
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: '500',
+    width: 200
   },
   backButton: {
     position: "absolute",

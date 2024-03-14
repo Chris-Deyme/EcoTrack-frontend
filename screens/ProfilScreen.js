@@ -119,7 +119,7 @@ const ProfilScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Animated.View
         style={[
           styles.drawerContainer,
@@ -152,12 +152,12 @@ const ProfilScreen = ({ navigation }) => {
       )}
 
       <ScrollView>
-        <View style={styles.profilHeader}>
+        <SafeAreaView style={styles.profilHeader}>
           <Text style={styles.h1}>PROFIL</Text>
           <TouchableOpacity onPress={toggleDrawer} style={styles.settingsIcon}>
             <FontAwesomeIcon icon={faCog} size={24} />
           </TouchableOpacity>
-        </View>
+        </SafeAreaView>
         <View style={styles.profilContent}>
           <View style={styles.profilePicContainer}>
             {user.image ? (
@@ -228,7 +228,7 @@ const ProfilScreen = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -236,12 +236,11 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const [image, setImage] = useState(null);
-  
 
   const handleLogout = () => {
     dispatch(logout());
     dispatch(removeAllActivities());
-    navigation.navigate("Home");
+    navigation.navigate("Onboard");
   };
 
   // const handleDelete = () => {
@@ -273,7 +272,7 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
     });
 
     if (!result.canceled && result.assets) {
-      dispatch(addImgToStore({image: result.assets[0].uri}));
+      dispatch(addImgToStore({ image: result.assets[0].uri }));
     }
   };
 
@@ -285,11 +284,8 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
-      dispatch(addImgToStore({image: result.assets[0].uri}));
-      console.log("est", user.image)
+      dispatch(addImgToStore({ image: result.assets[0].uri }));
     }
   };
 
@@ -330,10 +326,6 @@ const DrawerNav = ({ navigation, closeDrawer }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
-    justifyContent: "flex-start",
-    // paddingTop: 50,
-    // paddingHorizontal: 20,
     backgroundColor: "#ffffff",
   },
   drawerContainer: {
@@ -421,7 +413,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 0,
   },
   profilContent: {
     justifyContent: "center",
@@ -430,6 +422,7 @@ const styles = StyleSheet.create({
   },
   activitiesInput: {
     marginTop: 20,
+    paddingBottom: 30,
   },
   h2: {
     fontSize: 18,
@@ -475,7 +468,7 @@ const styles = StyleSheet.create({
   bodyContainer: {
     gap: 5,
     marginTop: 30,
-  }
+  },
 });
 
 export default ProfilScreen;

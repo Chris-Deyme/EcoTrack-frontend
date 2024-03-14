@@ -35,11 +35,12 @@ import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
 import RadioGroup from "react-native-radio-buttons-group";
+import { useSelector, useDispatch } from "react-redux";
 
 const icons = {
   ["Point de tri"]: require("../assets/tri.png"),
   Association: require("../assets/association.png"),
-  ["Magasin éco/bio"]: require("../assets/shop.png"),
+  ["Magasin Éco-bio"]: require("../assets/shop.png"),
   Écolieu: require("../assets/ecolieu.png"),
 };
 
@@ -60,9 +61,9 @@ const options = [
     value: "Écolieu",
   },
   {
-    id: "Magasin éco/bio",
-    label: "Magasin éco/bio",
-    value: "Magasin éco/bio",
+    id: "Magasin Éco/bio",
+    label: "Magasin Éco/bio",
+    value: "Magasin Éco/bio",
   },
   {
     id: "all",
@@ -84,22 +85,36 @@ export default function MapScreen({ navigation }) {
     longitudeDelta: 0.0421,
   });
   const [places, setPlaces] = useState([]);
+  const user = useSelector((state) => state.user.value);
 
   // Permissions utilisateurs pour se servir de la map
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert("Permission to access location was denied");
-        return;
+      const result = await Location.requestForegroundPermissionsAsync();
+      const status = result?.status
+
+      if (status === 'granted') {
+        Location.watchPositionAsync({ distanceInterval: 100 },
+          (location) => {
+            setCurrentLocation(location.coords);
+          });
       }
-      let location = await Location.getCurrentPositionAsync({});
-      setCurrentLocation(location.coords);
     })();
   }, []);
 
+  useEffect(() => {
+    if (currentLocation) {
+      setMapRegion(prevRegion => ({
+        ...prevRegion,
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude
+      }));
+    }
+  }, [currentLocation]);
+
   // fetch toutes les structures
   useEffect(() => {
+    console.log("testui", user)
     fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
       .then((response) => response.json())
       .then((data) => {
@@ -114,7 +129,7 @@ export default function MapScreen({ navigation }) {
       .catch((error) => {
         console.error("Erreur lors de la récupération des données :", error);
       });
-  }, [loading]); //!
+  }, [user.structuresAdded]); //!
 
   const getSuggestions = async (q) => {
     const filterToken = q.toLowerCase();
@@ -161,9 +176,10 @@ export default function MapScreen({ navigation }) {
 
   return (
     <AutocompleteDropdownContextProvider>
+      <ScrollView>
       <SafeAreaView style={styles.container}>
         <Text style={styles.h1}>CARTE</Text>
-        <ScrollView>
+        
           <View style={styles.topBar}>
             <View style={styles.inputContainer}>
               <View style={styles.labelContainer}>
@@ -216,6 +232,7 @@ export default function MapScreen({ navigation }) {
                       onPress={(e) => onPress(e)}
                       selectedId={selectedCategory}
                       style={styles.radioTextGroup}
+                      
                     />
                   </View>
                   <TouchableOpacity
@@ -234,12 +251,7 @@ export default function MapScreen({ navigation }) {
             style={styles.map}
             region={mapRegion}
             mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
-            initialRegion={{
-              latitude: 48.853, // Default to Paris if no location
-              longitude: 2.349,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
+            initialRegion={mapRegion}
           >
             {currentLocation && (
               <Marker
@@ -258,7 +270,7 @@ export default function MapScreen({ navigation }) {
                   ? true
                   : place.category === selectedCategory
               )
-              .map((place, index) => {
+              ?.map((place, index) => {
                 let distance = currentLocation
                   ? getDistanceFromLatLonInKm(
                       currentLocation.latitude,
@@ -290,8 +302,9 @@ export default function MapScreen({ navigation }) {
               text="Ajouter une structure"
             />
           </View>
-        </ScrollView>
+        
       </SafeAreaView>
+      </ScrollView>
     </AutocompleteDropdownContextProvider>
   );
 }
@@ -393,7 +406,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: "center",
     marginTop: 20,
-    marginBottom: 30,
+    paddingBottom: 50,
   },
   suggestionItem: {
     padding: 15,

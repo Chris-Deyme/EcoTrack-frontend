@@ -76,7 +76,7 @@ export default function QuestComponent() {
 
   return (
     <View>
-      <Text style={styles.label}>QUEST : {user.username}</Text>
+      <Text style={styles.h2}>Quête du jour</Text>
       <Shadow distance={0.5} startColor={"#085229"} offset={[4, 5]}>
         <View style={styles.container}>
           <View style={styles.QuestContainer}>
@@ -120,15 +120,19 @@ const styles = StyleSheet.create({
   QuestContainer: {
     width: "80%",
   },
-  label: {
-    // marginLeft: 10,
-    textAlign: "center",
-    fontSize: 12,
-  },
+
   rightSide: {
     alignItems: "center",
   },
   quest: {
     paddingBottom: 10,
+  },
+  h2: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginLeft: 30,
+    marginBottom: 15,
+    color: "black",
+    // fontFamily: "Poppins",
   },
 });

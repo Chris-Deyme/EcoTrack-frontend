@@ -17,6 +17,7 @@ import { LineChart, BarChart } from "react-native-chart-kit";
 import moment from "moment";
 import { addScoreToStore } from "../reducers/user";
 import config from "../config";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DashboardScreen() {
   const user = useSelector((state) => state.user.value);
@@ -50,7 +51,6 @@ export default function DashboardScreen() {
         console.error("Erreur lors de la récupération du classement :", error);
       });
   }, []);
-  
 
   const getColorForScore = (score) => {
     if (score < 25) return "#085229";
@@ -68,74 +68,68 @@ export default function DashboardScreen() {
 
   const [users, setUsers] = useState([]);
 
-      const renderItem = ({ item, index }) => (
-      <View style={styles.userItem}>
-        <Text style={styles.userRank}>{index + 1}</Text>
-        <View style={styles.userInfo}>
-          <Text style={styles.userName}>{item.user.username}</Text>
-          <Text style={styles.userScore}>{item.score} points</Text>
-        </View>
+  const renderItem = ({ item, index }) => (
+    <View style={styles.userItem}>
+      <Text style={styles.userRank}>{index + 1}</Text>
+      <View style={styles.userInfo}>
+        <Text style={styles.userName}>{item.user.username}</Text>
+        <Text style={styles.userScore}>{item.score} points</Text>
       </View>
-    );
+    </View>
+  );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Score CO2</Text>
-      <AnimatedCircularProgress
-        size={270}
-        width={15}
-        fill={user.score || 0} //! Directement la valeur du score
-        tintColor={getColorForScore(user.score)} // Couleur basée sur le score
-        backgroundColor="#e6e6e6" // Couleur de fond neutre
-        padding={10}
-        arcSweepAngle={240} // Moins que 360 pour un arc de cercle
-        rotation={240} // Rotation pour commencer du bas
-        lineCap="round"
-      >
-        {() => (
-          <>
-            <Text style={styles.scoreText}>{user.score}</Text>
-            <View style={styles.dataContainer}>
-            <Text style={styles.co2Number}>{user.carbone} kg Co2</Text>
-            <Text style={styles.rank}>Rang : {getRank(user.score)}</Text>
-            </View>
-            
-            
-          </>
-        )}
-      </AnimatedCircularProgress>
-      
-      <View style={styles.questContainer}>
-        <QuestComponent />
-        <RandomTips />
-      </View>
+    <View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <SafeAreaView>
+          <Text style={styles.h1}>SCORE</Text>
+        </SafeAreaView>
+        <View style={styles.mainContent}>
+          <View style={styles.scoreContainer}>
+            <AnimatedCircularProgress
+              size={270}
+              width={15}
+              fill={user.score || 0} //! Directement la valeur du score
+              tintColor={getColorForScore(user.score)} // Couleur basée sur le score
+              backgroundColor="#e6e6e6" // Couleur de fond neutre
+              padding={10}
+              arcSweepAngle={240} // Moins que 360 pour un arc de cercle
+              rotation={240} // Rotation pour commencer du bas
+              lineCap="round"
+            >
+              {() => (
+                <>
+                  <Text style={styles.scoreText}>{user.score}</Text>
+                  <View style={styles.dataContainer}>
+                    <Text style={styles.co2Number}>{user.carbone} kg Co2</Text>
+                    <Text style={styles.rank}>
+                      Rang : {getRank(user.score)}
+                    </Text>
+                  </View>
+                </>
+              )}
+            </AnimatedCircularProgress>
+          </View>
+          <View style={styles.questContainer}>
+            <QuestComponent />
+            <RandomTips />
+          </View>
 
-      <Text style={styles.title}>Classement des utilisateurs</Text>
-      <FlatList
-  data={users}
-  renderItem={({ item, index }) => renderItem({ item, index })}
-  keyExtractor={(item, index) => (item && item.id) ? item.id.toString() : index.toString()}
-/>
-
-
-
-    </ScrollView>
+          <Text style={styles.h2}>Classement des utilisateurs</Text>
+          <FlatList
+            data={users}
+            renderItem={({ item, index }) => renderItem({ item, index })}
+            keyExtractor={(item, index) =>
+              item && item.id ? item.id.toString() : index.toString()
+            }
+          />
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 20,
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginTop: 20,
-  },
   button: {
     backgroundColor: "#007bff",
     paddingVertical: 10,
@@ -150,59 +144,6 @@ const styles = StyleSheet.create({
   scoreText: {
     fontSize: 50,
     fontWeight: "bold",
-  },
-  historyTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 30,
-    marginBottom: 10,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 20,
-    color: "#085229",
-    // fontFamily: "Poppins",
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginTop: 20,
   },
   questContainer: {
     height: "40%",
@@ -219,9 +160,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   userItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#41F67F',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#41F67F",
     marginBottom: 20,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -229,17 +170,40 @@ const styles = StyleSheet.create({
   },
   userRank: {
     marginRight: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
   },
   userInfo: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   userName: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   userScore: {
     fontSize: 14,
+  },
+  h1: {
+    fontSize: 34,
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginTop: 20,
+    color: "#41F67F",
+  },
+  mainContent: {
+    // alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 180,
+  },
+  h2: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginLeft: 30,
+    marginBottom: 15,
+    color: "black",
+    // fontFamily: "Poppins",
+  },
+  scoreContainer: {
+    alignItems: "center",
   },
 });

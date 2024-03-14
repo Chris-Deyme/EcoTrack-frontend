@@ -33,7 +33,7 @@ export default function TipsScreen() {
   const icon = ["reload", "car-sport", "walk", "bicycle", "train", "bus"];
   return (
     <View>
-      <Text style={styles.label}>TIPS</Text>
+      <Text style={styles.h2}>Nos tips</Text>
       <Shadow distance={0.5} startColor={"#085229"} offset={[4, 5]}>
         <View style={styles.tipsContainer}>
           <ScrollView>
@@ -76,9 +76,12 @@ const styles = StyleSheet.create({
    reload: {
     padding: 5,
    },
-      label: {
-      // marginLeft: 10,
-      textAlign: "center",
-      fontSize: 12,
-   },
+   h2: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginLeft: 30,
+    marginBottom: 15,
+    color: "black",
+    // fontFamily: "Poppins",
+  },
 });

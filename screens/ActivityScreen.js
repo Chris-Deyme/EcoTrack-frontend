@@ -13,7 +13,8 @@ import SearchComponent from "../components/SearchComponent";
 import {
   faPersonBiking,
   faBolt,
-  faBurger, faLeaf
+  faBurger,
+  faLeaf,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { addCategoryToStore } from "../reducers/category";
@@ -46,11 +47,12 @@ export default function ActivityScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerTop}>
-        <Text style={styles.h1}>ACTIVITES</Text>
-      </View>
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <SafeAreaView style={styles.headerTop}>
+          <Text style={styles.h1}>ACTIVITES</Text>
+        </SafeAreaView>
+
         <View style={styles.searchBar}>
           <SearchComponent navigation={navigation} />
         </View>
@@ -58,13 +60,14 @@ export default function ActivityScreen({ navigation }) {
           <Text style={styles.h2}>Toutes les activités</Text>
         </View>
         <View style={styles.allActivityCardContainer}>
-        <ActivityCard
+          <ActivityCard
             onPress={() => handleNavAll()}
             startColor={colorStyle[3]}
             text={"Activités"}
             color={colorStyle[3]}
             icon={faLeaf}
-          /></View>
+          />
+        </View>
         <View style={styles.header}>
           <Text style={styles.h2}>Recherche par catégories</Text>
         </View>
@@ -92,7 +95,7 @@ export default function ActivityScreen({ navigation }) {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     gap: 30,
     paddingTop: 10,
-    paddingBottom: 120,
+    paddingBottom: 50,
     width: "100%",
     alignItems: "center",
   },
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     gap: 20,
-    paddingBottom: 80,
+    paddingBottom: 0,
     width: "100%",
   },
   h2: {
