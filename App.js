@@ -1,36 +1,37 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+// import { StatusBar } from "expo-status-bar";
+// import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import HomeScreen from "./screens/HomeScreen";
-import DashboardScreen from "./screens/DashboardScreen";
-import MapScreen from "./screens/MapScreen";
-import ActivityScreen from "./screens/ActivityScreen";
 import ActionScreen from "./screens/ActionScreen";
+import ActivityScreen from "./screens/ActivityScreen";
+// import CarouselScreen from "./screens/CarouselScreen";
+import DashboardScreen from "./screens/DashboardScreen";
+// import EnergyScreen from "./screens/EnergyScreen";
+// import FoodScreen from "./screens/FoodScreen";
+import FormScreen from "./screens/FormScreen";
+import HomeScreen from "./screens/HomeScreen";
+import InfoScreen from "./screens/InfoScreen";
+import MapScreen from "./screens/MapScreen";
+import OnboardScreen from "./screens/OnboardScreen"
+import PlacesScreen from "./screens/PlacesScreen";
 import ProfilScreen from "./screens/ProfilScreen";
 import SigninScreen from "./screens/SigninScreen";
 import SignupScreen from "./screens/SignupScreen";
-import FormScreen from "./screens/FormScreen";
-import EnergyScreen from "./screens/EnergyScreen";
-import FoodScreen from "./screens/FoodScreen";
-import PlacesScreen from "./screens/PlacesScreen";
-import OnboardScreen from "./screens/OnboardScreen"
-import CarouselScreen from "./screens/CarouselScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faMugSaucer } from "@fortawesome/free-solid-svg-icons/faMugSaucer";
+// import { faMugSaucer } from "@fortawesome/free-solid-svg-icons/faMugSaucer";
+// import { faUser } from "@fortawesome/free-regular-svg-icons";
 import {
-  faBicycle,
   faHouse,
   faLocationDot,
-  faMapPin,
   faPersonBiking,
   faUserLarge,
+  faBicycle,
   faBurger,
+  faMapPin,
 } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 import { Provider } from "react-redux";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
@@ -100,15 +101,16 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             {/* navigation de dev */}
             <Stack.Screen name="Onboard" component={OnboardScreen} />
-            <Stack.Screen name="Carousel" component={CarouselScreen} />
+            {/* <Stack.Screen name="Carousel" component={CarouselScreen} /> */}
+            <Stack.Screen name="Info" component={InfoScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Signin" component={SigninScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="Activity" component={ActivityScreen} />
             <Stack.Screen name="Action" component={ActionScreen} />
             <Stack.Screen name="Form" component={FormScreen} />
-            <Stack.Screen name="Food" component={FoodScreen} />
-            <Stack.Screen name="Energy" component={EnergyScreen} />
+            {/* <Stack.Screen name="Food" component={FoodScreen} /> */}
+            {/* <Stack.Screen name="Energy" component={EnergyScreen} /> */}
             <Stack.Screen name="Dashboard" component={DashboardScreen} />
             <Stack.Screen name="Places" component={PlacesScreen} />
             <Stack.Screen name="TabNavigator" component={TabNavigator} />

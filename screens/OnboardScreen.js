@@ -33,7 +33,8 @@ export default function App({ navigation }) {
           <View style={styles.button}>
             <LongButton
               color={"#41F67F"}
-              onPress={() => navigation.navigate("Carousel")}
+              onPress={() => navigation.navigate("Info")}
+              // onPress={() => navigation.navigate("Carousel")}
               text="Voir la Démo"
             />
           </View>
