@@ -257,7 +257,7 @@ export default function MapScreen({ navigation }) {
           <MapView
             style={styles.map}
             region={mapRegion}
-            // mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
+            mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
             initialRegion={mapRegion}
           >
             {currentLocation && (

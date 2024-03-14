@@ -5,23 +5,25 @@ import PagerView from "react-native-pager-view";
 import Carousel from "pinar";
 import EcotrackLogo from "../components/EcotrackLogo";
 import LongButton from "../components/LongButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function InfoScreen({ navigation }) {
   const { width } = Dimensions.get("window").width;
   return (
     <View style={styles.container}>
-      <View style={{ marginTop: 20 }}>
+      <SafeAreaView style={styles.logo}>
         {/* <EcotrackLogo /> */}
         <Image
           source={require("../assets/Logotype-ecotrack-noir.png")}
           style={{
             width: 280,
-            height: 150,
+            height: 100,
             resizeMode: "contain",
           }}
         />
-      </View>
-      <Carousel style={styles.carousel}>
+      </SafeAreaView>
+      <View style={styles.mainContent}>
+      <Carousel style={styles.carousel} showsDots={true} showsControls={false} height={400}>
         <View key={1} style={styles.viewKey}>
           <View style={styles.viewimage}>
             <Image
@@ -80,6 +82,7 @@ export default function InfoScreen({ navigation }) {
           text="Créer un compte"
         />
       </View>
+      </View>
     </View>
   );
 }
@@ -90,17 +93,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    gap: 20,
     backgroundColor: "#FFF",
   },
+  logo: {
+    width: "100%",
+    height: "20%",
+    alignItems: "center",
+    paddingTop: 0,
+    // backgroundColor: "red"
+  },
   carousel: {
-    flex: 1,
-    marginTop: 20,
     justifyContent: "center",
+    // height: 10
+    // backgroundColor: "red"
   },
   viewKey: {
     alignItems: "center",
     width: "100%",
-    marginBottom: 80,
+    height: "100%",
+    // marginBottom: 80,
   },
   viewtext: {
     width: "70%",
@@ -109,6 +121,7 @@ const styles = StyleSheet.create({
   viewimage: {
     resizeMode: "cover",
     alignItems: "center",
+    justifyContent: "center",
     width: "70%",
     height: "90%",
     backgroundColor: "#F4F1F1",
@@ -127,21 +140,26 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#085229ff",
-    fontSize: 20,
-    textAlign: "center",
-    paddingTop: 30,
+    fontSize: 16,
+    paddingTop: 20,
+    textAlign: "justify"
   },
   vueDuBouton: {
     marginBottom: 25,
+    marginTop: 10,
   },
   h2: {
     fontSize: 18,
     fontWeight: "600",
-    marginLeft: 30,
+    marginLeft: 0,
     marginTop: 0,
     // marginBottom: 15,
     color: "black",
     textAlign: "center",
     // fontFamily: "Poppins",
   },
+  mainContent: {
+    alignItems: "center",
+    // backgroundColor: "blue"
+  }
 });
