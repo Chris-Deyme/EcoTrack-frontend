@@ -41,7 +41,7 @@ export default function DashboardScreen() {
       .catch((error) => {
         console.error("Erreur lors de la récupération du classement :", error);
       });
-  }, []);
+  }, [user.score]);
 
   const getColorForScore = (score) => {
     if (score < 25) return "#085229";
