@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlus, faLeaf, faSeedling } from "@fortawesome/free-solid-svg-icons";
+import { faSeedling } from "@fortawesome/free-solid-svg-icons";
 
 export default function ActionCard({
   startColor,
@@ -37,7 +37,8 @@ export default function ActionCard({
           <Text style={styles.title}>{text}</Text>
           <Text style={styles.score}>Points rapportés : {points}</Text>
         </View>
-        <Text style={[styles.number, { color: textColor }]} ><FontAwesomeIcon icon={faSeedling} size={14} color={color} /> {number}kg de Co<Text style={[styles.subscript, { color: textColor }]} >2</Text>
+        <Text style={[styles.number, { color: textColor }]} >
+          <FontAwesomeIcon icon={faSeedling} size={14} color={color} /> {number}kg de Co<Text style={[styles.subscript, { color: textColor }]} >2</Text>
         </Text>
       </View>
     </View>
@@ -60,8 +61,6 @@ const styles = StyleSheet.create({
   number: {
     fontSize: 14,
     marginLeft: 5,
-    
-
   },
   score: {
     fontSize: 13,

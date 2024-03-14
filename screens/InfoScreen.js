@@ -1,9 +1,6 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Dimensions, View, Text, Image } from "react-native";
-import PagerView from "react-native-pager-view";
 import Carousel from "pinar";
-import EcotrackLogo from "../components/EcotrackLogo";
 import LongButton from "../components/LongButton";
 
 export default function InfoScreen({ navigation }) {
@@ -11,7 +8,6 @@ export default function InfoScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={{ marginTop: 20 }}>
-        {/* <EcotrackLogo /> */}
         <Image
           source={require("../assets/Logotype-ecotrack-noir.png")}
           style={{
@@ -84,7 +80,6 @@ export default function InfoScreen({ navigation }) {
   );
 }
 
-// style={styles.image}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -139,9 +134,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 30,
     marginTop: 0,
-    // marginBottom: 15,
     color: "black",
     textAlign: "center",
-    // fontFamily: "Poppins",
   },
 });

@@ -21,8 +21,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import config from "../config";
 import { addStructureToStore } from "../reducers/user";
 
-/** adresses de fetch */
-const IP_ADDRESS = "http://172.20.10.4:3000";
 const API_ADDRESS = "https://api-adresse.data.gouv.fr";
 
 export default function FormScreen({ navigation }) {
@@ -96,12 +94,10 @@ export default function FormScreen({ navigation }) {
 
         token: user.token,
         user: user.id,
-        // Assurez-vous que c'est bien l'ID de l'utilisateur
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Hello", data);
         if (data.result) {
           setModalMessage("Structure créée avec succès");
           // Redirection vers la page MapScreen
@@ -281,8 +277,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     marginTop: 5,
-    justifyContent: "center", // Ajouter ceci pour centrer le contenu verticalement
-    alignItems: "center", // Ajouter ceci pour centrer le contenu horizontalement
+    justifyContent: "center",
+    alignItems: "center",
   },
   inputText: {
     fontSize: 16,

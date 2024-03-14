@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
 
 export default function LongButton({ onPress, text, color }) {
    return (
       <>
-         <Shadow distance={0.5} startColor={'#085229ff'} offset={[4, 5]}>
+         <Shadow distance={0.5} startColor={'black'} offset={[4, 5]}>
             <TouchableOpacity
             style={
                { 

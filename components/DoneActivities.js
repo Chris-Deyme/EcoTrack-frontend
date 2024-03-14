@@ -3,35 +3,28 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
-  faPersonBiking,
+  faBatteryHalf,
+  faBowlRice,
+  faBusSimple,
   faCar,
+  faCarrot,
+  faCog,
+  faCow,
+  faDrumstickBite,
+  faFan,
+  faLightbulb,
   faTrain,
   faPersonWalking,
-  faPlus,
-  faBusSimple,
-  faTimes,
-  faPowerOff,
-  faBatteryHalf,
-  faLightbulb,
-  faFan,
-  faRainbow,
-  faUtensils,
-  faCarrot,
-  faAppleWhole,
-  faBowlRice,
-  faRecycle,
-  faCow,
-  faShower,
-  faDrumstickBite,
   faLocationDot,
+  faPersonBiking,
+  faPowerOff,
+  faRecycle,
+  faShower,
   faTrash,
-  faCog,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function DoneActivities() {
   const activitiesDone = useSelector((state) => state.activities.value);
-
-  console.log(activitiesDone.activities);
 
   let reversedActivites = [...activitiesDone?.activities].reverse().slice(0, 5);
 
@@ -84,8 +77,6 @@ export default function DoneActivities() {
     } else if (data.activityIcon === "trash") {
       activityIcon = faTrash;
     }
-
-    console.log("undeux", data?.activityIcon);
 
     return (
       <View style={styles.allContent} key={i}>
@@ -175,6 +166,5 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 3,
     color: "black",
-    // fontFamily: "Poppins",
   },
 });

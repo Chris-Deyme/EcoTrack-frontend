@@ -1,4 +1,4 @@
-import React, { component } from "react";
+import React from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 import LongButton from "../components/LongButton";
@@ -34,7 +34,6 @@ export default function App({ navigation }) {
             <LongButton
               color={"#41F67F"}
               onPress={() => navigation.navigate("Info")}
-              // onPress={() => navigation.navigate("Carousel")}
               text="Découvrir Ecotrack"
             />
           </View>
@@ -52,7 +51,7 @@ export default function App({ navigation }) {
     </View>
   );
 }
-// onPress, text, color
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   TextInput,
   KeyboardAvoidingView,
   Platform,
@@ -11,7 +10,6 @@ import {
 import React from "react";
 import LongButton from "../components/LongButton";
 import EcotrackLogo from "../components/EcotrackLogo"
-import InputComponent from "../components/InputComponent"
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,15 +19,11 @@ import config from "../config";
 
 export default function SignupScreen({ navigation }) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
 
   const [signUpUsername, setSignUpUsername] = useState("");
   const [signUpEmail, setSignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
   const [error, setError] = useState("");
-
-  /** adresses de fetch */
-  const IP_ADDRESS = "http://172.20.10.4:3000";
 
   const handleRegister = () => {
     fetch(`${config.IP_ADDRESS}/users/signup`, 
@@ -44,7 +38,6 @@ export default function SignupScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.userData._id);
         if (data.result) {
           dispatch(
             login({
@@ -60,7 +53,6 @@ export default function SignupScreen({ navigation }) {
           setSignUpEmail("");
           setSignUpPassword("");
         } else {
-          console.log("Errror", data);
           setError("Votre compte n'a pas pu être créé.");
         }
       });
@@ -71,7 +63,6 @@ export default function SignupScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      {/* Bouton de retour en haut à gauche */}
       <TouchableOpacity
         onPress={() => navigation.navigate("Onboard")}
         style={styles.backButton}
@@ -79,7 +70,6 @@ export default function SignupScreen({ navigation }) {
         <FontAwesome name="chevron-left" size={24} color="black" />
       </TouchableOpacity>
 
-      {/* Logo du composant */}
       <EcotrackLogo />
 
       <Text>S'inscrire</Text>
@@ -133,11 +123,10 @@ export default function SignupScreen({ navigation }) {
   );
 }
 
-// style={styles.inputContainer}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'green',
     alignItems: "center",
     justifyContent: "center",
   },

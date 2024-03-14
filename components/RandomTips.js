@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
-import { FontAwesome } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import config from "../config"
 
@@ -12,10 +10,8 @@ export default function TipsScreen() {
   // Récupération des tips via le fetch vers la route en backline
   const getRandomTip = () => {
     fetch(`${config.IP_ADDRESS}/tips/test`)
-    // fetch(`${IP_ADDRESS}/tips/test`)
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data.tip[0].texte);
         const tip = data.tip[0].texte;
         setRandomTip(tip);
       });
@@ -26,7 +22,6 @@ export default function TipsScreen() {
     getRandomTip();
   }, []);
 
-  // Changement du tips onPress fontAwesome (peut-être enlevé)
   const tipchange = () => {
     getRandomTip();
   };
@@ -43,7 +38,6 @@ export default function TipsScreen() {
             </View>
         
           <TouchableOpacity onPress={tipchange} style={styles.reload}>
-            {/* <FontAwesome name={icon[1]} size={32} color="black" /> */}
             <Ionicons name={icon[0]} size={24} color="black" />
           </TouchableOpacity>
         </View>
@@ -53,7 +47,6 @@ export default function TipsScreen() {
   );
 }
 
-//  style={styles.tipsText}
 const styles = StyleSheet.create({
   tipsContainer: {
     backgroundColor: 'white',
@@ -66,11 +59,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  container: {
-    // width: "80%",
-    // height: 120,
-
-	},
    tipsText: {
       fontSize: 18,
       padding: 10,
@@ -84,7 +72,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 15,
     color: "black",
-    // fontFamily: "Poppins",
   },
   cardContainer: {
     alignItems: "center",

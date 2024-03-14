@@ -6,7 +6,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   TextInput,
   KeyboardAvoidingView,
   Platform,
@@ -22,9 +21,6 @@ export default function SigninScreen({ navigation }) {
   const [signInPassword, setSignInPassword] = useState("testCapsule");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
-
-  /** adresses de fetch */
-  const IP_ADDRESS = "http://172.20.10.4:3000";
 
   const handleConnection = () => {
     fetch(`${config.IP_ADDRESS}/users/signin`, {
@@ -57,7 +53,6 @@ export default function SigninScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      {/* Bouton de retour en haut à gauche */}
       <TouchableOpacity
         onPress={() => navigation.navigate("Onboard")}
         style={styles.backButton}
@@ -65,7 +60,6 @@ export default function SigninScreen({ navigation }) {
         <FontAwesome name="chevron-left" size={24} color="black" />
       </TouchableOpacity>
 
-      {/* Logo du composant */}
       <EcotrackLogo />
       <Text>Connexion</Text>
       <View style={styles.registerContainer}>

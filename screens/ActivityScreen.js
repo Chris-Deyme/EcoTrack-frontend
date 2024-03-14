@@ -2,9 +2,7 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
   SafeAreaView,
-  TextInput,
   ScrollView,
 } from "react-native";
 import React from "react";
@@ -16,12 +14,9 @@ import {
   faBurger,
   faLeaf,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import { addCategoryToStore } from "../reducers/category";
 import { useDispatch, useSelector } from "react-redux";
 
-// startColor, color, text, name
-// <FontAwesomeIcon icon="mug-saucer" />
 export default function ActivityScreen({ navigation }) {
   const colorStyle = ["#00B8FF", "#B78CFD", "#FF439D", "#41F67F"];
   const dispatch = useDispatch();
@@ -99,7 +94,6 @@ export default function ActivityScreen({ navigation }) {
   );
 }
 
-// style={styles.firstCard}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -136,7 +130,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 3,
     color: "black",
-    // fontFamily: "Poppins",
   },
   h1: {
     fontSize: 34,

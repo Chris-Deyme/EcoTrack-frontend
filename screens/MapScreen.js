@@ -1,40 +1,28 @@
 import React, {
   useEffect,
   useState,
-  useLayoutEffect,
-  useCallback,
 } from "react";
 import {
   StyleSheet,
   View,
   Dimensions,
   Text,
-  Alert,
   SafeAreaView,
   Modal,
   TouchableOpacity,
   ScrollView,
-  Button,
-  TextInput,
   Platform,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import LongButton from "../components/LongButton";
 import ShortButton from "../components/ShortButton";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
-  faCog,
-  faCamera,
-  faTimes,
-  faImages,
-  faImage,
   faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import config from "../config";
-import RadioGroup from "react-native-radio-buttons-group";
 import RadioForm from "react-native-simple-radio-button";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -115,14 +103,13 @@ export default function MapScreen({ navigation }) {
 
   // fetch toutes les structures
   useEffect(() => {
-    console.log("testui", user);
     fetch(`${config.IP_ADDRESS}/structures/showStructure/`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.structures) {
           setPlaces(data.structures);
+          // temporisation du refresh
           setTimeout(() => {
-            //!
             setLoading(true);
           }, 5000);
         }
@@ -130,12 +117,11 @@ export default function MapScreen({ navigation }) {
       .catch((error) => {
         console.error("Erreur lors de la récupération des données :", error);
       });
-  }, [user.structuresAdded]); //!
+  }, [user.structuresAdded]);
 
   const getSuggestions = async (q) => {
     const filterToken = q.toLowerCase();
 
-    console.log("getSuggestions", q);
     if (typeof q !== "string" || q.length < 3) {
       setSuggestionsList(null);
       return;
@@ -171,7 +157,6 @@ export default function MapScreen({ navigation }) {
   };
 
   const onPress = (radioButtons) => {
-    console.log("ok", radioButtons);
     setSelectedCategory(radioButtons);
   };
 
@@ -257,7 +242,7 @@ export default function MapScreen({ navigation }) {
           <MapView
             style={styles.map}
             region={mapRegion}
-            // mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
+            mapType={Platform.OS === "ios" ? "hybridFlyover" : "hybrid"}
             initialRegion={mapRegion}
           >
             {currentLocation && (
@@ -292,7 +277,7 @@ export default function MapScreen({ navigation }) {
                   : "Unknown";
 
                 return (
-                  // Convert strings coordinates (bdd) to float in utilisation
+                  // Convert strings coordinates (bdd) to float by usage
                   <Marker
                     key={index}
                     coordinate={{
@@ -344,11 +329,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     height: "100%",
-    // alignItems: "center",
   },
   topBar: {
     flexDirection: "row",
-    justifyContent: "space-between", // Ajustement pour espacer les éléments
+    justifyContent: "space-between",
   },
   searchInput: {
     borderWidth: 1,
@@ -378,10 +362,10 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height * 0.55, // La carte prend maintenant 80% de l'écran
+    height: Dimensions.get("window").height * 0.55,
   },
   addButton: {
-    marginBottom: 20, // Ajustez selon vos besoins
+    marginBottom: 20,
   },
   centeredView: {
     flex: 1,
@@ -422,13 +406,13 @@ const styles = StyleSheet.create({
   },
   suggestionItem: {
     padding: 15,
-    backgroundColor: "#FFF", // Fond blanc ou autre couleur selon votre design
-    borderColor: "#41F67F", // Couleur de bordure pour correspondre à votre design
+    backgroundColor: "#FFF",
+    borderColor: "#41F67F",
     borderWidth: 1,
     borderRadius: 10,
-    color: "#000", // Texte noir ou autre couleur selon votre design
-    fontSize: 16, // Taille de police adaptée
-    marginVertical: 2, // Espacement vertical pour séparer les éléments
+    color: "#000",
+    fontSize: 16,
+    marginVertical: 2,
   },
   labelContainer: {
     width: 288,
@@ -440,7 +424,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
     color: "#085229",
-    // fontFamily: "Poppins",
   },
   h2: {
     fontSize: 18,
@@ -448,7 +431,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 3,
     color: "black",
-    // fontFamily: "Poppins",
   },
   h1: {
     fontSize: 34,
