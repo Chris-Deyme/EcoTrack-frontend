@@ -86,11 +86,7 @@ export default function DashboardScreen() {
   const [users, setUsers] = useState([]);
 
   const renderItem = ({ item, index }) => (
-<<<<<<< HEAD
-    <View style={styles.userItem}>
-=======
     <View style={[styles.userItem, { backgroundColor: getColorByRank(index) }]}>
->>>>>>> chris17
       <Text style={styles.userRank}>{index + 1}</Text>
       <View style={styles.userInfo}>
         <Text style={styles.userName}>{item.user.username}</Text>
@@ -98,10 +94,6 @@ export default function DashboardScreen() {
       </View>
     </View>
   );
-<<<<<<< HEAD
-
-=======
->>>>>>> chris17
   return (
     <View>
       <ScrollView contentContainerStyle={styles.container}>

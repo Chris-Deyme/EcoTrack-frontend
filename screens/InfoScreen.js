@@ -3,18 +3,15 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Dimensions, View, Text, Image } from "react-native";
 import PagerView from "react-native-pager-view";
 import Carousel from "pinar";
+import EcotrackLogo from "../components/EcotrackLogo";
 import LongButton from "../components/LongButton";
-import { Shadow } from "react-native-shadow-2";
 
 export default function InfoScreen({ navigation }) {
   const { width } = Dimensions.get("window").width;
   return (
     <View style={styles.container}>
-      <View style={styles.viewHeader}>
-        <Image 
-          source={require("../assets/Logotype-ecotrack-noir.png")}
-          style={{resizeMode: "contain", width: 280}}
-        />
+      <View style={{ marginTop: 20 }}>
+        <EcotrackLogo />
       </View>
       <Carousel style={styles.carousel}>
         <View key={1} style={styles.viewKey}>
@@ -70,41 +67,27 @@ export default function InfoScreen({ navigation }) {
   );
 }
 
-// style={styles.viewHeader}
+// style={styles.image}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     // gap: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#fafafa",
   },
   carousel: {
     flex: 1,
     marginTop: 20,
-    marginBottom: 20,
     justifyContent: "center",
-    height: "90%",
-    width: "90%",
-    // borderColor: "#000",
-    // borderWidth: 2,
-  },
-  viewHeader: {
-    width: "100%",
-    marginTop: 20,
-    alignItems: "center",
+    // height: "100%",
+    // width: "100%",
     // borderColor: "#000",
     // borderWidth: 2,
   },
   viewKey: {
     alignItems: "center",
     width: "100%",
-    borderWidth: 2,
-    marginBottom: 60,
-    backgroundColor: "#F4F1F1",
-    borderRadius: 20,
-    // borderColor: "#41F67F",
-    borderRightColor: "",
   },
   viewtext: {
     width: "80%",
@@ -118,15 +101,14 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
   },
   image: {
-    width: "100%",
+    width: 180,
     height: "50%",
-    resizeMode: "contain",
     // borderColor: "#000",
     // borderWidth: 2,
   },
   text: {
     color: "#085229ff",
-    fontSize: 20,
+    fontSize: 24,
     textAlign: "center",
     paddingTop: 30,
   },
