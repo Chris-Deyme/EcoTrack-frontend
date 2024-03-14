@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     height: "50%",
   },
   viewimage: {
+    resizeMode: "cover",
     alignItems: "center",
     width: "70%",
     height: "90%",
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   image: {
-    width: 180,
+    width: 280,
     height: "50%",
     resizeMode: 'contain'
 
