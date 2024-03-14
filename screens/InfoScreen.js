@@ -29,6 +29,9 @@ export default function InfoScreen({ navigation }) {
               source={require("../assets/Comptabiliser.png")}
             />
             <View style={styles.viewtext}>
+            <Text style={styles.h2}>
+                Comptabiliser
+              </Text>
               <Text style={styles.text}>
                 Traquez vos émissions de carbone grâce à un système gamifié.
               </Text>
@@ -42,6 +45,9 @@ export default function InfoScreen({ navigation }) {
               source={require("../assets/Réduire.png")}
             />
             <View style={styles.viewtext}>
+            <Text style={styles.h2}>
+                Réduire
+              </Text>
               <Text style={styles.text}>
                 Apprenez comment réduire vos émissions grâce aux quêtes et tips
                 à votre disposition.
@@ -56,6 +62,9 @@ export default function InfoScreen({ navigation }) {
               source={require("../assets/Agir.png")}
             />
             <View style={styles.viewtext}>
+            <Text style={styles.h2}>
+                Agir
+              </Text>
               <Text style={styles.text}>
                 Contribuez à améliorer votre impact grâce à un annuaire de
                 structures éco responsables.
@@ -100,7 +109,7 @@ const styles = StyleSheet.create({
   viewimage: {
     alignItems: "center",
     width: "70%",
-    height: "100%",
+    height: "90%",
     backgroundColor: "#F4F1F1",
     borderWidth: 8,
     borderRadius: 20,
@@ -112,6 +121,8 @@ const styles = StyleSheet.create({
   image: {
     width: 180,
     height: "50%",
+    resizeMode: 'contain'
+
   },
   text: {
     color: "#085229ff",
@@ -121,5 +132,15 @@ const styles = StyleSheet.create({
   },
   vueDuBouton: {
     marginBottom: 25,
+  },
+  h2: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginLeft: 30,
+    marginTop: 0,
+    // marginBottom: 15,
+    color: "black",
+    textAlign: "center",
+    // fontFamily: "Poppins",
   },
 });
