@@ -11,7 +11,15 @@ export default function InfoScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={{ marginTop: 20 }}>
-        <EcotrackLogo />
+        {/* <EcotrackLogo /> */}
+        <Image
+          source={require("../assets/Logotype-ecotrack-noir.png")}
+          style={{
+            width: 280,
+            height: 150,
+            resizeMode: "contain",
+          }}
+        />
       </View>
       <Carousel style={styles.carousel}>
         <View key={1} style={styles.viewKey}>
@@ -71,44 +79,43 @@ export default function InfoScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // gap: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fafafa",
+    backgroundColor: "#FFF",
   },
   carousel: {
     flex: 1,
     marginTop: 20,
     justifyContent: "center",
-    // height: "100%",
-    // width: "100%",
-    // borderColor: "#000",
-    // borderWidth: 2,
   },
   viewKey: {
     alignItems: "center",
     width: "100%",
+    marginBottom: 80,
   },
   viewtext: {
-    width: "80%",
+    width: "70%",
     height: "50%",
   },
   viewimage: {
     alignItems: "center",
-    width: "80%",
+    width: "70%",
     height: "100%",
-    // borderColor: "#000",
-    // borderWidth: 2,
+    backgroundColor: "#F4F1F1",
+    borderWidth: 8,
+    borderRadius: 20,
+    borderLeftColor: "#F4F1F1",
+    borderTopColor: "#F4F1F1",
+    borderRightColor: "#eee",
+    borderBottomColor: "#eee",
   },
   image: {
     width: 180,
     height: "50%",
-    // borderColor: "#000",
-    // borderWidth: 2,
   },
   text: {
     color: "#085229ff",
-    fontSize: 24,
+    fontSize: 20,
     textAlign: "center",
     paddingTop: 30,
   },
