@@ -135,15 +135,6 @@ const styles = StyleSheet.create({
     top: 60,
     left: 30,
   },
-  image: {
-    width: 250,
-    height: 250,
-  },
-  title: {
-    fontSize: 36,
-    textAlign: "center",
-    fontWeight: "700",
-  },
   inputContainer: {
     marginTop: 0,
   },

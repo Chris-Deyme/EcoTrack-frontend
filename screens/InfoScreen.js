@@ -1,15 +1,14 @@
 import React from "react";
-import { StyleSheet, Dimensions, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import Carousel from "pinar";
 import LongButton from "../components/LongButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function InfoScreen({ navigation }) {
-  const { width } = Dimensions.get("window").width;
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.logo}>
-        {/* <EcotrackLogo /> */}
         <Image
           source={require("../assets/Logotype-ecotrack-noir.png")}
           style={{
@@ -97,18 +96,14 @@ const styles = StyleSheet.create({
     height: "20%",
     alignItems: "center",
     paddingTop: 0,
-    // backgroundColor: "red"
   },
   carousel: {
     justifyContent: "center",
-    // height: 10
-    // backgroundColor: "red"
   },
   viewKey: {
     alignItems: "center",
     width: "100%",
     height: "100%",
-    // marginBottom: 80,
   },
   viewtext: {
     width: "70%",
@@ -154,6 +149,5 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     alignItems: "center",
-    // backgroundColor: "blue"
   }
 });

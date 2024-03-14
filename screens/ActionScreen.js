@@ -331,13 +331,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  modalHead: {
-    height: "15",
-  },
-  modalText: {
-    alignItems: "center",
-    paddingTop: 10,
-  },
   textReturn: {
     fontSize: 12,
     color: "black",

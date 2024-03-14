@@ -299,13 +299,6 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 75,
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginBottom: 20,
-    marginTop: 20,
-  },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -320,14 +313,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-  },
-  buttonCamera: {
-    backgroundColor: "#41F67F",
-    width: "40%",
-  },
-  buttonGallery: {
-    backgroundColor: "#085229",
-    width: "40%",
   },
   buttonText: {
     color: "white",

@@ -334,14 +334,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  searchInput: {
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 5,
-    padding: 10,
-    flex: 1,
-    marginRight: 10,
-  },
   inputContainer: {
     marginTop: 20,
     marginBottom: 15,
@@ -389,41 +381,14 @@ const styles = StyleSheet.create({
     elevation: 5,
     gap: 20,
   },
-
-  filterButton: {
-    marginBottom: 15,
-    padding: 10,
-  },
-  textStyle: {
-    color: "black",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   buttonContainer: {
     alignItems: "center",
     marginTop: 20,
     paddingBottom: 50,
   },
-  suggestionItem: {
-    padding: 15,
-    backgroundColor: "#FFF",
-    borderColor: "#41F67F",
-    borderWidth: 1,
-    borderRadius: 10,
-    color: "#000",
-    fontSize: 16,
-    marginVertical: 2,
-  },
   labelContainer: {
     width: 288,
     marginLeft: 30,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 20,
-    color: "#085229",
   },
   h2: {
     fontSize: 18,
@@ -461,10 +426,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#41F67F",
-  },
-  filterBtn: {
-    flexDirection: "row",
-    alignItems: "center",
   },
   scrollContainer: {
     gap: 10,

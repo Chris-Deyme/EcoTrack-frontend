@@ -17,8 +17,8 @@ import { login } from "../reducers/user";
 import config from "../config";
 
 export default function SigninScreen({ navigation }) {
-  const [signInEmail, setSignInEmail] = useState("test@gmail.com");
-  const [signInPassword, setSignInPassword] = useState("testCapsule");
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
@@ -116,11 +116,6 @@ const styles = StyleSheet.create({
     width: 250,
     height: 250,
   },
-  title: {
-    fontSize: 36,
-    textAlign: "center",
-    fontWeight: "700",
-  },
   inputContainer: {
     marginTop: 0,
   },
@@ -153,15 +148,8 @@ const styles = StyleSheet.create({
     shadowRadius: 44,
     elevation: 5,
   },
-  btnText: {
-    fontSize: 20,
-    textAlign: "center",
-  },
   color: {
     backgroundColor: "#41F67F",
-  },
-  buttonview: {
-    marginTop: 20,
   },
   registerContainer: {
     marginTop: 10,
