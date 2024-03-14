@@ -31,6 +31,7 @@ export const userSlice = createSlice({
       state.value.score = 0;
       state.value.carbone = 0;
       state.value.structuresAdded = 0;
+      state.value.image = null;
     },
     addScoreToStore: (state, action) => {
       state.value.score = action.payload.score;
@@ -45,6 +46,11 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login, logout, addScoreToStore, addImgToStore, addStructureToStore } =
-  userSlice.actions;
+export const {
+  login,
+  logout,
+  addScoreToStore,
+  addImgToStore,
+  addStructureToStore,
+} = userSlice.actions;
 export default userSlice.reducer;
