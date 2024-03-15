@@ -1,18 +1,14 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Dimensions, View, Text, Image } from "react-native";
-import PagerView from "react-native-pager-view";
+import { StyleSheet, View, Text, Image } from "react-native";
 import Carousel from "pinar";
-import EcotrackLogo from "../components/EcotrackLogo";
 import LongButton from "../components/LongButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function InfoScreen({ navigation }) {
-  const { width } = Dimensions.get("window").width;
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.logo}>
-        {/* <EcotrackLogo /> */}
         <Image
           source={require("../assets/Logotype-ecotrack-noir.png")}
           style={{
@@ -87,7 +83,6 @@ export default function InfoScreen({ navigation }) {
   );
 }
 
-// style={styles.image}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -101,18 +96,14 @@ const styles = StyleSheet.create({
     height: "20%",
     alignItems: "center",
     paddingTop: 0,
-    // backgroundColor: "red"
   },
   carousel: {
     justifyContent: "center",
-    // height: 10
-    // backgroundColor: "red"
   },
   viewKey: {
     alignItems: "center",
     width: "100%",
     height: "100%",
-    // marginBottom: 80,
   },
   viewtext: {
     width: "70%",
@@ -153,13 +144,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 0,
     marginTop: 0,
-    // marginBottom: 15,
     color: "black",
     textAlign: "center",
-    // fontFamily: "Poppins",
   },
   mainContent: {
     alignItems: "center",
-    // backgroundColor: "blue"
   }
 });

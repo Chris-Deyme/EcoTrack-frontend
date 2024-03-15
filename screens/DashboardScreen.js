@@ -3,17 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  Dimensions,
-  Modal,
   FlatList,
 } from "react-native";
 import RandomTips from "../components/RandomTips";
 import QuestComponent from "../components/QuestComponent";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useDispatch, useSelector } from "react-redux";
-import { LineChart, BarChart } from "react-native-chart-kit";
-import moment from "moment";
 import { addScoreToStore } from "../reducers/user";
 import config from "../config";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,13 +17,10 @@ export default function DashboardScreen() {
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
-  console.log("Reduce", user);
   useEffect(() => {
-    console.log("Reduce", user.id);
     fetch(`${config.IP_ADDRESS}/scores/showScore/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Test", data.userData.score);
         dispatch(
           addScoreToStore({
             score: data.userData.score,
@@ -122,7 +114,7 @@ export default function DashboardScreen() {
               <AnimatedCircularProgress
                 size={270}
                 width={15}
-                fill={user.score || 0} //! Directement la valeur du score
+                fill={user.score || 0} // Directement la valeur du score
                 tintColor={getColorForScore(user.score)} // Couleur basée sur le score
                 backgroundColor="#e6e6e6" // Couleur de fond neutre
                 padding={10}
@@ -225,7 +217,6 @@ const styles = StyleSheet.create({
   },
   userScore: {
     fontSize: 16,
-    // fontWeight: "600"
   },
   h1: {
     fontSize: 34,
@@ -235,7 +226,6 @@ const styles = StyleSheet.create({
     color: "#41F67F",
   },
   mainContent: {
-    // alignItems: "center",
     paddingTop: 20,
     paddingBottom: 60,
   },
@@ -244,9 +234,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 30,
     marginTop: 0,
-    // marginBottom: 15,
     color: "black",
-    // fontFamily: "Poppins",
   },
   scoreContainer: {
     alignItems: "center",

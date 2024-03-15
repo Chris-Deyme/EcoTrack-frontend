@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch, useSelector } from "react-redux";
-import { login } from '../reducers/user';
 import config from "../config";
 
 const StructuresScreen = ({navigation}) => {
@@ -19,28 +18,22 @@ const StructuresScreen = ({navigation}) => {
   const [structure, setStructure] = useState([])
 
   useEffect(() => {
-    console.log("Reduce", user.id);
     fetch(`${config.IP_ADDRESS}/structures/showStructure/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.userData)
         if ("test", data.userData) {
           setStructure(data.userData)
         }
       });
   }, []);
 
-  const handleDelete = (id) => {
-    console.log(`Tentative de suppression de la structure avec l'ID: ${id}`);
-  
+  const handleDelete = (id) => {  
     fetch(`${config.IP_ADDRESS}/structures/deleteStructure/${id}`, {
       method: 'DELETE', 
     })
       .then(response => response.json())
       .then(data => {
-        if (data.result) {
-          console.log(data.response);
-        
+        if (data.result) {        
           setStructure(structure.filter(s => id !== s._id));
         } else {
           console.log('Erreur lors de la suppression :', data.error);
@@ -51,8 +44,6 @@ const StructuresScreen = ({navigation}) => {
       });
   };
   
- 
-
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate("TabNavigator")} style={styles.backButton}>
@@ -61,9 +52,7 @@ const StructuresScreen = ({navigation}) => {
       <Text style={styles.title}>Mes Structures</Text>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {structure.map((structure, index) => 
-         
         (
-       
           <View key={index} style={styles.card}>
             <Text style={styles.name}>{structure.name}</Text>
             <TouchableOpacity onPress={() => handleDelete(structure._id)}>

@@ -9,11 +9,6 @@ import {
   TouchableOpacity,
   Text,
   UIManager,
-  Alert,
-  LayoutAnimation,
-  Button,
-  Modal,
-  FlatList,
   ScrollView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -82,33 +77,6 @@ const ProfilScreen = ({ navigation }) => {
       }
     })();
   }, []);
-
-  const openCamera = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled && result.assets) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.assets[0].uri);
-    }
-  };
 
   const toggleDrawer = () => {
     if (isDrawerOpen) {
@@ -300,19 +268,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    backgroundColor: "#FFF", // Fond blanc pour le tiroir
-    width: 220, // Largeur du tiroir
+    backgroundColor: "#FFF",
+    width: 220,
     borderWidth: 2,
-    borderColor: "#41F67F", // Bordure verte
-    zIndex: 1000, // Assurez-vous que le tiroir est bien au-dessus des autres éléments
+    borderColor: "#41F67F",
+    zIndex: 1000,
   },
   profilePicContainer: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    justifyContent: "center", // Centre le contenu verticalement
-    alignItems: "center", // Centre le contenu horizontalement
-    overflow: "hidden", // Empêche l'image de déborder
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
     borderWidth: 2,
     borderColor: "#41F67F",
   },
@@ -331,35 +299,20 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 75,
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%", // Utiliser un pourcentage de la largeur pour une meilleure réactivité
-    marginBottom: 20,
-    marginTop: 20, // Ajouter un espace au-dessus des boutons
-  },
   button: {
-    paddingVertical: 12, // Un peu plus de padding vertical pour un toucher plus confortable
+    paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 20, // Bordures arrondies pour un look plus moderne
+    borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
-    elevation: 3, // Ajouter une ombre sous Android
-    shadowColor: "#000", // Ombre pour iOS
+    elevation: 3,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-  },
-  buttonCamera: {
-    backgroundColor: "#41F67F",
-    width: "40%",
-  },
-  buttonGallery: {
-    backgroundColor: "#085229",
-    width: "40%",
   },
   buttonText: {
     color: "white",
@@ -370,9 +323,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   settingsIcon: {
-    // position: "absolute",
     top: 10,
-    // top: Platform.OS === "ios" ? 40 : 60,
     right: 30,
   },
   profilHeader: {
@@ -396,7 +347,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 3,
     color: "black",
-    // fontFamily: "Poppins",
   },
   h1: {
     fontSize: 34,
@@ -416,13 +366,11 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     alignItems: "center",
     width: "90%",
-    // backgroundColor: "red"
   },
   graphicContainer: {
     alignItems: "center",
   },
   addPictureBtn: {
-    // backgroundColor: "red",
     flexDirection: "row",
     color: "black",
   },

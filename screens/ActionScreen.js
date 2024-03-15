@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import ActionCard from "../components/ActionCard";
-import SearchComponent from "../components/SearchComponent";
 import ShortButton from "../components/ShortButton";
 import {
   faPersonBiking,
@@ -18,7 +17,6 @@ import {
   faPersonWalking,
   faPlus,
   faBusSimple,
-  faTimes,
   faPowerOff,
   faBatteryHalf,
   faLightbulb,
@@ -26,7 +24,6 @@ import {
   faRainbow,
   faUtensils,
   faCarrot,
-  faAppleWhole,
   faBowlRice,
   faRecycle,
   faCow,
@@ -37,7 +34,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesome } from "@expo/vector-icons";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,9 +48,6 @@ export default function ActionScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
 
-  /** adresses de fetch */
-  const IP_ADDRESS = "http://172.20.10.4:3000";
-
   const [isLoading, setIsLoading] = useState(true);
 
   const handleModal = () => {
@@ -64,7 +57,6 @@ export default function ActionScreen({ navigation }) {
   const handleAddPoints = (dataActivity) => {
     fetch(
       `${config.IP_ADDRESS}/scores/updateScore/${user.id}`,
-      // fetch(`${IP_ADDRESS}/scores/updateScore/${user.id}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -199,9 +191,7 @@ export default function ActionScreen({ navigation }) {
           startColor={cardColor}
           color={cardColor}
           icon={data?.Icon}
-          // style={[styles.actionCard, { icon: `${data?.Icon}` }]}
           text={data.name}
-          // number={0}
           number={data.carbone}
           points={data.points}
           textColor={cardColor}
@@ -268,23 +258,18 @@ export default function ActionScreen({ navigation }) {
   );
 }
 
-// style={styles.card}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   card: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    // height: 130,
     width: "100%",
   },
   backButton: {
-    // position: "absolute",
     left: 15,
     marginTop: 30,
   },
@@ -345,14 +330,6 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
-  },
-  modalHead: {
-    height: "15",
-  },
-  modalText: {
-    alignItems: "center",
-    paddingTop: 10,
-    // height: 300
   },
   textReturn: {
     fontSize: 12,
