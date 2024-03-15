@@ -25,7 +25,7 @@ const API_ADDRESS = "https://api-adresse.data.gouv.fr";
 
 export default function FormScreen({ navigation }) {
   const [structureName, setStructureName] = useState("");
-  const [structureCategory, setStructureCategory] = useState("Magasin Éco/bio");
+  const [structureCategory, setStructureCategory] = useState("Magasin Éco-bio");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
