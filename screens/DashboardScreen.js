@@ -93,7 +93,7 @@ export default function DashboardScreen() {
     <View style={[styles.userItem, { backgroundColor: getColorByRank(index) }]}>
       <View style={styles.rankContainer}>
         <Text style={styles.userRank}>{getRankEmoji(index)}</Text>
-        <Text style={styles.userName}>{item.user.username}</Text>
+        <Text style={styles.userName}>{item.user?.username}</Text>
       </View>
       <View style={styles.userInfo}>
         <Text style={styles.userScore}>{item.score} points</Text>
